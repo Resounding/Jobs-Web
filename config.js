@@ -6,6 +6,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-rc.1.0.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-rc.1.0.0",
@@ -20,13 +21,22 @@ System.config({
     "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0-rc.1.0.0",
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0-rc.1.0.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0-rc.1.0.0",
+    "derekslife/wrench-js": "github:derekslife/wrench-js@master",
     "fetch": "github:github/fetch@1.0.0",
     "font-awesome": "npm:font-awesome@4.6.3",
     "fontawesome": "npm:fontawesome@4.5.0",
+    "jquery": "npm:jquery@3.0.0",
+    "mdehoog/Semantic-UI": "github:mdehoog/Semantic-UI@calendar-dist",
+    "semantic-ui": "github:Semantic-Org/Semantic-UI@2.2.1",
     "semantic-ui-less": "npm:semantic-ui-less@2.2.1",
     "text": "github:systemjs/plugin-text@0.0.8",
+    "toastr": "npm:toastr@2.1.2",
     "traceur": "github:jmcriffey/bower-traceur@0.0.93",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.93",
+    "github:Semantic-Org/Semantic-UI@2.2.1": {
+      "css": "github:systemjs/plugin-css@0.1.23",
+      "jquery": "npm:jquery@2.2.4"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
@@ -237,6 +247,9 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:toastr@2.1.2": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",

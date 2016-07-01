@@ -2,6 +2,7 @@ node_modules
 jspm_packages
 bower_components
 /dist
+/themes
 build/reports
 coverage
 test/e2e/dist

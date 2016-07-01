@@ -1,13 +1,26 @@
-<template bindable="router">
-    <div class="ui fixed menu inverted">
+<template>
+    <div id="main-menu" class="ui inverted segment">
         <div class="ui container">
-            <a href="#" class="header item">
+            <div class="ui large secondary inverted pointing menu">
+                <a href="#" class="item logo-item">
+                    <img src="dist/images/logo.png" alt="Logo" class="logo">
+                    Langendoen Mechanical
+                </a>
+                <a repeat.for="item of router.navigation" href.bind="item.href" class="item ${item.isActive ? 'active' : ''}">
+                    ${item.title}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="fixed-menu" class="ui large top fixed menu transition hidden">
+        <div class="ui container">
+            <a href="#" class="item logo-item">
                 <img src="dist/images/logo.png" alt="Logo" class="logo">
                 Langendoen Mechanical
             </a>
-            <a href="#/jobs/new" class="item">
-                <i class="fa fa-plus"></i>
-                &nbsp;New Job
+            <a repeat.for="item of router.navigation" href.bind="item.href" class="item ${item.isActive ? 'active' : ''}">
+                ${item.title}
             </a>
         </div>
     </div>

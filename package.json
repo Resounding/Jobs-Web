@@ -68,10 +68,14 @@
       "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0-rc.1.0.0",
       "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.0.0-rc.1.0.0",
       "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0-rc.1.0.0",
+      "derekslife/wrench-js": "github:derekslife/wrench-js@master",
       "fetch": "github:github/fetch@^1.0.0",
       "font-awesome": "npm:font-awesome@4.6.3",
-      "semantic-ui-less": "npm:semantic-ui-less@^2.2.0",
-      "text": "github:systemjs/plugin-text@^0.0.8"
+      "jquery": "npm:jquery@^3.0.0",
+      "mdehoog/Semantic-UI": "github:mdehoog/Semantic-UI@calendar-dist",
+      "semantic-ui": "github:Semantic-Org/Semantic-UI@^2.2.1",
+      "text": "github:systemjs/plugin-text@^0.0.8",
+      "toastr": "npm:toastr@^2.1.2"
     },
     "devDependencies": {
       "traceur": "github:jmcriffey/bower-traceur@0.0.93",

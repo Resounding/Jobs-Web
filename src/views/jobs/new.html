@@ -1,0 +1,109 @@
+<template>
+    <div class="ui menu button-bar">
+        <div class="ui container">
+            <a route-href="route:jobs.list" class="ui button">Cancel</a>
+            <button type="button" class="ui button positive" click.trigger="onSaveClick()">
+                <i class="fa fa-save"></i>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <form class="ui form">
+        <h2 class="ui dividing header">New Job</h2>
+
+        <div class="fields">
+            <div class="field eight wide">
+                <label for="job-name">Job Name</label>
+                <input type="text" name="job-name" id="job-name">
+            </div>
+            <div class="field six wide">
+                <label for="customer">Customer</label>
+                <div class="ui search selection dropdown customer">
+                    <input type="hidden" name="customer" id="customer">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Customer</div>
+                    <div class="menu">
+                        <div repeat.for="customer of customers" class="item" data-value.bind="customer.id">
+                            ${customer.name}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="description">Job Description</label>
+                <textarea name="description" id="description" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="activity">Activities:</label>
+                <div class="ui multiple search selection dropdown activity">
+                    <input type="hidden" name="activity" id="activity">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Activities</div>
+                    <div class="menu">
+                        <div repeat.for="activity of activities" class="item" data-value.bind="activity">
+                            ${activity}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field six wide">
+                <label for="status">Status:</label>
+                <select name="status" id="status" class="ui dropdown">
+                    <option selected value="pending">Pending</option>
+                    <option value="inprogress">In Progress</option>
+                    <option value="complete">Complete</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+            <div class="field six wide">
+                <label for="billingType">Billing Type:</label>
+                <select name="billingType" id="billingType" class="ui dropdown">
+                    <option selected value="t+m">Time & Materials</option>
+                    <option value="fixed">Fixed/Contract</option>
+                </select>
+            </div>
+            <div class="field six wide">
+                <label for="jobType">Job Type:</label>
+                <select name="jobType" id="jobType" class="ui dropdown">
+                    <option selected value="materials">Materials + Install</option>
+                    <option value="install">Install Only</option>
+                </select>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field five wide">
+                <label for="start">Scheduled Start:</label>
+                <div class="ui calendar start">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Date/Time" id="start" name="start">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label style="visibility: hidden;">&nbsp;</label>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="multiday" id="multiday" checked.bind="job.isMultiDay" change.trigger="onIsMultiDayChange()">
+                    <label for="multiday">Multi-Day Job?</label>
+                </div>
+            </div>
+            <div class="field two wide" show.bind="job.isMultiDay">
+                <label for="days">Days</label>
+                <input type="number" id="days" name="days" value.bind="job.days">
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="notes">Notes:</label>
+                <textarea name="notes" id="notes" cols="30" rows="3"></textarea>
+            </div>
+        </div>
+    </form>
+</template>

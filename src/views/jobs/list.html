@@ -1,0 +1,22 @@
+<template>
+    <div class="ui segment">
+        <a route-href="route:jobs.new" class="circular ui button icon red huge fab">
+            <i class="plus icon"></i>
+        </a>
+
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <th>Job #</th>
+                    <th>Job Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="item of items">
+                    <td>${item.number}</td>
+                    <td>${item.name}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>

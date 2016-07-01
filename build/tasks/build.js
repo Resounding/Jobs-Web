@@ -52,6 +52,14 @@ gulp.task('build-images', function() {
       .pipe(gulp.dest(paths.output + 'images/'));
 });
 
+gulp.task('build-fonts', function() {
+  gulp.src(paths.semanticUIFonts)
+      .pipe(gulp.dest(paths.themes));
+
+  return gulp.src(paths.fontAwesomeFonts)
+      .pipe(gulp.dest(paths.themesRoot));
+});
+
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel
@@ -59,7 +67,7 @@ gulp.task('build-images', function() {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html', 'build-less', 'build-images'],
+    ['build-system', 'build-html', 'build-less', 'build-images', 'build-fonts'],
     callback
   );
 });

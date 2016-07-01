@@ -1,5 +1,18 @@
-@import '../jspm_packages/npm/semantic-ui-less@2.2.1/semantic';
+@import '../jspm_packages/npm/semantic-ui@2.2.1/src/semantic';
+@import (less) '../jspm_packages/github/mdehoog/Semantic-UI@calendar-dist/dist/components/calendar.css';
+@import '../jspm_packages/npm/font-awesome@4.6.3/less/font-awesome.less';
+@import '../jspm_packages/npm/toastr@2.1.2/toastr';
 
-body > .main {
-  margin-top: 50px;
+.ui.secondary.pointing.menu .item.logo-item {
+  padding: 0 20px;
+}
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.ui.fixed.menu.button-bar.top {
+  top: 50px;
 }
