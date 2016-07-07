@@ -1,11 +1,21 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {Job} from "../../models/job";
+import {JobStatus} from "../../models/jobStatus";
+import {ReferenceService} from "../../services/data/referenceService";
 
 @autoinject()
 export class ListItem {
     @bindable job:Job;
+    foremen:string[];
+    statuses:JobStatus[];
 
-    constructor(private element:Element) { }
+    constructor(private element:Element, referenceService: ReferenceService) {
+        referenceService.getForemen()
+            .then(foremen => this.foremen = foremen);
+
+        referenceService.getJobStatuses()
+            .then(statuses => this.statuses = statuses);
+    }
     
     attached() {
         $('.dropdown.status', this.element).dropdown();
@@ -35,11 +45,9 @@ export class ListItem {
 
         return display;
     }
-
     get foremanDisplay(): string {
         return this.job.foreman || 'Unassigned';
     }
-
     get isPending() {
         return this.job.status === 'pending';
     }
@@ -49,4 +57,10 @@ export class ListItem {
     get isComplete() {
         return this.job.status === 'complete';
     }
+    get isProject() {
+        return this.job.type === 'project';
+    }
+     get isServiceCall() {
+         return this.job.type === 'service';
+     }
 }

@@ -5,7 +5,8 @@
                 ${dateDisplay}
             </div>
             <div class="header">
-                <i class="icon circular building"></i>
+                <i class="icon building" show.bind="isProject"></i>
+                <i class="icon wrench" show.bind="isServiceCall"></i>
                 &nbsp;${job.number}
             </div>
             <div class="meta">${job.customer}</div>
@@ -32,7 +33,7 @@
             </div>
             <div class="ui dropdown status">
                 <div class="text">
-                    <i class="hourglass start icon circular inverted blue" if.bind="isPending"></i>
+                    <i class="icon circular" if.bind="isPending"></i>
                     <span if.bind="isPending">&nbsp;Pending</span>
 
                     <i class="hourglass half icon circular inverted green" if.bind="isInProgress"></i>
@@ -43,17 +44,9 @@
                 </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <div class="item">
-                        <i class="hourglass start icon circular inverted blue"></i>
-                        <span>&nbsp;Pending</span>
-                    </div>
-                    <div class="item">
-                        <i class="hourglass half icon circular inverted green"></i>
-                        <span>&nbsp;In Progress</span>
-                    </div>
-                    <div class="item">
-                        <i class="hourglass end icon circular"></i>
-                        <span>&nbsp;Complete</span>
+                    <div class="item" repeat.for="status of statuses" data-id="${status._id}">
+                        <i class="icon circular ${status.cssClass}"></i>
+                        <span>&nbsp;${status.name}</span>
                     </div>
                 </div>
             </div>
