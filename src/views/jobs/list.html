@@ -1,22 +1,45 @@
 <template>
+    <require from="./list-item"></require>
+    
     <div class="ui segment">
         <a route-href="route:jobs.new" class="circular ui button icon red huge fab">
             <i class="plus icon"></i>
         </a>
 
-        <table class="ui table">
-            <thead>
-                <tr>
-                    <th>Job #</th>
-                    <th>Job Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr repeat.for="item of items">
-                    <td>${item.number}</td>
-                    <td>${item.name}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="ui four column grid container">
+            <div class="column">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" checked.bind="myJobs" change.trigger="filter()">
+                    <label>Only show my jobs</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                    <input type="checkbox" checked.bind="showCompleted" change.trigger="filter()">
+                    <label>Show completed jobs</label>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="ui dividing header">Today</h3>
+        <div class="ui cards" show.bind="todaysItems.length">
+            <list-item job.bind="item" repeat.for="item of todaysItems"></list-item>
+        </div>
+        <div class="ui message" show.bind="!todaysItems.length">
+            <div class="header">No items for today</div>
+        </div>
+
+        <h3 class="ui dividing header">This Week</h3>
+        <div class="ui cards" show.bind="weekItems.length">
+            <list-item job.bind="item" repeat.for="item of weekItems"></list-item>
+        </div>
+        <div class="ui message" show.bind="!weekItems.length">
+            <p>No items for the rest of the week</p>
+        </div>
+
+        <h3 class="ui dividing header" show.bind="unscheduled.length">Unscheduled</h3>
+        <div class="ui cards" show.bind="unscheduled.length">
+            <list-item job.bind="item" repeat.for="item of unscheduled"></list-item>
+        </div>
     </div>
 </template>

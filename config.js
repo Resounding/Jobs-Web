@@ -25,18 +25,16 @@ System.config({
     "fetch": "github:github/fetch@1.0.0",
     "font-awesome": "npm:font-awesome@4.6.3",
     "fontawesome": "npm:fontawesome@4.5.0",
-    "jquery": "npm:jquery@3.0.0",
+    "jquery": "npm:jquery@2.2.4",
     "mdehoog/Semantic-UI": "github:mdehoog/Semantic-UI@calendar-dist",
+    "moment": "npm:moment@2.14.1",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.2.1",
     "semantic-ui-less": "npm:semantic-ui-less@2.2.1",
     "text": "github:systemjs/plugin-text@0.0.8",
     "toastr": "npm:toastr@2.1.2",
     "traceur": "github:jmcriffey/bower-traceur@0.0.93",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.93",
-    "github:Semantic-Org/Semantic-UI@2.2.1": {
-      "css": "github:systemjs/plugin-css@0.1.23",
-      "jquery": "npm:jquery@2.2.4"
-    },
+    "underscore": "npm:underscore@1.8.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
@@ -216,9 +214,6 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:jquery@3.0.0": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:process@0.11.5": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -238,7 +233,7 @@ System.config({
       "string_decoder": "npm:string_decoder@0.10.31"
     },
     "npm:semantic-ui-less@2.2.1": {
-      "jquery": "npm:jquery@3.0.0"
+      "jquery": "npm:jquery@2.2.4"
     },
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",

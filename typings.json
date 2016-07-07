@@ -32,6 +32,9 @@
   },
   "globalDependencies": {
     "jquery": "registry:dt/jquery#1.10.0+20160701124751",
-    "toastr": "registry:dt/toastr#2.1.1+20160510010435"
+    "moment": "registry:dt/moment#2.8.0+20160316155526",
+    "moment-node": "registry:dt/moment-node#2.11.1+20160511043338",
+    "toastr": "registry:dt/toastr#2.1.1+20160510010435",
+    "underscore": "registry:dt/underscore#1.7.0+20160622050840"
   }
 }
