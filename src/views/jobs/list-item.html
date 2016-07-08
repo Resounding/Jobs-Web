@@ -12,10 +12,15 @@
             <div class="meta">${job.customer}</div>
         </a>
         <div class="content">
-            <div class="header">${job.name}</div>
-            <p class="ui computer only">${job.description}</p>
+            <div class="header">
+                <button class="ui right floated tablet only" click.trigger="toggleExpanded()">
+                    <i class="dropdown icon ${expanded ? 'vertically flipped' : ''}"></i>
+                </button>
+                ${job.name}
+            </div>
+            <p class="ui ${expanded ? '' : 'computer only'}">${job.description}</p>
         </div>
-        <div class="ui extra content computer only">
+        <div class="ui extra content ${expanded ? '' : 'computer only'}">
             <div class="right floated author">
                 <div class="ui dropdown foreman">
                     <div class="text">
@@ -33,14 +38,8 @@
             </div>
             <div class="ui dropdown status">
                 <div class="text">
-                    <i class="icon circular" if.bind="isPending"></i>
-                    <span if.bind="isPending">&nbsp;Pending</span>
-
-                    <i class="hourglass half icon circular inverted green" if.bind="isInProgress"></i>
-                    <span if.bind="isInProgress">&nbsp;In Progress</span>
-
-                    <i class="hourglass end icon circular" if.bind="isComplete"></i>
-                    <span if.bind="isComplete">&nbsp;Complete</span>
+                    <i class="icon circular ${job.status.cssClass}"></i>
+                    <span>&nbsp;${job.status.name}</span>
                 </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">

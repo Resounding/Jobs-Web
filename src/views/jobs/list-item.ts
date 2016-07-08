@@ -9,6 +9,7 @@ export class ListItem {
     @bindable job:Job;
     foremen:string[];
     statuses:JobStatus[];
+    expanded:boolean = false;
 
     constructor(private element:Element, referenceService: ReferenceService) {
         referenceService.getForemen()
@@ -25,6 +26,10 @@ export class ListItem {
             $('.dropdown.status', this.element).dropdown();
             $('.dropdown.foreman', this.element).dropdown();
         }
+    }
+    
+    toggleExpanded() {
+        this.expanded = !this.expanded;
     }
     
     get dateDisplay():string {
@@ -54,13 +59,13 @@ export class ListItem {
         return this.job.foreman || 'Unassigned';
     }
     get isPending() {
-        return this.job.status === 'pending';
+        return this.job.status._id === 'pending';
     }
     get isInProgress() {
-        return this.job.status === 'inprogress';
+        return this.job.status._id === 'inprogress';
     }
     get isComplete() {
-        return this.job.status === 'complete';
+        return this.job.status._id === 'complete';
     }
     get isProject() {
         return this.job.type === 'project';
