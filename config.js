@@ -29,8 +29,7 @@ System.config({
     "jquery": "npm:jquery@2.2.4",
     "mdehoog/Semantic-UI": "github:mdehoog/Semantic-UI@calendar-dist",
     "moment": "npm:moment@2.14.1",
-    "semantic-ui": "github:Semantic-Org/Semantic-UI@2.2.1",
-    "semantic-ui-less": "npm:semantic-ui-less@2.2.1",
+    "semantic-ui": "npm:semantic-ui@2.2.2",
     "text": "github:systemjs/plugin-text@0.0.8",
     "toastr": "npm:toastr@2.1.2",
     "traceur": "github:jmcriffey/bower-traceur@0.0.93",
@@ -236,7 +235,8 @@ System.config({
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
     },
-    "npm:semantic-ui-less@2.2.1": {
+    "npm:semantic-ui@2.2.2": {
+      "css": "github:systemjs/plugin-css@0.1.23",
       "jquery": "npm:jquery@2.2.4"
     },
     "npm:stream-browserify@1.0.0": {

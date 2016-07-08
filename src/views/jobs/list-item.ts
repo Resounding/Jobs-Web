@@ -2,6 +2,7 @@ import {autoinject, bindable} from 'aurelia-framework';
 import {Job} from "../../models/job";
 import {JobStatus} from "../../models/jobStatus";
 import {ReferenceService} from "../../services/data/referenceService";
+import {isDevice} from "../../services/utils";
 
 @autoinject()
 export class ListItem {
@@ -18,8 +19,12 @@ export class ListItem {
     }
     
     attached() {
-        $('.dropdown.status', this.element).dropdown();
-        $('.dropdown.foreman', this.element).dropdown();
+        if(isDevice()) {
+            // swipe to reveal delete?
+        } else {
+            $('.dropdown.status', this.element).dropdown();
+            $('.dropdown.foreman', this.element).dropdown();
+        }
     }
     
     get dateDisplay():string {

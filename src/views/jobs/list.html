@@ -6,7 +6,7 @@
             <i class="plus icon"></i>
         </a>
 
-        <div class="ui four column grid container">
+        <div class="ui two column grid stackable container">
             <div class="column">
                 <div class="ui toggle checkbox">
                     <input type="checkbox" checked.bind="myJobs" change.trigger="filter()">
@@ -23,7 +23,7 @@
 
         <h3 class="ui dividing header">Today</h3>
         <div class="ui cards" show.bind="todaysItems.length">
-            <list-item job.bind="item" repeat.for="item of todaysItems"></list-item>
+            <list-item job.bind="item" repeat.for="item of todaysItems" containerless></list-item>
         </div>
         <div class="ui message" show.bind="!todaysItems.length">
             <div class="header">No items for today</div>
@@ -31,7 +31,7 @@
 
         <h3 class="ui dividing header">This Week</h3>
         <div class="ui cards" show.bind="weekItems.length">
-            <list-item job.bind="item" repeat.for="item of weekItems"></list-item>
+            <list-item job.bind="item" repeat.for="item of weekItems" containerless></list-item>
         </div>
         <div class="ui message" show.bind="!weekItems.length">
             <p>No items for the rest of the week</p>
@@ -39,7 +39,7 @@
 
         <h3 class="ui dividing header" show.bind="unscheduled.length">Unscheduled</h3>
         <div class="ui cards" show.bind="unscheduled.length">
-            <list-item job.bind="item" repeat.for="item of unscheduled"></list-item>
+            <list-item job.bind="item" repeat.for="item of unscheduled" containerless></list-item>
         </div>
     </div>
 </template>

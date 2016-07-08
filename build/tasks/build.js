@@ -9,6 +9,7 @@ var assign = Object.assign || require('object.assign');
 var notify = require('gulp-notify');
 var browserSync = require('browser-sync');
 var typescript = require('gulp-typescript');
+var semanticBuild = require('../../jspm_packages/npm/semantic-ui@2.2.2/tasks/build')
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
@@ -52,12 +53,11 @@ gulp.task('build-images', function() {
       .pipe(gulp.dest(paths.output + 'images/'));
 });
 
-gulp.task('build-fonts', function() {
-  gulp.src(paths.semanticUIFonts)
-      .pipe(gulp.dest(paths.themes));
+gulp.task('build-semantic-ui', semanticBuild);
 
+gulp.task('build-fonts', function() {
   return gulp.src(paths.fontAwesomeFonts)
-      .pipe(gulp.dest(paths.themesRoot));
+      .pipe(gulp.dest(paths.output + 'fonts/'));
 });
 
 // this task calls the clean task (located
@@ -67,7 +67,7 @@ gulp.task('build-fonts', function() {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html', 'build-less', 'build-images', 'build-fonts'],
+    ['build-system', 'build-html', 'build-less', 'build-images', 'build-fonts', 'build-semantic-ui'],
     callback
   );
 });
