@@ -2,6 +2,7 @@ import {autoinject} from "aurelia-framework";
 import {Router} from "aurelia-router";
 import {Job} from '../../models/job';
 import {Customer} from '../../models/customer';
+import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
 
 @autoinject()
@@ -10,7 +11,7 @@ export class NewJob {
     customers: Customer[];
     activities: string[];
 
-    constructor(private element:Element, private router: Router, private notifications: Notifications) {
+    constructor(private element:Element, private router: Router, private notifications: Notifications, private jobService:JobService) {
         this.job = new Job();
 
         this.customers = [
@@ -61,7 +62,14 @@ export class NewJob {
     }
 
     onSaveClick() {
-        this.notifications.success('Job Saved');
-        this.router.navigateToRoute('jobs.list')
+        this.jobService.save(this.job)
+            .then(() => {
+                this.notifications.success('Job Saved');
+                this.router.navigateToRoute('jobs.list')
+            })
+            .catch((err) => {
+                this.notifications.error(err);
+            })
+
     }
 }

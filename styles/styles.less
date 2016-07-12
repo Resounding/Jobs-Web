@@ -27,12 +27,12 @@
     width: 100%;
   }
 
-  .ui[class *= "computer only"] {
-    display: none;
+  .hide-mobile {
+    display: none !important;
   }
 }
 @media only screen and (min-width: @tabletBreakpoint) {
-  .ui[class *= "tablet only"] {
-    display: none;
+  .hide-desktop {
+    display: none !important;
   }
 }

@@ -1,7 +1,7 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {Job} from "../../models/job";
 import {JobStatus} from "../../models/jobStatus";
-import {ReferenceService} from "../../services/data/referenceService";
+import {ReferenceService} from "../../services/data/reference-service";
 import {isDevice} from "../../services/utils";
 
 @autoinject()
@@ -68,9 +68,9 @@ export class ListItem {
         return this.job.status._id === 'complete';
     }
     get isProject() {
-        return this.job.type === 'project';
+        return this.job.job_type === 'project';
     }
      get isServiceCall() {
-         return this.job.type === 'service';
+         return this.job.job_type === 'service';
      }
 }

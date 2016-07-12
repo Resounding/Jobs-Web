@@ -1,3 +1,4 @@
+import {Promise} from 'es6-promise';
 import {JobStatus} from "../../models/jobStatus";
 
 export class ReferenceService {

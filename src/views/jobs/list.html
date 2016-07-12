@@ -6,11 +6,11 @@
             <i class="plus icon"></i>
         </a>
 
-        <button class="ui button basic right floated tablet only mini" click.trigger="toggleFiltersExpanded()">
+        <button class="ui button basic right floated hide-desktop mini" click.trigger="toggleFiltersExpanded()">
             Filters
             <i class="dropdown icon ${filtersExpanded ? 'vertically flipped' : ''}"></i>
         </button>
-        <div class="ui two column grid stackable container ${filtersExpanded ? '' : 'tablet only'}">
+        <div class="ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}">
             <div class="column">
                 <div class="ui toggle checkbox">
                     <input type="checkbox" checked.bind="myJobs" change.trigger="filter()">

@@ -6,4 +6,8 @@ export class Notifications {
     success(message: string) {
         toastr.success(message);
     }
+
+    error(err:Object) {
+        toastr.error(JSON.stringify(err));
+    }
 }

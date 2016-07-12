@@ -1,5 +1,6 @@
 {
   "base": "",
+  "autoInstall": true,
   "version": "2.2.2",
   "paths": {
     "source": {
