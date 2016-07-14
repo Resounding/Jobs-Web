@@ -7,10 +7,12 @@ interface visibilityOptions {
 
 interface dropdownOptions {
     allowAdditions?: boolean;
+    onChange(e:string):void;
 }
 
 interface calendarOptions {
-    type: string
+    type: string;
+    onChange(e:string):void;
 }
 
 interface JQuery {

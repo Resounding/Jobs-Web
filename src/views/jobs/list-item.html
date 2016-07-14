@@ -1,6 +1,6 @@
 <template>
     <div class="ui card">
-        <a class="content" route-href="route:jobs.edit; params.bind: {id: job.id}">
+        <a class="content" route-href="route:jobs.edit; params.bind: {id: job._id}">
             <div class="right floated meta" style="max-width: 40%;">
                 ${dateDisplay}
             </div>
@@ -30,20 +30,18 @@
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <div class="item">Barry</div>
-                        <div class="item">Dan</div>
-                        <div class="item">Kurt</div>
+                        <div repeat.for="f of foremen" class="item" data-value.bind="f">${f}</div>
                     </div>
                 </div>
             </div>
             <div class="ui dropdown status">
                 <div class="text">
-                    <i class="icon circular ${job.status.cssClass}"></i>
-                    <span>&nbsp;${job.status.name}</span>
+                    <i class="icon circular ${jobStatus.cssClass}"></i>
+                    <span>&nbsp;${jobStatus.name}</span>
                 </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <div class="item" repeat.for="status of statuses" data-id="${status._id}">
+                    <div class="item" repeat.for="status of jobStatuses" data-value.bind="status.id">
                         <i class="icon circular ${status.cssClass}"></i>
                         <span>&nbsp;${status.name}</span>
                     </div>

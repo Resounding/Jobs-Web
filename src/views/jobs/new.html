@@ -39,16 +39,15 @@
         </div>
         <div class="fields">
             <div class="field six wide">
-                <label for="jobType">Job Type:</label>
+                <label for="jobType">Job Type</label>
                 <select name="jobType" id="jobType" value.bind="job.job_type" class="ui dropdown">
-                    <option selected value="project">Project</option>
-                    <option value="service">Service Call</option>
+                    <option repeat.for="t of jobTypes" value="${t.id}">${t.name}</option>
                 </select>
             </div>
             <div class="field eight wide">
-                <label for="activity">Activities:</label>
+                <label for="activity">Activities</label>
                 <div class="ui multiple search selection dropdown activity">
-                    <input type="hidden" name="activity" id="activity" value.bind="job.activity">
+                    <input type="hidden" name="activity" id="activity">
                     <i class="dropdown icon"></i>
                     <div class="default text">Activities</div>
                     <div class="menu">
@@ -61,36 +60,31 @@
         </div>
         <div class="fields">
             <div class="field six wide">
-                <label for="status">Status:</label>
+                <label for="status">Status</label>
                 <select name="status" id="status" value.bind="job.status" class="ui dropdown">
-                    <option selected value="pending">Pending</option>
-                    <option value="inprogress">In Progress</option>
-                    <option value="complete">Complete</option>
-                    <option value="closed">Closed</option>
+                    <option repeat.for="s of jobStatuses" value="${s.id}">${s.name}</option>
                 </select>
             </div>
             <div class="field six wide">
-                <label for="billingType">Billing Type:</label>
+                <label for="billingType">Billing Type</label>
                 <select name="billingType" id="billingType" value.bind="job.billing_type" class="ui dropdown">
-                    <option selected value="t+m">Time & Materials</option>
-                    <option value="fixed">Fixed/Contract</option>
+                    <option repeat.for="bt of billingTypes" value="${bt.id}">${bt.name}</option>
                 </select>
             </div>
             <div class="field six wide">
-                <label for="jobType">Work Type:</label>
+                <label for="jobType">Work Type</label>
                 <select name="workType" id="workType" value.bind="job.work_type" class="ui dropdown">
-                    <option selected value="materials">Materials + Install</option>
-                    <option value="install">Install Only</option>
+                    <option repeat.for="wt of workTypes" value="${wt.id}">${wt.name}</option>
                 </select>
             </div>
         </div>
         <div class="fields">
             <div class="field five wide">
-                <label for="start">Scheduled Start:</label>
+                <label for="start">Scheduled Start</label>
                 <div class="ui calendar start">
                     <div class="ui input left icon">
                         <i class="calendar icon"></i>
-                        <input type="text" placeholder="Date/Time" id="start" name="start" value.bind="startDate">
+                        <input type="text" placeholder="Date/Time" id="start" name="start">
                     </div>
                 </div>
             </div>
@@ -108,7 +102,7 @@
         </div>
         <div class="fields">
             <div class="field sixteen wide">
-                <label for="notes">Notes:</label>
+                <label for="notes">Notes</label>
                 <textarea name="notes" id="notes" value.bind="notes" cols="30" rows="3"></textarea>
             </div>
         </div>

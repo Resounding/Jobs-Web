@@ -1,31 +1,47 @@
+import * as _ from 'underscore';
 import {Promise} from 'es6-promise';
-import {autoinject} from 'aurelia-framework';
-import {ReferenceService} from './reference-service';
-import {db} from './db';
-import {Job, Constants} from "../../models/job";
+import {db, nextJobNumber} from './db';
+import {Job, JobDocument} from "../../models/job";
 
-@autoinject()
 export class JobService {
-    items:Job[];
 
-    constructor(private referenceService:ReferenceService) {
-    }
-
-    getAll():Promise<Job[]> {
-        return db().find({ selector: { type: Constants.JOB_DOCUMENT } });
-    }
-
-    save(job:Job):Promise<Job> {
+    static getAll():Promise<Job[]> {
+        //db().allDocs({ include_docs: true}).then(r => console.log(r));
         return new Promise((resolve, reject) => {
-            if (job.id) {
-
-            } else {
-                db().post(job, function (err, result) {
-                    if (err) return reject(err);
-
-                    return resolve(result);
+            db().find<Job>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
+                .then(items => {
+                    items.docs.forEach(item => {
+                        if(_.isString(item.startDate)) {
+                            item.startDate = moment(item.startDate).toDate();
+                        }
+                    });
+                    resolve(items.docs);
                 })
-            }
+                .catch(reject);
         });
+
     }
+
+    static save(job:Job):Promise<PouchUpdateResponse> {
+            if (!job._id) {
+            return nextJobNumber()
+                .then(number => {
+                    job._id = `job:${number}`;
+                    job.number = number;
+                    return saveJob(job);
+                });
+            } else {
+                return saveJob(job);
+            }
+    }
+}
+
+function saveJob(job:Job):Promise<PouchUpdateResponse> {
+    return new Promise((resolve, reject) => {
+        db().put(job, function (err, result) {
+            if (err) return reject(err);
+
+            return resolve(result);
+        });
+    })
 }

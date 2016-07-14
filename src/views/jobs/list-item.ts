@@ -1,25 +1,55 @@
+import * as _ from 'underscore';
 import {autoinject, bindable} from 'aurelia-framework';
 import {Job} from "../../models/job";
-import {JobStatus} from "../../models/jobStatus";
-import {ReferenceService} from "../../services/data/reference-service";
+import {JobStatus} from "../../models/job-status";
+import {JobType} from "../../models/job-type";
 import {isDevice} from "../../services/utils";
+import {Foreman} from "../../models/foreman";
+import {JobService} from "../../services/data/job-service";
+import {Notifications} from "../../services/notifications";
 
 @autoinject()
 export class ListItem {
     @bindable job:Job;
-    foremen:string[];
-    statuses:JobStatus[];
+    statuses:JobStatus[] = JobStatus.OPTIONS;
     expanded:boolean = false;
+    foremen:string[] = Foreman.OPTIONS;
+    jobStatuses:JobStatus[] = JobStatus.OPTIONS;
 
-    constructor(private element:Element, referenceService: ReferenceService) {
-        referenceService.getForemen()
-            .then(foremen => this.foremen = foremen);
-
-        referenceService.getJobStatuses()
-            .then(statuses => this.statuses = statuses);
+    constructor(private element:Element) {
+        console.log(element);
     }
     
     attached() {
+        if(isDevice()) {
+            // swipe to reveal delete?
+        } else {
+            $('.dropdown.status', this.element).dropdown({
+                onChange: value => {
+                    this.job.status = value;
+                    JobService.save(this.job)
+                        .then((response) => {
+                            this.job._rev = response.rev;
+                            Notifications.success('Status updated');
+                        })
+                        .catch(Notifications.error);
+                }
+            });
+            $('.dropdown.foreman', this.element).dropdown({
+                onChange: value => {
+                    this.job.foreman = value;
+                    JobService.save(this.job)
+                        .then((response) => {
+                            this.job._rev = response.rev;
+                            Notifications.success('Foreman updated');
+                        })
+                        .catch(Notifications.error);
+                }
+            });
+        }
+    }
+
+    detached() {
         if(isDevice()) {
             // swipe to reveal delete?
         } else {
@@ -55,22 +85,28 @@ export class ListItem {
 
         return display;
     }
+    get jobStatus():JobStatus {
+        return _.find(this.jobStatuses, s => s.id == this.job.status);
+    }
     get foremanDisplay(): string {
         return this.job.foreman || 'Unassigned';
     }
     get isPending() {
-        return this.job.status._id === 'pending';
+        return this.job.status === 'pending';
     }
     get isInProgress() {
-        return this.job.status._id === 'inprogress';
+        return this.job.status === JobStatus.PENDING;
     }
     get isComplete() {
-        return this.job.status._id === 'complete';
+        return this.job.status === JobStatus.COMPLETE;
+    }
+    get isClosed():boolean {
+        return this.job.status === JobStatus.CLOSED;
     }
     get isProject() {
-        return this.job.job_type === 'project';
+        return this.job.job_type === JobType.PROJECT;
     }
      get isServiceCall() {
-         return this.job.job_type === 'service';
+         return this.job.job_type === JobType.SERVICE_CALL;
      }
 }

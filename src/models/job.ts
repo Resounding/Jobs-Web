@@ -1,17 +1,13 @@
-import {JobStatus} from './jobStatus.ts';
-
-var job_statuses = {
-    pending: ''
-}
+import {JobStatus} from './job-status'
+import {JobType} from  './job-type'
 
 export interface Job {
-    id: number;
+    _id: string;
     job_type: string;
     number: string;
     name: string;
     customer: string;
-    status_id: string;
-    status: JobStatus;
+    status: string;
     description: string;
     billing_type: string;
     work_type: string;
@@ -19,49 +15,50 @@ export interface Job {
     days: number;
     startDate: Date;
     foreman: string;
+    activities:string[];
+    type: string;
+    _rev:string;
 }
 
 export class JobDocument implements Job {
-    id: number;
-    job_type: string;
-    number: string;
-    name: string;
-    customer: string;
-    status_id: string;
-    status: JobStatus;
-    description: string;
+    _id: string = null;
+    job_type: string = JobType.SERVICE_CALL;
+    number: string = null;
+    name: string = '';
+    customer: string = '';
+    status: string = JobStatus.PENDING;
+    description: string = '';
     billing_type: string;
     work_type: string;
-    isMultiDay: boolean;
-    days: number;
-    startDate: Date;
+    isMultiDay: boolean = false;
+    days: number = 1;
+    startDate: Date = null;
     foreman: string;
-
-    constructor() {
-        this.id = null;
-        this.job_type = 'project';
-    }
+    activities:string[] = [];
+    // couch props
+    type: string;
+    _rev: string;
 
     toJSON():Job {
         return {
-            id: this.id,
+            _id: this._id,
             job_type: this.job_type,
             number: this.number,
             name: this.name,
             customer: this.customer,
             status: this.status,
-            status_id: this.status_id,
             description: this.description,
             billing_type: this.billing_type,
             work_type: this.work_type,
             isMultiDay: this.isMultiDay,
             days: this.days,
             startDate: this.startDate,
-            foreman: this.foreman
+            foreman: this.foreman,
+            activities:this.activities,
+            type: JobDocument.DOCUMENT_TYPE,
+            _rev: this._rev
         };
     }
-}
 
-export class Constants {
-    static JOB_DOCUMENT:string = 'job';
+    static DOCUMENT_TYPE:string = 'job';
 }

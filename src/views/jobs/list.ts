@@ -1,8 +1,6 @@
-import {autoinject} from 'aurelia-framework';
 import {Job} from '../../models/job'
 import {JobService} from '../../services/data/job-service';
 
-@autoinject()
 export class JobList {
     items:Job[];
     todaysItems:Job[];
@@ -12,8 +10,8 @@ export class JobList {
     showCompleted:boolean = false;
     filtersExpanded:boolean = false;
 
-    constructor(jobService: JobService) {
-        jobService.getAll()
+    constructor() {
+        JobService.getAll()
             .then(items => {
                 this.items = items;
                 this.filter();
@@ -23,7 +21,7 @@ export class JobList {
     filter() {
         const sameDay = i => moment(i.startDate).isSame(moment(), 'day');
         const thisWeek = i => moment(i.startDate).isBefore(moment().startOf('week').add(1, 'week'));
-        const mine = i => !this.myJobs || i.foreman === 'Kurt';
+        const mine = i => true;// !this.myJobs || i.foreman === 'Kurt';
         const completed = i => this.showCompleted || (i.status && i.status._id !== 'complete');
 
         this.todaysItems = _.filter(this.items, i => sameDay(i) && mine(i) && completed(i));

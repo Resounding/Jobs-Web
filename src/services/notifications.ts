@@ -1,13 +1,11 @@
-export class Notifications {
-    constructor() {
-        toastr.options.positionClass = "toast-bottom-left";
-    }
+toastr.options.positionClass = "toast-bottom-left";
 
-    success(message: string) {
+export class Notifications {
+    static success(message: string) {
         toastr.success(message);
     }
 
-    error(err:Object) {
+    static error(err:Object) {
         toastr.error(JSON.stringify(err));
     }
 }

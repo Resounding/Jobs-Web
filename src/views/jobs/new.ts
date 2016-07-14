@@ -1,17 +1,25 @@
 import {autoinject} from "aurelia-framework";
 import {Router} from "aurelia-router";
-import {Job, JobDocument} from '../../models/job';
+import {JobDocument} from '../../models/job';
 import {Customer} from '../../models/customer';
 import {JobService} from '../../services/data/job-service';
+import {JobType} from '../../models/job-type';
+import {JobStatus} from '../../models/job-status';
 import {Notifications} from '../../services/notifications';
+import {BillingType} from "../../models/billing-type";
+import {WorkType} from "../../models/work-type";
 
 @autoinject()
 export class NewJob {
     job: JobDocument;
     customers: Customer[];
     activities: string[];
+    jobTypes: JobType[] = JobType.OPTIONS;
+    jobStatuses: JobStatus[] = JobStatus.OPTIONS;
+    billingTypes: BillingType[] = BillingType.OPTIONS;
+    workTypes:WorkType[] = WorkType.OPTIONS;
 
-    constructor(private element:Element, private router: Router, private notifications: Notifications, private jobService:JobService) {
+    constructor(private element:Element, private router: Router) {
         this.job = new JobDocument();
 
         this.customers = [
@@ -32,13 +40,17 @@ export class NewJob {
     attached() {
         $('.dropdown.customer', this.element).dropdown();
         $('.dropdown.activity', this.element).dropdown({
-            allowAdditions: true
+            allowAdditions: true,
+            onChange: (value:string):void => {
+                this.job.activities = (value || '').split(',');
+            }
         });
         $('#status', this.element).dropdown();
         $('#billingType', this.element).dropdown();
-        $('#jobType', this.element).dropdown();
+        $('#workType', this.element).dropdown();
         $('.calendar.start', this.element).calendar({
-            type: 'date'
+            type: 'date',
+            onChange: date => this.job.startDate = moment(date).toDate()
         });
 
         var $buttonBar = $('.button-bar', this.element);
@@ -62,13 +74,13 @@ export class NewJob {
     }
 
     onSaveClick() {
-        this.jobService.save(this.job.toJSON())
+        JobService.save(this.job.toJSON())
             .then(() => {
-                this.notifications.success('Job Saved');
+                Notifications.success('Job Saved');
                 this.router.navigateToRoute('jobs.list')
             })
             .catch((err) => {
-                this.notifications.error(err);
+                Notifications.error(err);
             })
 
     }
