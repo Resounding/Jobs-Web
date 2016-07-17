@@ -1,3 +1,4 @@
+import * as _ from 'underscore';
 import {autoinject} from "aurelia-framework";
 import {Router} from "aurelia-router";
 import {JobDocument} from '../../models/job';
@@ -38,7 +39,12 @@ export class NewJob {
     }
     
     attached() {
-        $('.dropdown.customer', this.element).dropdown();
+        $('.dropdown.customer', this.element).dropdown({
+            onChange: (value:string):void => {
+                this.job.customer = _.find(this.customers, c => c.id === value);
+                console.log(this.job.customer);
+            }
+        });
         $('.dropdown.activity', this.element).dropdown({
             allowAdditions: true,
             onChange: (value:string):void => {
@@ -63,6 +69,13 @@ export class NewJob {
                 $buttonBar.removeClass('fixed top');
             }
         });
+    }
+
+    get customer_id():string {
+        return this.job.customer ? this.job.customer.id : '';
+    }
+    set customer_id(id:string) {
+        this.job.customer = _.find(this.customers, c => c.id === id);
     }
 
     onIsMultiDayChange() {

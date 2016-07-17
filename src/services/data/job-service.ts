@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 import {Promise} from 'es6-promise';
-import {db, nextJobNumber} from './db';
+import {db, nextJobNumber, destroy} from './db';
 import {Job, JobDocument} from "../../models/job";
 
 export class JobService {
@@ -33,6 +33,10 @@ export class JobService {
             } else {
                 return saveJob(job);
             }
+    }
+
+    static destroy():Promise<any> {
+        return destroy();
     }
 }
 

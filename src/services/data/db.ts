@@ -4,10 +4,23 @@ import pouchdbfind = require('pouchdb-find');
 import {Job, JobDocument} from '../../models/job';
 
 PouchDB.plugin(pouchdbfind);
-const database:PouchDB = new PouchDB("LangendoenJobs");
+
+let database:PouchDB = null;
+init();
 
 export function db():PouchDB {
     return database;
+}
+
+export function destroy():Promise<any> {
+    return database.destroy()
+        .then(() => {
+            init();
+        })
+}
+
+function init() {
+    database = new PouchDB("LangendoenJobs");
 }
 
 export function nextJobNumber():Promise<string> {

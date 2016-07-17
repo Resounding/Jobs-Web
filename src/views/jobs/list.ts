@@ -11,6 +11,10 @@ export class JobList {
     filtersExpanded:boolean = false;
 
     constructor() {
+        this.refresh();
+    }
+
+    refresh() {
         JobService.getAll()
             .then(items => {
                 this.items = items;
@@ -31,5 +35,11 @@ export class JobList {
 
     toggleFiltersExpanded() {
         this.filtersExpanded = !this.filtersExpanded;
+    }
+
+    destroy() {
+        JobService.destroy().then(() => {
+            this.refresh();
+        });
     }
 }

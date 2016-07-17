@@ -50,12 +50,12 @@ export class ListItem {
     }
 
     detached() {
-        if(isDevice()) {
+        //if(isDevice()) {
             // swipe to reveal delete?
-        } else {
+        //} else {
             $('.dropdown.status', this.element).dropdown();
             $('.dropdown.foreman', this.element).dropdown();
-        }
+        //}
     }
     
     toggleExpanded() {

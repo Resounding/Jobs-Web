@@ -1,12 +1,13 @@
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
+import {Customer} from './customer';
 
 export interface Job {
     _id: string;
     job_type: string;
     number: string;
     name: string;
-    customer: string;
+    customer: Customer;
     status: string;
     description: string;
     billing_type: string;
@@ -25,7 +26,7 @@ export class JobDocument implements Job {
     job_type: string = JobType.SERVICE_CALL;
     number: string = null;
     name: string = '';
-    customer: string = '';
+    customer: Customer = null;
     status: string = JobStatus.PENDING;
     description: string = '';
     billing_type: string;
