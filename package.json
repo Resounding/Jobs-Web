@@ -94,7 +94,7 @@
       "moment": "npm:moment@^2.14.1",
       "pouchdb": "npm:pouchdb@^5.4.5",
       "pouchdb-find": "npm:pouchdb-find@^0.10.2",
-      "semantic-ui": "npm:semantic-ui@^2.2.2",
+      "semantic-ui": "github:Semantic-Org/Semantic-UI@^2.2.2",
       "text": "github:systemjs/plugin-text@^0.0.8",
       "toastr": "npm:toastr@^2.1.2",
       "underscore": "npm:underscore@^1.8.3"

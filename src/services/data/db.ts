@@ -4,7 +4,7 @@ import pouchdbfind = require('pouchdb-find');
 import {Job, JobDocument} from '../../models/job';
 
 PouchDB.plugin(pouchdbfind);
-const database:PouchDB = new PouchDB("LangendoenJobs")
+const database:PouchDB = new PouchDB("LangendoenJobs");
 
 export function db():PouchDB {
     return database;

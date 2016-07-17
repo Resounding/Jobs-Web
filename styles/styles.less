@@ -1,18 +1,10 @@
-@import '../jspm_packages/npm/semantic-ui@2.2.2/src/themes/default/globals/site.variables';
+@import (less) '../jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css';
 @import (less) '../jspm_packages/github/mdehoog/Semantic-UI@calendar-dist/dist/components/calendar.css';
 @import '../jspm_packages/npm/font-awesome@4.6.3/less/font-awesome.less';
 @import '../jspm_packages/npm/toastr@2.1.2/toastr';
 
 .ui.secondary.pointing.menu .item.logo-item {
   padding: 0 20px;
-}
-
-.ui.cards .card {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 0.875em 0.5em;
-  float: none;
 }
 
 .fab {
@@ -26,12 +18,12 @@
   top: 50px;
 }
 
-@media only screen and (max-width: @largestMobileScreen) {
+@media only screen and (max-width: 767px) {
   // hide the Company Name on phones
   .menu .item.logo-item span {
     display: none;
   }
-  .ui.cards .card {
+  .ui.cards > .card {
     width: 100%;
   }
 
@@ -39,7 +31,7 @@
     display: none !important;
   }
 }
-@media only screen and (min-width: @tabletBreakpoint) {
+@media only screen and (min-width: 768px) {
   .hide-desktop {
     display: none !important;
   }
