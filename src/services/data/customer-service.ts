@@ -23,14 +23,12 @@ export class CustomerService {
         }
 
         return new Promise((resolve, reject) => {
-            db().put(customer)
+            return db().put(customer)
                 .then(result => {
-                    db().get(result.id)
-                        .then(res => {
-                            var customer = new CustomerDocument(res);
-                            resolve(customer);
-                        })
-                        .catch(reject);
+                    var customer = new CustomerDocument(customer);
+                    customer._id = result.id;
+                    customer._rev = result.rev;
+                    resolve(customer);
                 })
                 .catch(reject);
         });
