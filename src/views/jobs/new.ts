@@ -1,9 +1,12 @@
+import {Promise} from 'es6-promise';
 import * as _ from 'underscore';
 import {autoinject} from "aurelia-framework";
 import {Router} from "aurelia-router";
 import {JobDocument} from '../../models/job';
-import {Customer} from '../../models/customer';
+import {CustomerDocument} from '../../models/customer';
 import {JobService} from '../../services/data/job-service';
+import {CustomerService} from '../../services/data/customer-service';
+import {ActivitiesService} from '../../services/data/activities-service';
 import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {Notifications} from '../../services/notifications';
@@ -13,7 +16,7 @@ import {WorkType} from "../../models/work-type";
 @autoinject()
 export class NewJob {
     job: JobDocument;
-    customers: Customer[];
+    customers: CustomerDocument[];
     activities: string[];
     jobTypes: JobType[] = JobType.OPTIONS;
     jobStatuses: JobStatus[] = JobStatus.OPTIONS;
@@ -22,26 +25,24 @@ export class NewJob {
 
     constructor(private element:Element, private router: Router) {
         this.job = new JobDocument();
+        CustomerService.getAll()
+            .then(customers => this.customers = customers)
+            .catch(Notifications.error);
 
-        this.customers = [
-            { id: 'cosmic1', name: 'Cosmic Plant 1'},
-            { id: 'cosmic2', name: 'Cosmic Plant 2'},
-            { id: 'creekside', name: 'Creekside'},
-            { id: 'maplecrest', name: 'Maple Crest'},
-            { id: 'meyers', name: 'Meyers'},
-        ];
-        this.activities = [
-            'Boiler Cleaning',
-            'Boiler Service',
-            'Heater Service',
-            'Insulation'
-        ];
+        ActivitiesService.getAll()
+            .then(activities => this.activities = activities)
+            .catch(Notifications.error);
     }
     
     attached() {
         $('.dropdown.customer', this.element).dropdown({
+            allowAdditions: true,
             onChange: (value:string):void => {
-                this.job.customer = _.find(this.customers, c => c.id === value);
+                this.job.customer = _.find(this.customers, c => c._id === value);
+                if(!this.job.customer) {
+                    this.job.customer = new CustomerDocument();
+                    this.job.customer.name = value;
+                }
                 console.log(this.job.customer);
             }
         });
@@ -49,6 +50,9 @@ export class NewJob {
             allowAdditions: true,
             onChange: (value:string):void => {
                 this.job.activities = (value || '').split(',');
+            },
+            onAdd: (value:string):void => {
+                ActivitiesService.create(value);
             }
         });
         $('#status', this.element).dropdown();
@@ -59,7 +63,7 @@ export class NewJob {
             onChange: date => this.job.startDate = moment(date).toDate()
         });
 
-        var $buttonBar = $('.button-bar', this.element);
+        const $buttonBar = $('.button-bar', this.element);
         $buttonBar.visibility({
             once: false,
             onBottomPassed: () => {
@@ -71,11 +75,26 @@ export class NewJob {
         });
     }
 
+    detached() {
+        $('.dropdown.customer', this.element).dropdown('destroy');
+        $('.dropdown.activity', this.element).dropdown('destroy');
+        $('#status', this.element).dropdown('destroy');
+        $('#billingType', this.element).dropdown('destroy');
+        $('#workType', this.element).dropdown('destroy');
+        $('.calendar.start', this.element).calendar('destroy');
+        $('.button-bar', this.element).visibility('destroy');
+    }
+
     get customer_id():string {
-        return this.job.customer ? this.job.customer.id : '';
+        return this.job.customer ? this.job.customer._id : null;
     }
     set customer_id(id:string) {
-        this.job.customer = _.find(this.customers, c => c.id === id);
+        const customer = _.find(this.customers, c => c._id === id);
+        if(customer) {
+            this.job.customer = customer;
+        } else {
+
+        }
     }
 
     onIsMultiDayChange() {
@@ -87,14 +106,31 @@ export class NewJob {
     }
 
     onSaveClick() {
-        JobService.save(this.job.toJSON())
-            .then(() => {
-                Notifications.success('Job Saved');
-                this.router.navigateToRoute('jobs.list')
-            })
-            .catch((err) => {
-                Notifications.error(err);
-            })
-
+        if(this.customer_id) {
+            saveJob(this.job)
+                .then(() => this.router.navigateToRoute('jobs.list'));
+        } else {
+            saveCustomer(this.job.customer)
+                .then(customer =>  {
+                    this.job.customer = customer;
+                    saveJob(this.job)
+                        .then(() => this.router.navigateToRoute('jobs.list'));
+                })
+                .catch(Notifications.error);
+        }
     }
+}
+
+function saveJob(job:JobDocument):Promise<void> {
+    return JobService.save(job.toJSON())
+        .then(() => {
+            Notifications.success('Job Saved');
+        })
+        .catch((err) => {
+            Notifications.error(err);
+        });
+}
+
+function saveCustomer(customer:CustomerDocument):Promise<CustomerDocument> {
+    return CustomerService.create(customer.toJSON());
 }

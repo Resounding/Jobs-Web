@@ -1,6 +1,7 @@
+import * as _ from 'underscore';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
-import {Customer} from './customer';
+import {Customer, CustomerDocument} from './customer';
 
 export interface Job {
     _id: string;
@@ -26,7 +27,7 @@ export class JobDocument implements Job {
     job_type: string = JobType.SERVICE_CALL;
     number: string = null;
     name: string = '';
-    customer: Customer = null;
+    customer: CustomerDocument = null;
     status: string = JobStatus.PENDING;
     description: string = '';
     billing_type: string;
@@ -39,6 +40,12 @@ export class JobDocument implements Job {
     // couch props
     type: string;
     _rev: string;
+
+    constructor(props?:Object) {
+        if(props) {
+            _.extend(this, props);
+        }
+    }
 
     toJSON():Job {
         return {

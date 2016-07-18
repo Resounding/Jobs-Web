@@ -10,11 +10,12 @@ export class JobService {
         return new Promise((resolve, reject) => {
             db().find<Job>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
                 .then(items => {
-                    items.docs.forEach(item => {
+                    var jobs = items.docs.map(item => {
+                        var job = new JobDocument(item);
                         if(_.isString(item.startDate)) {
-                            item.startDate = moment(item.startDate).toDate();
+                            job.startDate = moment(item.startDate).toDate();
                         }
-                    });
+                    })
                     resolve(items.docs);
                 })
                 .catch(reject);
@@ -41,11 +42,5 @@ export class JobService {
 }
 
 function saveJob(job:Job):Promise<PouchUpdateResponse> {
-    return new Promise((resolve, reject) => {
-        db().put(job, function (err, result) {
-            if (err) return reject(err);
-
-            return resolve(result);
-        });
-    })
+    return db().put(job);
 }

@@ -1,6 +1,4 @@
-@import (less) '../jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css';
-@import (less) '../jspm_packages/github/mdehoog/Semantic-UI@calendar-dist/dist/components/calendar.css';
-@import '../jspm_packages/npm/font-awesome@4.6.3/less/font-awesome.less';
+@import '../jspm_packages/npm/font-awesome@4.6.3/less/font-awesome';
 @import '../jspm_packages/npm/toastr@2.1.2/toastr';
 
 .ui.secondary.pointing.menu .item.logo-item {
@@ -18,7 +16,18 @@
   top: 50px;
 }
 
+.ui.popup.calendar:focus {
+  outline: none;
+}
+
 @media only screen and (max-width: 767px) {
+  list-item {
+    width: 100%;
+
+    & > .ui.card {
+      width: 100%;
+    }
+  }
   // hide the Company Name on phones
   .menu .item.logo-item span {
     display: none;

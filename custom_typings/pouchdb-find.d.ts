@@ -19,6 +19,8 @@ declare global {
         destroy():Promise<PouchDestroyResponse>;
         plugin(plugin:any);
         find<T>(request?:FindRequest):Promise<DocList<T>>;
+        get(id: string, opts?: PouchGetOptions):Promise<any>;
+        put(item:any):Promise<PouchUpdateResponse>;
     }
 }
 

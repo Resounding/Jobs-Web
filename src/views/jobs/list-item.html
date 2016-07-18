@@ -1,26 +1,26 @@
 <template>
     <div class="ui card">
-        <a class="content" route-href="route:jobs.edit; params.bind: {id: job._id}">
-            <div class="right floated meta" style="max-width: 40%;">
-                ${dateDisplay}
+        <div class="content">
+            <div class="right floated meta calendar" style="max-width: 40%; cursor: pointer;">
+                <span>${dateDisplay}</span>
             </div>
-            <div class="header">
+            <a class="header" route-href="route:jobs.edit; params.bind: {id: job._id}">
                 <i class="icon building" show.bind="isProject"></i>
                 <i class="icon wrench" show.bind="isServiceCall"></i>
                 &nbsp;${job.number}
-            </div>
+            </a>
             <div class="meta">${job.customer.name}</div>
-        </a>
+        </div>
         <div class="content">
             <div class="header">
-                <button class="ui right floated tablet only" click.trigger="toggleExpanded()">
+                <button class="ui basic icon button right floated hide-desktop" click.trigger="toggleExpanded()">
                     <i class="dropdown icon ${expanded ? 'vertically flipped' : ''}"></i>
                 </button>
                 ${job.name}
             </div>
-            <p class="ui ${expanded ? '' : 'computer only'}">${job.description}</p>
+            <p class="ui ${expanded ? '' : 'hide-mobile'}">${job.description}</p>
         </div>
-        <div class="ui extra content ${expanded ? '' : 'computer only'}">
+        <div class="ui extra content ${expanded ? '' : 'hide-mobile'}">
             <div class="right floated author">
                 <div class="ui dropdown foreman">
                     <div class="text">

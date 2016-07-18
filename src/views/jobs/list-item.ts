@@ -1,3 +1,4 @@
+import {Promise} from 'es6-promise';
 import * as _ from 'underscore';
 import {autoinject, bindable} from 'aurelia-framework';
 import {Job} from "../../models/job";
@@ -21,43 +22,42 @@ export class ListItem {
     }
     
     attached() {
-        if(isDevice()) {
+        // if(isDevice()) {
             // swipe to reveal delete?
-        } else {
+        // } else {
+            $('.calendar', this.element).calendar({
+                type: 'date',
+                onChange: date => {
+                    this.job.startDate = moment(date).toDate();
+                    save(this.job, 'Start Date');
+                }
+            });
+
             $('.dropdown.status', this.element).dropdown({
                 onChange: value => {
                     this.job.status = value;
-                    JobService.save(this.job)
-                        .then((response) => {
-                            this.job._rev = response.rev;
-                            Notifications.success('Status updated');
-                        })
-                        .catch(Notifications.error);
+                    save(this.job, 'Status');
                 }
             });
             $('.dropdown.foreman', this.element).dropdown({
                 onChange: value => {
                     this.job.foreman = value;
-                    JobService.save(this.job)
-                        .then((response) => {
-                            this.job._rev = response.rev;
-                            Notifications.success('Foreman updated');
-                        })
-                        .catch(Notifications.error);
+                    save(this.job, 'Foreman');
                 }
             });
-        }
+        //}
     }
 
     detached() {
         //if(isDevice()) {
             // swipe to reveal delete?
         //} else {
-            $('.dropdown.status', this.element).dropdown();
-            $('.dropdown.foreman', this.element).dropdown();
+            $('.calendar', this.element).calendar('destroy');
+            $('.dropdown.status', this.element).dropdown('destroy');
+            $('.dropdown.foreman', this.element).dropdown('destroy');
         //}
     }
-    
+
     toggleExpanded() {
         this.expanded = !this.expanded;
     }
@@ -109,4 +109,13 @@ export class ListItem {
      get isServiceCall() {
          return this.job.job_type === JobType.SERVICE_CALL;
      }
+}
+
+function save(job:Job, field:string):Promise<void> {
+    return JobService.save(job)
+        .then(response => {
+            job._rev = response.rev;
+            Notifications.success(`${field} updated`);
+        })
+        .catch(Notifications.error);
 }
