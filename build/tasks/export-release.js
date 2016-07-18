@@ -10,8 +10,8 @@ const bundles = require('../bundles.js');
 const resources = require('../export.js');
 
 function getBundles() {
-  let bl = [];
-  for (let b in bundles.bundles) {
+  var bl = [];
+  for (var b in bundles.bundles) {
     bl.push(b + '*.js');
   }
   return bl;
@@ -24,19 +24,19 @@ function getExportList() {
 function normalizeExportPaths() {
   const pathsToNormalize = resources.normalize;
 
-  let promises =  pathsToNormalize.map(pathSet => {
-    const packageName = pathSet[ 0 ];
-    const fileList = pathSet[ 1 ];
+  var promises =  pathsToNormalize.map(function(pathSet) {
+    var packageName = pathSet[ 0 ];
+  var fileList = pathSet[ 1 ];
 
-    return jspm.normalize(packageName).then((normalized) => {
-      const packagePath = normalized.substring(normalized.indexOf('jspm_packages'), normalized.lastIndexOf('.js'));
-      return fileList.map(file => packagePath + file);
+    return jspm.normalize(packageName).then(function(normalized) {
+          var packagePath = normalized.substring(normalized.indexOf('jspm_packages'), normalized.lastIndexOf('.js'));
+      return fileList.map(function(file) {return packagePath + file; });
     });
   });
 
   return Promise.all(promises)
-    .then((normalizedPaths) => {
-      return normalizedPaths.reduce((prev, curr) => prev.concat(curr), []);
+    .then(function (normalizedPaths) {
+      return normalizedPaths.reduce(function (prev, curr) { return prev.concat(curr), []; });
     });
 }
 
@@ -52,11 +52,35 @@ gulp.task('export-copy', function() {
 });
 
 gulp.task('export-normalized-resources', function() {
-  return normalizeExportPaths().then(normalizedPaths => {
+  return normalizeExportPaths().then(function(normalizedPaths) {
     return gulp.src(normalizedPaths, { base: '.' })
       .pipe(gulp.dest(paths.exportSrv));
   });
 });
+
+gulp.task('export-fontawesome', function() {
+   return gulp.src('themes/*.*')
+       .pipe(gulp.dest(paths.exportSrv + 'themes/'));
+});
+
+gulp.task('export-semantic-ui', function() {
+  return gulp.src([
+        paths.output + 'images/*.*',
+        paths.output + 'fonts/*.*',
+        paths.output + paths.semanticFonts + '*.*'
+      ],
+      { base: paths.output })
+      .pipe(gulp.dest(paths.exportSrv + 'dist/'));
+});
+
+gulp.task('export-assets', function(callback) {
+    return runSequence(
+        'export-fontawesome',
+        'export-semantic-ui',
+        callback
+    );
+})
+
 
 // use after prepare-release
 gulp.task('export', function(callback) {
@@ -65,6 +89,8 @@ gulp.task('export', function(callback) {
     'clean-export',
     'export-normalized-resources',
     'export-copy',
+    'export-assets',
+    'usemin',
     callback
   );
 });

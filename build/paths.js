@@ -3,6 +3,7 @@ var outputRoot = 'dist/';
 var exporSrvtRoot = 'export/';
 var fontAwesomeFontsRoot = 'jspm_packages/npm/font-awesome@4.6.3/fonts/';
 var semanticUIAssets = 'jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/themes/default/assets/fonts/';
+var semanticFonts = 'styles/themes/default/assets/fonts/';
 
 module.exports = {
   root: appRoot,
@@ -13,6 +14,7 @@ module.exports = {
   images: 'images/**/*.*',
   fontAwesome: fontAwesomeFontsRoot + '*.*',
   semanticUI: semanticUIAssets + '*.*',
+  semanticFonts: semanticFonts,
   output: outputRoot,
   exportSrv: exporSrvtRoot,
   doc: './doc',

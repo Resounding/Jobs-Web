@@ -52,12 +52,22 @@ gulp.task('build-images', function() {
       .pipe(gulp.dest(paths.output + 'images/'));
 });
 
-gulp.task('build-fonts', function() {
-  gulp.src(paths.fontAwesome)
+gulp.task('build-fontawesome', function() {
+  return gulp.src(paths.fontAwesome)
       .pipe(gulp.dest(paths.output + 'fonts/'));
+});
 
+gulp.task('build-semantic-fonts', function() {
   return gulp.src(paths.semanticUI)
       .pipe(gulp.dest(paths.output + 'styles/themes/default/assets/fonts/'));
+})
+
+gulp.task('build-fonts', function(callback) {
+  return runSequence(
+    'build-fontawesome',
+    'build-semantic-fonts',
+    callback
+  );
 });
 
 // this task calls the clean task (located
