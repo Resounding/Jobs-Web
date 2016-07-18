@@ -5,6 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "postinstall": "./node_modules/.bin/typings install",
+    "watch": "gulp watch",
     "test": "gulp test",
     "e2e": "gulp serve e2e"
   },
