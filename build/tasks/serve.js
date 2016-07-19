@@ -44,7 +44,7 @@ gulp.task('serve-export', ['export'], function(done) {
   browserSync({
     online: false,
     open: false,
-    port: 9000,
+    port: 80,
     server: {
       baseDir: ['./export'],
       middleware: function(req, res, next) {
