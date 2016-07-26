@@ -14,6 +14,16 @@ interface PouchDestroyResponse {
     ok:boolean;
 }
 
+type eventFunction = (e?:any) => PouchEventEmitter;
+
+interface PouchEventEmitter {
+    on(event:string, callback:eventFunction);
+}
+
+interface PouchSyncOptions {
+    live?: boolean
+}
+
 declare global {
     interface PouchDB {
         destroy():Promise<PouchDestroyResponse>;
@@ -21,6 +31,7 @@ declare global {
         find<T>(request?:FindRequest):Promise<DocList<T>>;
         get(id: string, opts?: PouchGetOptions):Promise<any>;
         put(item:any):Promise<PouchUpdateResponse>;
+        sync(remote:PouchDB, opts?:PouchSyncOptions):PouchEventEmitter;
     }
 }
 

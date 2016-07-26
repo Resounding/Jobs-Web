@@ -24,7 +24,7 @@
                     <i class="dropdown icon"></i>
                     <div class="default text">Select Customer</div>
                     <div class="menu">
-                        <div repeat.for="customer of customers" class="item" data-value.bind="customer.id">
+                        <div repeat.for="customer of customers" class="item" data-value.bind="customer._id">
                             ${customer.name}
                         </div>
                     </div>

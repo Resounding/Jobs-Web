@@ -1,23 +1,29 @@
-import {autoinject, Aurelia} from 'aurelia-framework';
+import {autoinject} from 'aurelia-framework';
 import {Authentication} from '../services/auth/auth';
-import {Configuration} from '../services/config';
 
 @autoinject()
 export class Login {
     username:string;
     password:string;
+    errorMessage:string;
 
-    constructor(private app:Aurelia, private auth:Authentication, private config:Configuration) { }
+    constructor(private auth:Authentication, private element:Element) { }
+
+    attached() {
+        $('form', this.element).form({
+            fields: {
+                username: 'empty',
+                password: 'empty'
+            }
+        });
+    }
 
     login() {
-        this.auth.login(this.username, this.password)
-            .then(result => {
-                console.log(result)
-                this.app.setRoot(this.config.app_root);
+        this.errorMessage = '';
 
-            })
+        return this.auth.login(this.username, this.password)
             .catch(err => {
-                alert(err.message);
-            })
+                $('form', this.element).form('add errors', [err.message]);
+            });
     }
 }

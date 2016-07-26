@@ -27,6 +27,6 @@ export class NavBar {
     }
 
     get userName() {
-        return this.auth.userInfo().name;
+        return (this.auth.userInfo() || { }).name;
     }
 }

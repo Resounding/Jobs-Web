@@ -20,10 +20,12 @@ interface modalOptions {
     onApprove(e?:any);
 }
 
+
 interface JQuery {
     visibility(options?: visibilityOptions) : JQuery;
     transition(transition:string) : JQuery;
     dropdown(options?: dropdownOptions | string) : JQuery;
     calendar(options?: calendarOptions | string) : JQuery;
     modal(options?: modalOptions | string) : JQuery;
+    form(options?: Object | string, message?:string) : JQuery;
 }

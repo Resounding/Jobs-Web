@@ -20,8 +20,6 @@ export class ListItem {
     jobManHoursSubscription:Subscription;
 
     constructor(private element:Element, private jobService:JobService, private auth:Authentication, private events:EventAggregator) {
-        console.log(element);
-
         // only office admin can close jobs
         if(!this.auth.isInRole(Roles.OfficeAdmin)) {
             var close = _.findIndex(this.jobStatuses, (status) => status.id === JobStatus.CLOSED);

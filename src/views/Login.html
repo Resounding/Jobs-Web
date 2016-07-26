@@ -5,21 +5,22 @@
                 <img src="/images/logo.png" class="image">
                 Langendoen Mechanical Job Management Site
             </h2>
-            <form class="ui large form" submit.trigger="login()">
+            <form class="ui large form" submit.trigger="login()" novalidate>
                 <div class="ui stacked segment">
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" value.bind="username" placeholder="User Name" required>
+                            <input id="username" name="username" type="text" value.bind="username" placeholder="User Name" required>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="lock icon"></i>
-                            <input type="password" value.bind="password" required>
+                            <input id="password" name="password" type="password" value.bind="password" placeholder="Password" required>
                         </div>
                     </div>
                     <input class="ui fluid large blue submit button" type="submit" value="Login">
+                    <div class="ui error message"></div>
                 </div>
             </form>
         </div>

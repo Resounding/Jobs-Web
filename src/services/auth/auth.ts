@@ -19,7 +19,7 @@ interface UserInfo {
 @autoinject()
 export class Authentication {
     constructor(private app: Aurelia, private config: Configuration, private router:Router) {
-        database = new PouchDB(this.config.users_database_name, { skip_setup: true });
+        database = new PouchDB(this.config.remote_database_name, { skip_setup: true });
         user_info = JSON.parse(localStorage[storage_key] || null);
     }
 
@@ -34,25 +34,14 @@ export class Authentication {
                         };
 
                         localStorage[storage_key] = JSON.stringify(user_info);
-
-                        resolve(user_info);
+                        this.app.setRoot(this.config.app_root);
+                        return resolve(user_info);
                     })
                     .catch(reject);
             };
 
-            const addUsers = () => {
-                return Promise.all([
-                    database.signUp('cliffe', 'password', { roles: [Roles.Administrator]}),
-                    database.signUp('phil', 'password', { roles: [Roles.Owner, Roles.Foreman]}),
-                    database.signUp('dan', 'password', { roles: [Roles.Owner, Roles.Foreman]}),
-                    database.signUp('kurt', 'password', { roles: [Roles.Owner, Roles.Foreman]}),
-                    database.signUp('barry', 'password', { roles: [Roles.Foreman]})
-                ]);
-            };
-
             if (typeof database.logIn === 'undefined') {
                 return database.useAsAuthenticationDB()
-                    .then(addUsers)
                     .then(login)
                     .catch(reject);
             } else {
@@ -62,7 +51,7 @@ export class Authentication {
     }
 
 
-    logout():Promise<any> {
+    logout():Promise {
         user_info = null;
         localStorage[storage_key] = null;
         this.app.setRoot(this.config.login_root);

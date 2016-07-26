@@ -34,6 +34,8 @@ export class JobList {
     }
 
     detached() {
+        $('.modal.close-job', this.element).modal('destroy');
+
         this.showModalSubscription.dispose();
     }
 

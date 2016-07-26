@@ -1,34 +1,51 @@
 import {Promise} from 'es6-promise';
 import PouchDB = require('pouchdb');
 import pouchdbfind = require('pouchdb-find');
-import pouchdbauth = require('pouchdb-auth');
 import {Job, JobDocument} from '../../models/job';
 import {Configuration} from '../config';
 
 PouchDB.plugin(pouchdbfind);
-PouchDB.plugin(pouchdbauth);
 
-let database:PouchDB = null;
+let localDB:PouchDB = null;
+let remoteDB:PouchDB = null;
 const config = new Configuration();
 
 init();
 
 export function db():PouchDB {
-    return database;
+    return localDB;
 }
 
 export function destroy():Promise<any> {
-    return database.destroy()
+    return localDB.destroy()
         .then(init);
 }
 
 function init() {
-    database = new PouchDB(config.app_database_name);
+    localDB = new PouchDB(config.app_database_name);
+    remoteDB = new PouchDB(config.remote_database_name, { skip_setup: true });
+    localDB.sync(remoteDB, { live: true })
+        .on('complete', () => {
+            console.log('Sync complete!')
+        })
+        .on('error', err => {
+            console.error(err);
+        })
+        .on('change', change => {
+            console.log('changed!');
+            console.log(change);
+        }).on('paused', info => {
+            console.log('paused!');
+            console.log(info);
+        }).on('active', info => {
+            console.log('active!');
+            console.log(info);
+        });
 }
 
 export function nextJobNumber():Promise<string> {
     return new Promise((resolve, reject) =>{
-        database.find<Job>({
+        localDB.find<Job>({
             selector: { type: JobDocument.DOCUMENT_TYPE },
             fields: ['number']
         })

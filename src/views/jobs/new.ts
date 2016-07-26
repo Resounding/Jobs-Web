@@ -90,11 +90,7 @@ export class NewJob {
     }
     set customer_id(id:string) {
         const customer = _.find(this.customers, c => c._id === id);
-        if(customer) {
-            this.job.customer = customer;
-        } else {
-
-        }
+        this.job.customer = customer || null;
     }
 
     onIsMultiDayChange() {
