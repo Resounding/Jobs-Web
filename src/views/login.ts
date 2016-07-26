@@ -18,7 +18,9 @@ export class Login {
         });
     }
 
-    login() {
+    login(e) {
+        if(e && e.preventDefault) e.preventDefault();
+
         this.errorMessage = '';
 
         return this.auth.login(this.username, this.password)
