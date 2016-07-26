@@ -1,6 +1,9 @@
+import {autoinject} from 'aurelia-framework';
+import {Authentication} from '../../services/auth/auth';
 import {Job} from '../../models/job'
 import {JobService} from '../../services/data/job-service';
 
+@autoinject()
 export class JobList {
     items:Job[];
     todaysItems:Job[];
@@ -10,7 +13,7 @@ export class JobList {
     showCompleted:boolean = false;
     filtersExpanded:boolean = false;
 
-    constructor() {
+    constructor(private auth:Authentication) {
         this.refresh();
     }
 
@@ -38,8 +41,10 @@ export class JobList {
     }
 
     destroy() {
-        JobService.destroy().then(() => {
-            this.refresh();
+        this.auth.logout().then(() => {
+            JobService.destroy().then(() => {
+                this.refresh();
+            });
         });
     }
 }

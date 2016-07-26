@@ -30,6 +30,8 @@ System.config({
     "mdehoog/Semantic-UI": "github:mdehoog/Semantic-UI@calendar-dist",
     "moment": "npm:moment@2.14.1",
     "pouchdb": "npm:pouchdb@5.4.5",
+    "pouchdb-auth": "npm:pouchdb-auth@2.1.0",
+    "pouchdb-authentication": "npm:pouchdb-authentication@0.5.3",
     "pouchdb-find": "npm:pouchdb-find@0.10.3",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.2.2",
     "text": "github:systemjs/plugin-text@0.0.8",
@@ -330,6 +332,11 @@ System.config({
       "querystring": "github:jspm/nodelibs-querystring@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
     },
+    "npm:base64url@1.0.6": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "concat-stream": "npm:concat-stream@1.4.10",
+      "meow": "npm:meow@2.0.0"
+    },
     "npm:bindings@1.2.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
@@ -362,8 +369,8 @@ System.config({
       "hoek": "npm:hoek@2.16.3",
       "http": "github:jspm/nodelibs-http@1.7.1"
     },
-    "npm:brace-expansion@1.1.5": {
-      "balanced-match": "npm:balanced-match@0.4.1",
+    "npm:brace-expansion@1.1.6": {
+      "balanced-match": "npm:balanced-match@0.4.2",
       "concat-map": "npm:concat-map@0.0.1"
     },
     "npm:browserify-aes@1.0.6": {
@@ -413,7 +420,7 @@ System.config({
     "npm:browserify-zlib@0.1.4": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "pako": "npm:pako@0.2.8",
+      "pako": "npm:pako@0.2.9",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "readable-stream": "npm:readable-stream@2.1.4",
       "util": "github:jspm/nodelibs-util@0.1.0"
@@ -432,6 +439,10 @@ System.config({
       "ieee754": "npm:ieee754@1.1.6",
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:camelcase-keys@1.0.0": {
+      "camelcase": "npm:camelcase@1.2.1",
+      "map-obj": "npm:map-obj@1.0.1"
     },
     "npm:chalk@1.1.3": {
       "ansi-styles": "npm:ansi-styles@2.2.1",
@@ -484,11 +495,36 @@ System.config({
       "recast": "npm:recast@0.10.43",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
+    "npm:concat-stream@1.4.10": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "inherits": "npm:inherits@2.0.1",
+      "readable-stream": "npm:readable-stream@1.1.14",
+      "typedarray": "npm:typedarray@0.0.6"
+    },
     "npm:constants-browserify@0.0.1": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:couchdb-calculate-session-id@1.1.0": {
+      "aproba": "npm:aproba@1.0.4",
+      "base64url": "npm:base64url@1.0.6",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
+      "crypto-lite": "npm:crypto-lite@0.1.0"
+    },
+    "npm:couchdb-eval@1.0.6": {
+      "extend": "npm:extend@1.3.0",
+      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1"
+    },
+    "npm:couchdb-objects@1.0.7": {
+      "extend": "npm:extend@1.3.0",
+      "header-case-normalizer": "npm:header-case-normalizer@1.0.3",
+      "is-empty": "npm:is-empty@0.0.1",
+      "pouchdb-promise": "npm:pouchdb-promise@0.0.0",
+      "querystring": "github:jspm/nodelibs-querystring@0.1.0",
+      "random-uuid-v4": "npm:random-uuid-v4@0.0.4"
     },
     "npm:create-ecdh@4.0.0": {
       "bn.js": "npm:bn.js@4.11.5",
@@ -721,15 +757,15 @@ System.config({
       "mkdirp": "npm:mkdirp@0.5.1",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "rimraf": "npm:rimraf@2.5.3",
+      "rimraf": "npm:rimraf@2.5.4",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
     },
     "npm:gauge@1.2.7": {
       "ansi": "npm:ansi@0.3.1",
       "has-unicode": "npm:has-unicode@2.0.1",
-      "lodash.pad": "npm:lodash.pad@4.4.0",
-      "lodash.padend": "npm:lodash.padend@4.5.0",
-      "lodash.padstart": "npm:lodash.padstart@4.5.0",
+      "lodash.pad": "npm:lodash.pad@4.5.0",
+      "lodash.padend": "npm:lodash.padend@4.6.0",
+      "lodash.padstart": "npm:lodash.padstart@4.6.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:gauge@2.6.0": {
@@ -750,6 +786,10 @@ System.config({
     },
     "npm:generate-object-property@1.2.0": {
       "is-property": "npm:is-property@1.0.2"
+    },
+    "npm:get-stdin@4.0.1": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:getpass@0.1.6": {
       "assert-plus": "npm:assert-plus@1.0.0",
@@ -780,18 +820,6 @@ System.config({
     },
     "npm:github-from-package@0.0.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
-    },
-    "npm:glob@4.5.3": {
-      "assert": "github:jspm/nodelibs-assert@0.1.0",
-      "events": "github:jspm/nodelibs-events@0.1.1",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "inflight": "npm:inflight@1.0.5",
-      "inherits": "npm:inherits@2.0.1",
-      "minimatch": "npm:minimatch@2.0.10",
-      "once": "npm:once@1.3.3",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:glob@5.0.15": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -914,6 +942,13 @@ System.config({
     "npm:immediate@3.2.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:indent-string@1.2.2": {
+      "get-stdin": "npm:get-stdin@4.0.1",
+      "minimist": "npm:minimist@1.2.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "repeating": "npm:repeating@1.1.3",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
     "npm:inflight@1.0.5": {
       "once": "npm:once@1.3.3",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -930,6 +965,9 @@ System.config({
       "falafel": "npm:falafel@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "through2": "npm:through2@0.6.5"
+    },
+    "npm:is-finite@1.0.1": {
+      "number-is-nan": "npm:number-is-nan@1.0.0"
     },
     "npm:is-fullwidth-code-point@1.0.0": {
       "number-is-nan": "npm:number-is-nan@1.0.0"
@@ -998,7 +1036,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "inherits": "npm:inherits@2.0.1",
       "level-errors": "npm:level-errors@1.0.4",
-      "readable-stream": "npm:readable-stream@1.0.33",
+      "readable-stream": "npm:readable-stream@1.1.14",
       "xtend": "npm:xtend@4.0.1"
     },
     "npm:level-write-stream@1.0.0": {
@@ -1025,6 +1063,9 @@ System.config({
       "util": "github:jspm/nodelibs-util@0.1.0",
       "xtend": "npm:xtend@4.0.1"
     },
+    "npm:lie@2.7.7": {
+      "immediate": "npm:immediate@3.0.5"
+    },
     "npm:lie@3.0.4": {
       "es3ify": "npm:es3ify@0.2.2",
       "immediate": "npm:immediate@3.0.5",
@@ -1048,28 +1089,13 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "querystring": "github:jspm/nodelibs-querystring@0.1.0"
     },
-    "npm:lodash._basetostring@4.12.0": {
+    "npm:lodash.pad@4.5.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:lodash.pad@4.4.0": {
-      "lodash._baseslice": "npm:lodash._baseslice@4.0.0",
-      "lodash._basetostring": "npm:lodash._basetostring@4.12.0",
-      "lodash.tostring": "npm:lodash.tostring@4.1.3",
+    "npm:lodash.padend@4.6.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:lodash.padend@4.5.0": {
-      "lodash._baseslice": "npm:lodash._baseslice@4.0.0",
-      "lodash._basetostring": "npm:lodash._basetostring@4.12.0",
-      "lodash.tostring": "npm:lodash.tostring@4.1.3",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:lodash.padstart@4.5.0": {
-      "lodash._baseslice": "npm:lodash._baseslice@4.0.0",
-      "lodash._basetostring": "npm:lodash._basetostring@4.12.0",
-      "lodash.tostring": "npm:lodash.tostring@4.1.3",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:lodash.tostring@4.1.3": {
+    "npm:lodash.padstart@4.6.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:ltgt@1.0.2": {
@@ -1086,6 +1112,14 @@ System.config({
       "ltgt": "npm:ltgt@1.0.2",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:meow@2.0.0": {
+      "camelcase-keys": "npm:camelcase-keys@1.0.0",
+      "indent-string": "npm:indent-string@1.2.2",
+      "minimist": "npm:minimist@1.2.0",
+      "object-assign": "npm:object-assign@1.0.0",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:miller-rabin@4.0.0": {
       "bn.js": "npm:bn.js@4.11.5",
       "brorand": "npm:brorand@1.0.5"
@@ -1097,18 +1131,8 @@ System.config({
       "mime-db": "npm:mime-db@1.23.0",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
-    "npm:minimatch@1.0.0": {
-      "lru-cache": "npm:lru-cache@2.7.3",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "sigmund": "npm:sigmund@1.0.1"
-    },
-    "npm:minimatch@2.0.10": {
-      "brace-expansion": "npm:brace-expansion@1.1.5",
-      "path": "github:jspm/nodelibs-path@0.1.0"
-    },
     "npm:minimatch@3.0.2": {
-      "brace-expansion": "npm:brace-expansion@1.1.5",
+      "brace-expansion": "npm:brace-expansion@1.1.6",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
     "npm:mkdirp@0.5.1": {
@@ -1142,7 +1166,7 @@ System.config({
       "path-array": "npm:path-array@1.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "request": "npm:request@2.72.0",
-      "rimraf": "npm:rimraf@2.5.3",
+      "rimraf": "npm:rimraf@2.5.4",
       "semver": "npm:semver@5.2.0",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2",
       "tar": "npm:tar@2.2.1",
@@ -1151,16 +1175,16 @@ System.config({
       "which": "npm:which@1.2.10",
       "zlib": "github:jspm/nodelibs-zlib@0.1.0"
     },
-    "npm:node-ninja@1.0.1": {
+    "npm:node-ninja@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "events": "github:jspm/nodelibs-events@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "fstream": "npm:fstream@1.0.10",
-      "glob": "npm:glob@4.5.3",
+      "glob": "npm:glob@7.0.5",
       "graceful-fs": "npm:graceful-fs@4.1.4",
-      "minimatch": "npm:minimatch@1.0.0",
+      "minimatch": "npm:minimatch@3.0.2",
       "mkdirp": "npm:mkdirp@0.5.1",
       "nopt": "npm:nopt@3.0.6",
       "npmlog": "npm:npmlog@2.0.4",
@@ -1170,7 +1194,7 @@ System.config({
       "path-array": "npm:path-array@1.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "request": "npm:request@2.72.0",
-      "rimraf": "npm:rimraf@2.5.3",
+      "rimraf": "npm:rimraf@2.5.4",
       "semver": "npm:semver@5.2.0",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2",
       "tar": "npm:tar@2.2.1",
@@ -1190,7 +1214,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "rc": "npm:rc@1.1.6",
       "request": "npm:request@2.72.0",
-      "rimraf": "npm:rimraf@2.5.3",
+      "rimraf": "npm:rimraf@2.5.4",
       "semver": "npm:semver@5.2.0",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2",
       "tar": "npm:tar@2.2.1",
@@ -1252,7 +1276,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:pako@0.2.8": {
+    "npm:pako@0.2.9": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -1289,6 +1313,60 @@ System.config({
     "npm:pinkie-promise@2.0.1": {
       "pinkie": "npm:pinkie@2.0.4"
     },
+    "npm:pouchdb-ajax@5.4.4": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "js-extend": "npm:js-extend@1.0.1",
+      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.4",
+      "pouchdb-errors": "npm:pouchdb-errors@5.4.4",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
+      "pouchdb-utils": "npm:pouchdb-utils@5.4.4",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "request": "npm:request@2.72.0"
+    },
+    "npm:pouchdb-auth@2.1.0": {
+      "base64url": "npm:base64url@1.0.6",
+      "couchdb-calculate-session-id": "npm:couchdb-calculate-session-id@1.1.0",
+      "crypto-lite": "npm:crypto-lite@0.1.0",
+      "pouchdb": "npm:pouchdb@5.4.5",
+      "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
+      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.5",
+      "pouchdb-req-http-query": "npm:pouchdb-req-http-query@1.0.3",
+      "pouchdb-system-db": "npm:pouchdb-system-db@1.0.4",
+      "pouchdb-validation": "npm:pouchdb-validation@1.2.1",
+      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6",
+      "promise-nodify": "npm:promise-nodify@1.0.2",
+      "secure-random": "npm:secure-random@1.1.1"
+    },
+    "npm:pouchdb-authentication@0.5.3": {
+      "inherits": "npm:inherits@2.0.1",
+      "pouchdb-ajax": "npm:pouchdb-ajax@5.4.4",
+      "pouchdb-extend": "npm:pouchdb-extend@0.1.2",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
+      "pouchdb-utils": "npm:pouchdb-utils@5.4.5",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "url-join": "npm:url-join@1.1.0"
+    },
+    "npm:pouchdb-binary-utils@5.4.4": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:pouchdb-binary-utils@5.4.5": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:pouchdb-bulkdocs-wrapper@1.0.2": {
+      "pouchdb-promise": "npm:pouchdb-promise@0.0.0"
+    },
+    "npm:pouchdb-changeslike-wrapper@1.0.1": {
+      "events": "github:jspm/nodelibs-events@0.1.1"
+    },
+    "npm:pouchdb-errors@5.4.4": {
+      "inherits": "npm:inherits@2.0.1",
+      "lie": "npm:lie@3.0.4"
+    },
+    "npm:pouchdb-errors@5.4.5": {
+      "inherits": "npm:inherits@2.0.1",
+      "lie": "npm:lie@3.0.4"
+    },
     "npm:pouchdb-find@0.10.3": {
       "argsarray": "npm:argsarray@0.0.1",
       "debug": "npm:debug@2.2.0",
@@ -1303,14 +1381,98 @@ System.config({
       "querystring": "github:jspm/nodelibs-querystring@0.1.0",
       "spark-md5": "npm:spark-md5@0.0.5"
     },
+    "npm:pouchdb-md5@5.4.4": {
+      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
+      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.4",
+      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
+      "pouchdb-errors": "npm:pouchdb-errors@5.4.4",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
+      "pouchdb-utils": "npm:pouchdb-utils@5.4.4",
+      "spark-md5": "npm:spark-md5@2.0.2"
+    },
+    "npm:pouchdb-md5@5.4.5": {
+      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
+      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.5",
+      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
+      "pouchdb-errors": "npm:pouchdb-errors@5.4.5",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.5",
+      "pouchdb-utils": "npm:pouchdb-utils@5.4.5",
+      "spark-md5": "npm:spark-md5@2.0.2"
+    },
+    "npm:pouchdb-promise@0.0.0": {
+      "lie": "npm:lie@2.7.7"
+    },
     "npm:pouchdb-promise@5.4.0": {
+      "lie": "npm:lie@3.0.4"
+    },
+    "npm:pouchdb-promise@5.4.4": {
       "lie": "npm:lie@3.0.4"
     },
     "npm:pouchdb-promise@5.4.5": {
       "lie": "npm:lie@3.0.4"
     },
+    "npm:pouchdb-req-http-query@1.0.3": {
+      "extend": "npm:extend@1.3.0",
+      "header-case-normalizer": "npm:header-case-normalizer@1.0.3",
+      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
+      "pouchdb-promise": "npm:pouchdb-promise@0.0.0"
+    },
+    "npm:pouchdb-security@1.2.6": {
+      "extend": "npm:extend@1.3.0",
+      "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
+      "pouchdb-changeslike-wrapper": "npm:pouchdb-changeslike-wrapper@1.0.1",
+      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
+      "pouchdb-promise": "npm:pouchdb-promise@0.0.0",
+      "pouchdb-req-http-query": "npm:pouchdb-req-http-query@1.0.3",
+      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6",
+      "promise-nodify": "npm:promise-nodify@1.0.2"
+    },
+    "npm:pouchdb-system-db@1.0.4": {
+      "pouchdb-changeslike-wrapper": "npm:pouchdb-changeslike-wrapper@1.0.1",
+      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
+      "pouchdb-security": "npm:pouchdb-security@1.2.6",
+      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6"
+    },
     "npm:pouchdb-upsert@2.0.2": {
       "pouchdb-promise": "npm:pouchdb-promise@5.4.5"
+    },
+    "npm:pouchdb-utils@5.4.4": {
+      "argsarray": "npm:argsarray@0.0.1",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "debug": "npm:debug@2.2.0",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "inherits": "npm:inherits@2.0.1",
+      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.4",
+      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
+      "pouchdb-errors": "npm:pouchdb-errors@5.4.4",
+      "pouchdb-md5": "npm:pouchdb-md5@5.4.4",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:pouchdb-utils@5.4.5": {
+      "argsarray": "npm:argsarray@0.0.1",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "debug": "npm:debug@2.2.0",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "inherits": "npm:inherits@2.0.1",
+      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.5",
+      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
+      "pouchdb-errors": "npm:pouchdb-errors@5.4.5",
+      "pouchdb-md5": "npm:pouchdb-md5@5.4.5",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.5",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:pouchdb-validation@1.2.1": {
+      "couchdb-eval": "npm:couchdb-eval@1.0.6",
+      "couchdb-objects": "npm:couchdb-objects@1.0.7",
+      "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
+      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
+      "pouchdb-promise": "npm:pouchdb-promise@0.0.0",
+      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6",
+      "random-uuid-v4": "npm:random-uuid-v4@0.0.4"
+    },
+    "npm:pouchdb-wrappers@1.3.6": {
+      "promise-nodify": "npm:promise-nodify@1.0.2"
     },
     "npm:pouchdb@5.4.5": {
       "argsarray": "npm:argsarray@0.0.1",
@@ -1353,7 +1515,7 @@ System.config({
       "minimist": "npm:minimist@1.2.0",
       "mkdirp": "npm:mkdirp@0.5.1",
       "node-gyp": "npm:node-gyp@3.4.0",
-      "node-ninja": "npm:node-ninja@1.0.1",
+      "node-ninja": "npm:node-ninja@1.0.2",
       "noop-logger": "npm:noop-logger@0.1.1",
       "npmlog": "npm:npmlog@2.0.4",
       "os-homedir": "npm:os-homedir@1.0.1",
@@ -1477,6 +1639,11 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "source-map": "npm:source-map@0.5.6"
     },
+    "npm:repeating@1.1.3": {
+      "is-finite": "npm:is-finite@1.0.1",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
     "npm:request@2.72.0": {
       "aws-sign2": "npm:aws-sign2@0.6.0",
       "aws4": "npm:aws4@1.4.1",
@@ -1511,7 +1678,7 @@ System.config({
       "util": "github:jspm/nodelibs-util@0.1.0",
       "zlib": "github:jspm/nodelibs-zlib@0.1.0"
     },
-    "npm:rimraf@2.5.3": {
+    "npm:rimraf@2.5.4": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "glob": "npm:glob@7.0.5",
@@ -1519,6 +1686,10 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:ripemd160@1.0.1": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:secure-random@1.1.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -1533,10 +1704,6 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:sigmund@1.0.1": {
-      "http": "github:jspm/nodelibs-http@1.7.1",
-      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:signal-exit@3.0.0": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -1647,7 +1814,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "readable-stream": "npm:readable-stream@2.1.4",
-      "rimraf": "npm:rimraf@2.5.3",
+      "rimraf": "npm:rimraf@2.5.4",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "tar": "npm:tar@2.2.1",
       "uid-number": "npm:uid-number@0.0.6",
@@ -1659,7 +1826,7 @@ System.config({
       "constants": "github:jspm/nodelibs-constants@0.1.0",
       "end-of-stream": "npm:end-of-stream@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@2.1.4",
+      "readable-stream": "npm:readable-stream@2.0.6",
       "string_decoder": "github:jspm/nodelibs-string_decoder@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0",
       "xtend": "npm:xtend@4.0.1"
@@ -1773,241 +1940,5 @@ System.config({
       "readable-stream": "npm:readable-stream@0.0.4",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
     }
-  },
-  depCache: {
-    "models/customer.js": [
-      "underscore"
-    ],
-    "models/job.js": [
-      "underscore",
-      "./job-status",
-      "./job-type"
-    ],
-    "nav-bar.js": [
-      "aurelia-framework",
-      "aurelia-router"
-    ],
-    "services/data/activities-service.js": [
-      "es6-promise",
-      "./db"
-    ],
-    "services/data/customer-service.js": [
-      "es6-promise",
-      "./db",
-      "../../models/customer"
-    ],
-    "services/data/db.js": [
-      "es6-promise",
-      "pouchdb",
-      "pouchdb-find",
-      "../../models/job"
-    ],
-    "services/data/job-service.js": [
-      "underscore",
-      "es6-promise",
-      "./db",
-      "../../models/job"
-    ],
-    "views/jobs/list-item.js": [
-      "underscore",
-      "aurelia-framework",
-      "../../models/job-status",
-      "../../models/job-type",
-      "../../models/foreman",
-      "../../services/data/job-service",
-      "../../services/notifications"
-    ],
-    "views/jobs/list.js": [
-      "../../services/data/job-service"
-    ],
-    "views/jobs/new.js": [
-      "underscore",
-      "aurelia-framework",
-      "aurelia-router",
-      "../../models/job",
-      "../../models/customer",
-      "../../services/data/job-service",
-      "../../services/data/customer-service",
-      "../../services/data/activities-service",
-      "../../models/job-type",
-      "../../models/job-status",
-      "../../services/notifications",
-      "../../models/billing-type",
-      "../../models/work-type"
-    ]
-  },
-  bundles: {
-    "app-build.js": [
-      "app.html!github:systemjs/plugin-text@0.0.8.js",
-      "app.js",
-      "main.js",
-      "models/billing-type.js",
-      "models/customer.js",
-      "models/foreman.js",
-      "models/job-status.js",
-      "models/job-type.js",
-      "models/job.js",
-      "models/work-type.js",
-      "nav-bar.html!github:systemjs/plugin-text@0.0.8.js",
-      "nav-bar.js",
-      "services/data/activities-service.js",
-      "services/data/customer-service.js",
-      "services/data/db.js",
-      "services/data/job-service.js",
-      "services/notifications.js",
-      "services/utils.js",
-      "styles/styles.css!github:systemjs/plugin-text@0.0.8.js",
-      "views/jobs/list-item.html!github:systemjs/plugin-text@0.0.8.js",
-      "views/jobs/list-item.js",
-      "views/jobs/list.html!github:systemjs/plugin-text@0.0.8.js",
-      "views/jobs/list.js",
-      "views/jobs/new.html!github:systemjs/plugin-text@0.0.8.js",
-      "views/jobs/new.js"
-    ],
-    "aurelia-9b8c645cbc.js": [
-      "github:components/jquery@3.1.0.js",
-      "github:components/jquery@3.1.0/jquery.js",
-      "github:github/fetch@1.0.0.js",
-      "github:github/fetch@1.0.0/fetch.js",
-      "github:jspm/nodelibs-process@0.1.2.js",
-      "github:jspm/nodelibs-process@0.1.2/index.js",
-      "npm:argsarray@0.0.1.js",
-      "npm:argsarray@0.0.1/index.js",
-      "npm:aurelia-animator-css@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-animator-css@1.0.0-rc.1.0.0/aurelia-animator-css.js",
-      "npm:aurelia-binding@1.0.0-rc.1.0.3.js",
-      "npm:aurelia-binding@1.0.0-rc.1.0.3/aurelia-binding.js",
-      "npm:aurelia-bootstrapper@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-bootstrapper@1.0.0-rc.1.0.1/aurelia-bootstrapper.js",
-      "npm:aurelia-dependency-injection@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-dependency-injection@1.0.0-rc.1.0.1/aurelia-dependency-injection.js",
-      "npm:aurelia-event-aggregator@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-event-aggregator@1.0.0-rc.1.0.0/aurelia-event-aggregator.js",
-      "npm:aurelia-fetch-client@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-fetch-client@1.0.0-rc.1.0.1/aurelia-fetch-client.js",
-      "npm:aurelia-framework@1.0.0-rc.1.0.2.js",
-      "npm:aurelia-framework@1.0.0-rc.1.0.2/aurelia-framework.js",
-      "npm:aurelia-history-browser@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-history-browser@1.0.0-rc.1.0.0/aurelia-history-browser.js",
-      "npm:aurelia-history@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-history@1.0.0-rc.1.0.0/aurelia-history.js",
-      "npm:aurelia-loader-default@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-loader-default@1.0.0-rc.1.0.0/aurelia-loader-default.js",
-      "npm:aurelia-loader@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-loader@1.0.0-rc.1.0.0/aurelia-loader.js",
-      "npm:aurelia-logging-console@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-logging-console@1.0.0-rc.1.0.0/aurelia-logging-console.js",
-      "npm:aurelia-logging@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-logging@1.0.0-rc.1.0.1/aurelia-logging.js",
-      "npm:aurelia-metadata@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-metadata@1.0.0-rc.1.0.1/aurelia-metadata.js",
-      "npm:aurelia-pal-browser@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-pal-browser@1.0.0-rc.1.0.1/aurelia-pal-browser.js",
-      "npm:aurelia-pal@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-pal@1.0.0-rc.1.0.0/aurelia-pal.js",
-      "npm:aurelia-path@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-path@1.0.0-rc.1.0.0/aurelia-path.js",
-      "npm:aurelia-polyfills@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-polyfills@1.0.0-rc.1.0.0/aurelia-polyfills.js",
-      "npm:aurelia-route-recognizer@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-route-recognizer@1.0.0-rc.1.0.1/aurelia-route-recognizer.js",
-      "npm:aurelia-router@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-router@1.0.0-rc.1.0.1/aurelia-router.js",
-      "npm:aurelia-task-queue@1.0.0-rc.1.0.0.js",
-      "npm:aurelia-task-queue@1.0.0-rc.1.0.0/aurelia-task-queue.js",
-      "npm:aurelia-templating-binding@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-templating-binding@1.0.0-rc.1.0.1/aurelia-templating-binding.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/abstract-repeater.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/analyze-view-factory.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/array-repeat-strategy.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/aurelia-hide-style.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/aurelia-templating-resources.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/binding-mode-behaviors.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/binding-signaler.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/compose.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/css-resource.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/debounce-binding-behavior.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/dynamic-element.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/focus.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/hide.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/html-resource-plugin.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/html-sanitizer.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/if.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/map-repeat-strategy.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/null-repeat-strategy.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/number-repeat-strategy.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/repeat-strategy-locator.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/repeat-utilities.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/repeat.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/replaceable.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/sanitize-html.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/set-repeat-strategy.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/show.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/signal-binding-behavior.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/throttle-binding-behavior.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/update-trigger-binding-behavior.js",
-      "npm:aurelia-templating-resources@1.0.0-rc.1.0.1/with.js",
-      "npm:aurelia-templating-router@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-templating-router@1.0.0-rc.1.0.1/aurelia-templating-router.js",
-      "npm:aurelia-templating-router@1.0.0-rc.1.0.1/route-href.js",
-      "npm:aurelia-templating-router@1.0.0-rc.1.0.1/route-loader.js",
-      "npm:aurelia-templating-router@1.0.0-rc.1.0.1/router-view.js",
-      "npm:aurelia-templating@1.0.0-rc.1.0.1.js",
-      "npm:aurelia-templating@1.0.0-rc.1.0.1/aurelia-templating.js",
-      "npm:debug@2.2.0.js",
-      "npm:debug@2.2.0/browser.js",
-      "npm:debug@2.2.0/debug.js",
-      "npm:es6-promise@3.2.1.js",
-      "npm:es6-promise@3.2.1/dist/es6-promise.js",
-      "npm:immediate@3.0.5.js",
-      "npm:immediate@3.0.5/lib/index.js",
-      "npm:inherits@2.0.1.js",
-      "npm:inherits@2.0.1/inherits_browser.js",
-      "npm:is-array@1.0.1.js",
-      "npm:is-array@1.0.1/index.js",
-      "npm:lie@3.0.4.js",
-      "npm:lie@3.0.4/lib/index.js",
-      "npm:ms@0.7.1.js",
-      "npm:ms@0.7.1/index.js",
-      "npm:pouchdb-collate@1.2.0.js",
-      "npm:pouchdb-collate@1.2.0/lib/index.js",
-      "npm:pouchdb-collate@1.2.0/lib/utils.js",
-      "npm:pouchdb-extend@0.1.2.js",
-      "npm:pouchdb-extend@0.1.2/index.js",
-      "npm:pouchdb-find@0.10.3.js",
-      "npm:pouchdb-find@0.10.3/lib/abstract-mapreduce/create-view.js",
-      "npm:pouchdb-find@0.10.3/lib/abstract-mapreduce/index.js",
-      "npm:pouchdb-find@0.10.3/lib/abstract-mapreduce/taskqueue.js",
-      "npm:pouchdb-find@0.10.3/lib/abstract-mapreduce/upsert.js",
-      "npm:pouchdb-find@0.10.3/lib/abstract-mapreduce/utils.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/http/index.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/abstract-mapper.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/create-index/index.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/delete-index/index.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/find/in-memory-filter.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/find/index.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/find/query-planner.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/get-indexes/index.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/index.js",
-      "npm:pouchdb-find@0.10.3/lib/adapters/local/utils.js",
-      "npm:pouchdb-find@0.10.3/lib/index.js",
-      "npm:pouchdb-find@0.10.3/lib/massageCreateIndexRequest.js",
-      "npm:pouchdb-find@0.10.3/lib/utils.js",
-      "npm:pouchdb-promise@5.4.0.js",
-      "npm:pouchdb-promise@5.4.0/lib/index.js",
-      "npm:pouchdb-promise@5.4.5.js",
-      "npm:pouchdb-promise@5.4.5/lib/index.js",
-      "npm:pouchdb-upsert@2.0.2.js",
-      "npm:pouchdb-upsert@2.0.2/index.js",
-      "npm:pouchdb@5.4.5.js",
-      "npm:pouchdb@5.4.5/dist/pouchdb.js",
-      "npm:process@0.11.5.js",
-      "npm:process@0.11.5/browser.js",
-      "npm:spark-md5@0.0.5.js",
-      "npm:spark-md5@0.0.5/spark-md5.js",
-      "npm:underscore@1.8.3.js",
-      "npm:underscore@1.8.3/underscore.js"
-    ]
   }
 });

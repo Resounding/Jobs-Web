@@ -22,7 +22,7 @@ gulp.task('build-system', function() {
     });
   }
   return gulp.src(paths.dtsSrc.concat(paths.source))
-    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    //.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(changed(paths.output, {extension: '.ts'}))
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(typescript(typescriptCompiler))
@@ -40,7 +40,7 @@ gulp.task('build-html', function() {
 // compiles less files
 gulp.task('build-less', function() {
   return gulp.src(paths.less)
-    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    //.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(changed(paths.output, {extension: '.less'}))
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(less({ paths: [paths.less]}))

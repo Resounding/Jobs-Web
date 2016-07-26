@@ -7,8 +7,8 @@ export class App {
         config.title = 'Langendoen Mechanical Job Management Application';
         config.map([
             {route: ['', 'jobs'], name: 'jobs.list', moduleId: 'views/jobs/list', nav: true, title: 'Jobs List'},
-            {route: ['jobs/new'], name: 'jobs.new', moduleId: 'views/jobs/new', title: 'New Job'},
-            {route: ['jobs/edit/:id'], name: 'jobs.edit', moduleId: 'views/jobs/edit', title: 'Edit Job'}
+            {route: 'jobs/new', name: 'jobs.new', moduleId: 'views/jobs/new', title: 'New Job'},
+            {route: 'jobs/edit/:id', name: 'jobs.edit', moduleId: 'views/jobs/edit', title: 'Edit Job'}
         ]);
 
         this.router = router;
