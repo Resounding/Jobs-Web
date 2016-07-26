@@ -1,7 +1,9 @@
 import {autoinject} from 'aurelia-framework';
-import {Authentication} from '../../services/auth/auth';
+import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {Authentication, Roles} from '../../services/auth/auth';
 import {Job} from '../../models/job'
 import {JobService} from '../../services/data/job-service';
+import {CloseJobArgs} from './close-job';
 
 @autoinject()
 export class JobList {
@@ -9,16 +11,34 @@ export class JobList {
     todaysItems:Job[];
     weekItems:Job[];
     unscheduled:Job[];
-    myJobs:boolean = true;
+    myJobs:boolean;
     showCompleted:boolean = false;
     filtersExpanded:boolean = false;
+    closeJobArgs:CloseJobArgs = new CloseJobArgs;
+    showModalSubscription:Subscription;
 
-    constructor(private auth:Authentication) {
+    constructor(private element:Element, private auth:Authentication, private jobService:JobService, private events:EventAggregator) {
+        this.myJobs = this.auth.isInRole(Roles.Foreman);
         this.refresh();
     }
 
+    attached() {
+        const that = this;
+        $('.modal.close-job', this.element).modal({
+            onApprove: () => {
+                this.events.publish(CloseJobArgs.ModalApprovedEvent, that.closeJobArgs);
+            }
+        });
+
+        this.showModalSubscription = this.events.subscribe(CloseJobArgs.ShowModalEvent, this.showCloseJobModal.bind(this));
+    }
+
+    detached() {
+        this.showModalSubscription.dispose();
+    }
+
     refresh() {
-        JobService.getAll()
+        this.jobService.getAll()
             .then(items => {
                 this.items = items;
                 this.filter();
@@ -26,9 +46,11 @@ export class JobList {
     }
 
     filter() {
+        const me = this.auth.userInfo().name;
+
         const sameDay = i => moment(i.startDate).isSame(moment(), 'day');
         const thisWeek = i => moment(i.startDate).isBefore(moment().startOf('week').add(1, 'week'));
-        const mine = i => true;// !this.myJobs || i.foreman === 'Kurt';
+        const mine = i => !this.myJobs || i.foreman === me;
         const completed = i => this.showCompleted || (i.status && i.status._id !== 'complete');
 
         this.todaysItems = _.filter(this.items, i => sameDay(i) && mine(i) && completed(i));
@@ -38,6 +60,12 @@ export class JobList {
 
     toggleFiltersExpanded() {
         this.filtersExpanded = !this.filtersExpanded;
+    }
+
+    showCloseJobModal(id:string) {
+        this.closeJobArgs.jobId = id;
+        this.closeJobArgs.manHours = null;
+        $('.modal.close-job').modal('show');
     }
 
     destroy() {

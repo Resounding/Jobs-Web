@@ -1,5 +1,6 @@
 <template>
     <require from="./list-item"></require>
+    <require from="./close-job"></require>
     
     <div class="ui segment">
         <a route-href="route:jobs.new" class="circular ui button icon red huge fab">
@@ -50,4 +51,6 @@
             <list-item job.bind="item" repeat.for="item of unscheduled"></list-item>
         </div>
     </div>
+
+    <close-job id="close-job" args.bind="closeJobArgs"></close-job>
 </template>

@@ -42,11 +42,11 @@ export class Authentication {
 
             const addUsers = () => {
                 return Promise.all([
-                    database.signUp('cliffe', 'password', { roles: ["administrator"]}),
-                    database.signUp('phil', 'password', { roles: ["owner", "office_admin"]}),
-                    database.signUp('dan', 'password', { roles: ["owner", "foreman"]}),
-                    database.signUp('kurt', 'password', { roles: ["owner", "foreman"]}),
-                    database.signUp('barry', 'password', { roles: ["foreman"]})
+                    database.signUp('cliffe', 'password', { roles: [Roles.Administrator]}),
+                    database.signUp('phil', 'password', { roles: [Roles.Owner, Roles.Foreman]}),
+                    database.signUp('dan', 'password', { roles: [Roles.Owner, Roles.Foreman]}),
+                    database.signUp('kurt', 'password', { roles: [Roles.Owner, Roles.Foreman]}),
+                    database.signUp('barry', 'password', { roles: [Roles.Foreman]})
                 ]);
             };
 
@@ -62,7 +62,7 @@ export class Authentication {
     }
 
 
-    logout():Promise {
+    logout():Promise<any> {
         user_info = null;
         localStorage[storage_key] = null;
         this.app.setRoot(this.config.login_root);
@@ -74,7 +74,18 @@ export class Authentication {
         return user_info !== null;
     }
 
+    isInRole(role:string) {
+        return this.isAuthenticated() && user_info.roles.indexOf(role) !== -1;
+    }
+
     userInfo():UserInfo {
         return user_info;
     }
+}
+
+export class Roles {
+    static Foreman:string = 'foreman';
+    static Administrator:string = 'administrator';
+    static Owner:string = 'owner';
+    static OfficeAdmin:string = 'office_admin';
 }

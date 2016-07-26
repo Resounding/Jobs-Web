@@ -18,15 +18,8 @@ export function db():PouchDB {
 }
 
 export function destroy():Promise<any> {
-    return new Promise((resolve, reject) => {
-        database.destroy()
-            .then(() => {
-                init()
-                    .then(resolve)
-                    .catch(reject);
-            })
-            .catch(reject);
-    });
+    return database.destroy()
+        .then(init);
 }
 
 function init() {

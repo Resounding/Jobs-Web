@@ -23,7 +23,7 @@ export class NewJob {
     billingTypes: BillingType[] = BillingType.OPTIONS;
     workTypes:WorkType[] = WorkType.OPTIONS;
 
-    constructor(private element:Element, private router: Router) {
+    constructor(private element:Element, private router: Router, private jobService:JobService) {
         this.job = new JobDocument();
         CustomerService.getAll()
             .then(customers => this.customers = customers)
@@ -107,28 +107,28 @@ export class NewJob {
 
     onSaveClick() {
         if(this.customer_id) {
-            saveJob(this.job)
+            this.saveJob()
                 .then(() => this.router.navigateToRoute('jobs.list'));
         } else {
             saveCustomer(this.job.customer)
                 .then(customer =>  {
                     this.job.customer = customer;
-                    saveJob(this.job)
+                    this.saveJob()
                         .then(() => this.router.navigateToRoute('jobs.list'));
                 })
                 .catch(Notifications.error);
         }
     }
-}
 
-function saveJob(job:JobDocument):Promise<void> {
-    return JobService.save(job.toJSON())
-        .then(() => {
-            Notifications.success('Job Saved');
-        })
-        .catch((err) => {
-            Notifications.error(err);
-        });
+    saveJob():Promise<void> {
+        return this.jobService.save(this.job.toJSON())
+            .then(() => {
+                Notifications.success('Job Saved');
+            })
+            .catch((err) => {
+                Notifications.error(err);
+            });
+    }
 }
 
 function saveCustomer(customer:CustomerDocument):Promise<CustomerDocument> {

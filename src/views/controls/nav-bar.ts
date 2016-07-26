@@ -7,17 +7,19 @@ export class NavBar {
 
     @bindable router:Router;
 
-    constructor(private auth:Authentication) { }
+    constructor(private element:Element, private auth:Authentication) { }
 
     attached() {
-        let $fixedMenu = $('#fixed-menu'),
-            $mainMenu = $('#main-menu');
+        let $fixedMenu = $('#fixed-menu', this.element),
+            $mainMenu = $('#main-menu', this.element);
 
         $mainMenu.visibility({
             once: false,
             onBottomPassed: () => $fixedMenu.transition('fade in'),
             onBottomPassedReverse: () =>  $fixedMenu.transition('fade out')
         });
+
+        $('.dropdown', this.element).dropdown();
     }
 
     logout() {

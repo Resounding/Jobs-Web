@@ -18,6 +18,7 @@ export interface Job {
     startDate: Date;
     foreman: string;
     activities:string[];
+    manHours:number;
     type: string;
     _rev:string;
 }
@@ -37,6 +38,7 @@ export class JobDocument implements Job {
     startDate: Date = null;
     foreman: string;
     activities:string[] = [];
+    manHours:number;
     // couch props
     type: string;
     _rev: string;
@@ -63,6 +65,7 @@ export class JobDocument implements Job {
             startDate: this.startDate,
             foreman: this.foreman,
             activities:this.activities,
+            manHours:this.manHours,
             type: JobDocument.DOCUMENT_TYPE,
             _rev: this._rev
         };

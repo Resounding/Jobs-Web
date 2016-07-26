@@ -1,9 +1,27 @@
 <template>
-    <form submit.trigger="login()">
-        <input type="text" value.bind="username" required>
-        <br>
-        <input type="password" value.bind="password" required>
-        <br>
-        <input type="submit" value="Log In">
-    </form>
+    <div class="login-form ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui blue image header">
+                <img src="/images/logo.png" class="image">
+                Langendoen Mechanical Job Management Site
+            </h2>
+            <form class="ui large form" submit.trigger="login()">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" value.bind="username" placeholder="User Name" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" value.bind="password" required>
+                        </div>
+                    </div>
+                    <input class="ui fluid large blue submit button" type="submit" value="Login">
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
