@@ -7,15 +7,11 @@
             <i class="plus icon"></i>
         </a>
 
-        <button click.trigger="destroy()" class="circular ui button icon blue huge">
-            <i class="minus icon"></i>
-        </button>
-
-        <button class="ui button basic right floated hide-desktop mini" click.trigger="toggleFiltersExpanded()">
+        <button class="ui button basic right floated hide-desktop mini" click.trigger="toggleFiltersExpanded()" show.bind="isOwner">
             Filters
             <i class="dropdown icon ${filtersExpanded ? 'vertically flipped' : ''}"></i>
         </button>
-        <div class="ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}">
+        <div class="ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}" show.bind="isOwner">
             <div class="column">
                 <div class="ui toggle checkbox">
                     <input type="checkbox" checked.bind="myJobs" change.trigger="filter()">

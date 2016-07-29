@@ -70,11 +70,7 @@ export class JobList {
         $('.modal.close-job').modal('show');
     }
 
-    destroy() {
-        this.auth.logout().then(() => {
-            JobService.destroy().then(() => {
-                this.refresh();
-            });
-        });
+    get isOwner():boolean {
+        return this.auth.isInRole(Roles.Owner);
     }
 }

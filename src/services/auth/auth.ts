@@ -19,7 +19,7 @@ interface UserInfo {
 @autoinject()
 export class Authentication {
     constructor(private app: Aurelia, private config: Configuration, private router:Router) {
-        database = new PouchDB(this.config.remote_database_name, { skip_setup: true });
+        database = new PouchDB(this.config.users_database_name, { skip_setup: true });
         user_info = JSON.parse(localStorage[storage_key] || null);
     }
 
