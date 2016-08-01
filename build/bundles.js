@@ -32,7 +32,9 @@ module.exports = {
                 "es6-promise",
                 "underscore",
                 "pouchdb",
-                "pouchdb-find"
+                "pouchdb-find",
+                "pouchdb-auth",
+                "text"
             ],
             "options": {
                 "inject": true,
