@@ -7,25 +7,20 @@ export class Login {
     password:string;
     errorMessage:string;
 
-    constructor(private auth:Authentication, private element:Element) { }
+    constructor(private auth:Authentication) { }
 
-    attached() {
-        $('form', this.element).form({
-            fields: {
-                username: 'empty',
-                password: 'empty'
-            }
-        });
-    }
-
-    login(e) {
-        if(e && e.preventDefault) e.preventDefault();
-
+    login() {
         this.errorMessage = '';
 
-        return this.auth.login(this.username, this.password)
-            .catch(err => {
-                $('form', this.element).form('add errors', [err.message]);
-            });
+        if(!this.password) this.errorMessage = 'Please enter your password';
+        if(!this.username) this.errorMessage = 'Please enter your username';
+
+
+        if(!this.errorMessage) {
+            this.auth.login(this.username, this.password)
+                .catch(err => {
+                    this.errorMessage = err.message;
+                });
+        }
     }
 }
