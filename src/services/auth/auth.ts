@@ -1,11 +1,10 @@
 import {Aurelia, autoinject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import {HttpClient} from 'aurelia-fetch-client';
 import {Promise} from 'es6-promise';
 import PouchDB = require('pouchdb');
-import pouchdbauth = require('pouchdb-auth');
-import {Configuration} from "../config";
-
-PouchDB.plugin(pouchdbauth);
+import {Configuration} from '../config';
+import {log} from '../log';
 
 const storage_key:string = 'auth_token';
 let database = null;
@@ -14,39 +13,48 @@ let user_info: UserInfo = null;
 interface UserInfo {
     name: string;
     roles: string[];
+    basicAuth: string;
 }
 
 @autoinject()
 export class Authentication {
-    constructor(private app: Aurelia, private config: Configuration, private router:Router) {
-        database = new PouchDB(this.config.users_database_name, { skip_setup: true });
+    constructor(private app: Aurelia, private config: Configuration, private router:Router, private httpClient:HttpClient, private log:log) {
+        database = new PouchDB(this.config.remote_database_name, { skip_setup: true });
         user_info = JSON.parse(localStorage[storage_key] || null);
     }
 
     login(user:string, password:string):Promise<UserInfo> {
         return new Promise((resolve, reject) => {
-            const login = () => {
-                database.logIn(user, password)
-                    .then(result => {
-                        user_info = {
-                            name: result.name,
-                            roles: result.roles
-                        };
+            const url = `${this.config.remote_server}/_session`,
+                body = `name=${encodeURI(user)}&password=${encodeURI(password)}`,
+                authHeader = `Basic ${window.btoa(user + password)}`;
+            this.httpClient.fetch(
+                url, {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: authHeader },
+                    method: 'post',
+                    body: body
+                    }
+                )
+                .then(result => {
+                    if(result.ok) {
+                        result.json().then(info => {
+                            user_info = {
+                                name: info.name,
+                                roles: info.roles,
+                                basicAuth: authHeader
+                            };
 
-                        localStorage[storage_key] = JSON.stringify(user_info);
-                        this.app.setRoot(this.config.app_root);
-                        return resolve(user_info);
-                    })
-                    .catch(reject);
-            };
-
-            if (typeof database.logIn === 'undefined') {
-                return database.useAsAuthenticationDB()
-                    .then(login)
-                    .catch(reject);
-            } else {
-                login();
-            }
+                            localStorage[storage_key] = JSON.stringify(user_info);
+                            this.app.setRoot(this.config.app_root);
+                            return resolve(user_info);
+                        })
+                    } else {
+                        result.json().then(error => {
+                            reject(new Error(`Login failed: ${error.reason}`));
+                        });
+                    }
+                })
+                .catch(reject);
         });
     }
 

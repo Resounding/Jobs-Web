@@ -23,13 +23,13 @@ export class NewJob {
     billingTypes: BillingType[] = BillingType.OPTIONS;
     workTypes:WorkType[] = WorkType.OPTIONS;
 
-    constructor(private element:Element, private router: Router, private jobService:JobService) {
+    constructor(private element:Element, private router: Router, private jobService:JobService, private customerService:CustomerService, private activitiesService:ActivitiesService) {
         this.job = new JobDocument();
-        CustomerService.getAll()
+        customerService.getAll()
             .then(customers => this.customers = customers)
             .catch(Notifications.error);
 
-        ActivitiesService.getAll()
+        activitiesService.getAll()
             .then(activities => this.activities = activities)
             .catch(Notifications.error);
     }
@@ -52,7 +52,7 @@ export class NewJob {
                 this.job.activities = (value || '').split(',');
             },
             onAdd: (value:string):void => {
-                ActivitiesService.create(value);
+                this.activitiesService.create(value);
             }
         });
         $('#status', this.element).dropdown();
@@ -106,7 +106,7 @@ export class NewJob {
             this.saveJob()
                 .then(() => this.router.navigateToRoute('jobs.list'));
         } else {
-            saveCustomer(this.job.customer)
+            this.saveCustomer(this.job.customer)
                 .then(customer =>  {
                     this.job.customer = customer;
                     this.saveJob()
@@ -125,8 +125,9 @@ export class NewJob {
                 Notifications.error(err);
             });
     }
+
+    saveCustomer(customer:CustomerDocument):Promise<CustomerDocument> {
+        return this.customerService.create(customer.toJSON());
+    }
 }
 
-function saveCustomer(customer:CustomerDocument):Promise<CustomerDocument> {
-    return CustomerService.create(customer.toJSON());
-}

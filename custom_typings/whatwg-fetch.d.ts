@@ -1,3 +1,4 @@
+import {Promise} from 'es6-promise';
 // Type definitions for fetch API
 // Project: https://github.com/github/fetch
 // Definitions by: Ryan Graham <https://github.com/ryan-codingintrigue>
@@ -6,7 +7,6 @@
 // @cmichaelgraham - removed explicit external reference
 
 // @cmichaelgraham - added BufferSource and URLSearchParams interfaces to help compilation
-interface URLSearchParams {}
 
 declare class Request {
     constructor(input: string|Request, init?:RequestInit);
@@ -84,4 +84,13 @@ declare type RequestInfo = Request|string;
 
 interface Window {
     fetch(url: string, init?: RequestInit): Promise<Response>;
+}
+
+declare global {
+    interface Promise<T>{}
+    interface Request{}
+    interface Response{}
+    interface Headers{}
+    interface BufferSource{}
+    interface URLSearchParams{}
 }

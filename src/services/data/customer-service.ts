@@ -1,11 +1,19 @@
+import {autoinject} from 'aurelia-framework';
 import {Promise} from 'es6-promise';
-import {db} from './db';
+import {Database} from './db';
 import {Customer, CustomerDocument} from "../../models/customer";
 
+@autoinject()
 export class CustomerService {
-    static getAll():Promise<CustomerDocument[]> {
+    db: PouchDB;
+
+    constructor(database:Database) {
+        this.db = database.db;
+    }
+
+    getAll():Promise<CustomerDocument[]> {
         return new Promise((resolve, reject) => {
-            db().find({selector: {type: CustomerDocument.DOCUMENT_TYPE}})
+            this.db.find({selector: {type: CustomerDocument.DOCUMENT_TYPE}})
                 .then(items => {
                     var customers = items.docs.map(item => {
                         var customer = new CustomerDocument(item);
@@ -17,13 +25,13 @@ export class CustomerService {
         })
     }
 
-    static create(customer:Customer):Promise<CustomerDocument> {
+    create(customer:Customer):Promise<CustomerDocument> {
         if(!customer._id) {
             customer._id = CustomerDocument.createId(customer.name);
         }
 
         return new Promise((resolve, reject) => {
-            return db().put(customer)
+            return this.db.put(customer)
                 .then(result => {
                     var customer = new CustomerDocument(customer);
                     customer._id = result.id;

@@ -1,10 +1,16 @@
 import {Promise} from 'es6-promise';
-import {db} from './db';
+import {Database} from './db';
 
 export class ActivitiesService {
-    static getAll():Promise<string[]> {
+    db: PouchDB;
+
+    constructor(database:Database){
+        this.db = database.db;
+    }
+
+    getAll():Promise<string[]> {
         return new Promise((resolve, reject) => {
-            db().get('activities')
+            this.db.get('activities')
                 .then(result => {
                     resolve(result.items);
                 })
@@ -14,7 +20,7 @@ export class ActivitiesService {
                             _id: 'activities',
                             items: []
                         };
-                        db().put(activities)
+                        this.db.put(activities)
                             .then(() => resolve([]))
                             .catch(reject);
                     } else {
@@ -24,12 +30,12 @@ export class ActivitiesService {
         });
     }
 
-    static create(activity:string):Promise<any> {
+    create(activity:string):Promise<any> {
         return new Promise((resolve, reject) => {
-            db().get('activities')
+            this.db.get('activities')
                 .then(result => {
                     result.items.push(activity);
-                    return db().put(result);
+                    return this.db.put(result);
                 })
                 .catch(err => {
                     if(err.status === 404) {
@@ -37,7 +43,7 @@ export class ActivitiesService {
                             _id: 'activities',
                             items: [activity]
                         };
-                        return db().put(activities);
+                        return this.db.put(activities);
                     } else {
                         reject(err);
                     }

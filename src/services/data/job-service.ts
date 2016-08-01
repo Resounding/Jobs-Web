@@ -1,27 +1,30 @@
 import {autoinject} from 'aurelia-framework';
 import * as _ from 'underscore';
 import {Promise} from 'es6-promise';
-import {db, nextJobNumber, destroy} from './db';
+import {Database} from './db';
 import {Authentication, Roles} from '../auth/auth';
 import {Job, JobDocument} from "../../models/job";
 
 @autoinject()
 export class JobService {
+    db:PouchDB;
 
-    constructor(private auth:Authentication) { }
+    constructor(private auth:Authentication, private database:Database) {
+        this.db = database.db;
+    }
 
     getAll():Promise<Job[]> {
         //db().allDocs({ include_docs: true}).then(r => console.log(r));
         return new Promise((resolve, reject) => {
-            db().find<Job>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
+            this.db.find<Job>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
                 .then(items => {
                     var jobs = items.docs.map(item => {
                         var job = new JobDocument(item);
                         if(_.isString(item.startDate)) {
                             job.startDate = moment(item.startDate).toDate();
                         }
-                    })
-                    resolve(items.docs);
+                    });
+                    resolve(jobs);
                 })
                 .catch(reject);
         });
@@ -30,7 +33,7 @@ export class JobService {
 
     save(job:Job):Promise<PouchUpdateResponse> {
             if (!job._id) {
-            return nextJobNumber()
+            this.database.nextJobNumber()
                 .then(number => {
                     job._id = `job:${number}`;
                     job.number = number;
@@ -39,18 +42,18 @@ export class JobService {
                         job.foreman = this.auth.userInfo().name;
                     }
 
-                    return saveJob(job);
+                    return this.save(job);
                 });
             } else {
-                return saveJob(job);
+                return this.save(job);
             }
     }
 
-    static destroy():Promise<any> {
-        return destroy();
+    destroy():Promise<any> {
+        return this.database.destroy();
     }
-}
 
-function saveJob(job:Job):Promise<PouchUpdateResponse> {
-    return db().put(job);
+    save(job:Job):Promise<PouchUpdateResponse> {
+        return this.db.put(job);
+    }
 }

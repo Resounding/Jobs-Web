@@ -6,7 +6,6 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
-
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",
@@ -32,8 +31,6 @@ System.config({
     "mdehoog/Semantic-UI": "github:mdehoog/Semantic-UI@calendar-dist",
     "moment": "npm:moment@2.14.1",
     "pouchdb": "npm:pouchdb@5.4.5",
-    "pouchdb-auth": "npm:pouchdb-auth@2.1.0",
-    "pouchdb-authentication": "npm:pouchdb-authentication@0.5.3",
     "pouchdb-find": "npm:pouchdb-find@0.10.3",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.2.2",
     "text": "github:systemjs/plugin-text@0.0.8",
