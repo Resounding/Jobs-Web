@@ -31,7 +31,6 @@ module.exports = {
                 "es6-promise",
                 "pouchdb",
                 "pouchdb-find",
-                "pouchdb-auth",
                 "text"
             ],
             "options": {

@@ -6,6 +6,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",
@@ -331,11 +332,6 @@ System.config({
       "querystring": "github:jspm/nodelibs-querystring@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
     },
-    "npm:base64url@1.0.6": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "concat-stream": "npm:concat-stream@1.4.10",
-      "meow": "npm:meow@2.0.0"
-    },
     "npm:bindings@1.2.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
@@ -439,10 +435,6 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:camelcase-keys@1.0.0": {
-      "camelcase": "npm:camelcase@1.2.1",
-      "map-obj": "npm:map-obj@1.0.1"
-    },
     "npm:chalk@1.1.3": {
       "ansi-styles": "npm:ansi-styles@2.2.1",
       "escape-string-regexp": "npm:escape-string-regexp@1.0.5",
@@ -494,36 +486,11 @@ System.config({
       "recast": "npm:recast@0.10.43",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:concat-stream@1.4.10": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "inherits": "npm:inherits@2.0.1",
-      "readable-stream": "npm:readable-stream@1.1.14",
-      "typedarray": "npm:typedarray@0.0.6"
-    },
     "npm:constants-browserify@0.0.1": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
-    },
-    "npm:couchdb-calculate-session-id@1.1.0": {
-      "aproba": "npm:aproba@1.0.4",
-      "base64url": "npm:base64url@1.0.6",
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "crypto-lite": "npm:crypto-lite@0.1.0"
-    },
-    "npm:couchdb-eval@1.0.6": {
-      "extend": "npm:extend@1.3.0",
-      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1"
-    },
-    "npm:couchdb-objects@1.0.7": {
-      "extend": "npm:extend@1.3.0",
-      "header-case-normalizer": "npm:header-case-normalizer@1.0.3",
-      "is-empty": "npm:is-empty@0.0.1",
-      "pouchdb-promise": "npm:pouchdb-promise@0.0.0",
-      "querystring": "github:jspm/nodelibs-querystring@0.1.0",
-      "random-uuid-v4": "npm:random-uuid-v4@0.0.4"
     },
     "npm:create-ecdh@4.0.0": {
       "bn.js": "npm:bn.js@4.11.5",
@@ -786,10 +753,6 @@ System.config({
     "npm:generate-object-property@1.2.0": {
       "is-property": "npm:is-property@1.0.2"
     },
-    "npm:get-stdin@4.0.1": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:getpass@0.1.6": {
       "assert-plus": "npm:assert-plus@1.0.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -939,13 +902,6 @@ System.config({
     "npm:immediate@3.2.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:indent-string@1.2.2": {
-      "get-stdin": "npm:get-stdin@4.0.1",
-      "minimist": "npm:minimist@1.2.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "repeating": "npm:repeating@1.1.3",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
-    },
     "npm:inflight@1.0.5": {
       "once": "npm:once@1.3.3",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -962,9 +918,6 @@ System.config({
       "falafel": "npm:falafel@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "through2": "npm:through2@0.6.5"
-    },
-    "npm:is-finite@1.0.1": {
-      "number-is-nan": "npm:number-is-nan@1.0.0"
     },
     "npm:is-fullwidth-code-point@1.0.0": {
       "number-is-nan": "npm:number-is-nan@1.0.0"
@@ -1060,9 +1013,6 @@ System.config({
       "util": "github:jspm/nodelibs-util@0.1.0",
       "xtend": "npm:xtend@4.0.1"
     },
-    "npm:lie@2.7.7": {
-      "immediate": "npm:immediate@3.2.2"
-    },
     "npm:lie@3.0.4": {
       "es3ify": "npm:es3ify@0.2.2",
       "immediate": "npm:immediate@3.0.6",
@@ -1107,14 +1057,6 @@ System.config({
       "functional-red-black-tree": "npm:functional-red-black-tree@1.0.1",
       "inherits": "npm:inherits@2.0.1",
       "ltgt": "npm:ltgt@1.0.2",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:meow@2.0.0": {
-      "camelcase-keys": "npm:camelcase-keys@1.0.0",
-      "indent-string": "npm:indent-string@1.2.2",
-      "minimist": "npm:minimist@1.2.0",
-      "object-assign": "npm:object-assign@1.0.0",
-      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:miller-rabin@4.0.0": {
@@ -1310,60 +1252,6 @@ System.config({
     "npm:pinkie-promise@2.0.1": {
       "pinkie": "npm:pinkie@2.0.4"
     },
-    "npm:pouchdb-ajax@5.4.4": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "js-extend": "npm:js-extend@1.0.1",
-      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.4",
-      "pouchdb-errors": "npm:pouchdb-errors@5.4.4",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
-      "pouchdb-utils": "npm:pouchdb-utils@5.4.4",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "request": "npm:request@2.72.0"
-    },
-    "npm:pouchdb-auth@2.1.0": {
-      "base64url": "npm:base64url@1.0.6",
-      "couchdb-calculate-session-id": "npm:couchdb-calculate-session-id@1.1.0",
-      "crypto-lite": "npm:crypto-lite@0.1.0",
-      "pouchdb": "npm:pouchdb@5.4.5",
-      "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
-      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.0",
-      "pouchdb-req-http-query": "npm:pouchdb-req-http-query@1.0.3",
-      "pouchdb-system-db": "npm:pouchdb-system-db@1.0.4",
-      "pouchdb-validation": "npm:pouchdb-validation@1.2.1",
-      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6",
-      "promise-nodify": "npm:promise-nodify@1.0.2",
-      "secure-random": "npm:secure-random@1.1.1"
-    },
-    "npm:pouchdb-authentication@0.5.3": {
-      "inherits": "npm:inherits@2.0.1",
-      "pouchdb-ajax": "npm:pouchdb-ajax@5.4.4",
-      "pouchdb-extend": "npm:pouchdb-extend@0.1.2",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
-      "pouchdb-utils": "npm:pouchdb-utils@5.4.5",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "url-join": "npm:url-join@1.1.0"
-    },
-    "npm:pouchdb-binary-utils@5.4.4": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
-    },
-    "npm:pouchdb-binary-utils@5.4.5": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
-    },
-    "npm:pouchdb-bulkdocs-wrapper@1.0.2": {
-      "pouchdb-promise": "npm:pouchdb-promise@0.0.0"
-    },
-    "npm:pouchdb-changeslike-wrapper@1.0.1": {
-      "events": "github:jspm/nodelibs-events@0.1.1"
-    },
-    "npm:pouchdb-errors@5.4.4": {
-      "inherits": "npm:inherits@2.0.1",
-      "lie": "npm:lie@3.0.4"
-    },
-    "npm:pouchdb-errors@5.4.5": {
-      "inherits": "npm:inherits@2.0.1",
-      "lie": "npm:lie@3.0.4"
-    },
     "npm:pouchdb-find@0.10.3": {
       "argsarray": "npm:argsarray@0.0.1",
       "debug": "npm:debug@2.2.0",
@@ -1378,98 +1266,14 @@ System.config({
       "querystring": "github:jspm/nodelibs-querystring@0.1.0",
       "spark-md5": "npm:spark-md5@0.0.5"
     },
-    "npm:pouchdb-md5@5.4.4": {
-      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.4",
-      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
-      "pouchdb-errors": "npm:pouchdb-errors@5.4.4",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
-      "pouchdb-utils": "npm:pouchdb-utils@5.4.4",
-      "spark-md5": "npm:spark-md5@2.0.2"
-    },
-    "npm:pouchdb-md5@5.4.5": {
-      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.5",
-      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
-      "pouchdb-errors": "npm:pouchdb-errors@5.4.5",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.5",
-      "pouchdb-utils": "npm:pouchdb-utils@5.4.5",
-      "spark-md5": "npm:spark-md5@2.0.2"
-    },
-    "npm:pouchdb-promise@0.0.0": {
-      "lie": "npm:lie@2.7.7"
-    },
     "npm:pouchdb-promise@5.4.0": {
       "lie": "npm:lie@3.0.4"
     },
     "npm:pouchdb-promise@5.4.4": {
       "lie": "npm:lie@3.0.4"
     },
-    "npm:pouchdb-promise@5.4.5": {
-      "lie": "npm:lie@3.0.4"
-    },
-    "npm:pouchdb-req-http-query@1.0.3": {
-      "extend": "npm:extend@1.3.0",
-      "header-case-normalizer": "npm:header-case-normalizer@1.0.3",
-      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
-      "pouchdb-promise": "npm:pouchdb-promise@0.0.0"
-    },
-    "npm:pouchdb-security@1.2.6": {
-      "extend": "npm:extend@1.3.0",
-      "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
-      "pouchdb-changeslike-wrapper": "npm:pouchdb-changeslike-wrapper@1.0.1",
-      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
-      "pouchdb-promise": "npm:pouchdb-promise@0.0.0",
-      "pouchdb-req-http-query": "npm:pouchdb-req-http-query@1.0.3",
-      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6",
-      "promise-nodify": "npm:promise-nodify@1.0.2"
-    },
-    "npm:pouchdb-system-db@1.0.4": {
-      "pouchdb-changeslike-wrapper": "npm:pouchdb-changeslike-wrapper@1.0.1",
-      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
-      "pouchdb-security": "npm:pouchdb-security@1.2.6",
-      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6"
-    },
     "npm:pouchdb-upsert@2.0.2": {
       "pouchdb-promise": "npm:pouchdb-promise@5.4.4"
-    },
-    "npm:pouchdb-utils@5.4.4": {
-      "argsarray": "npm:argsarray@0.0.1",
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "debug": "npm:debug@2.2.0",
-      "events": "github:jspm/nodelibs-events@0.1.1",
-      "inherits": "npm:inherits@2.0.1",
-      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.4",
-      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
-      "pouchdb-errors": "npm:pouchdb-errors@5.4.4",
-      "pouchdb-md5": "npm:pouchdb-md5@5.4.4",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:pouchdb-utils@5.4.5": {
-      "argsarray": "npm:argsarray@0.0.1",
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "debug": "npm:debug@2.2.0",
-      "events": "github:jspm/nodelibs-events@0.1.1",
-      "inherits": "npm:inherits@2.0.1",
-      "pouchdb-binary-utils": "npm:pouchdb-binary-utils@5.4.5",
-      "pouchdb-collections": "npm:pouchdb-collections@1.0.1",
-      "pouchdb-errors": "npm:pouchdb-errors@5.4.5",
-      "pouchdb-md5": "npm:pouchdb-md5@5.4.5",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.5",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:pouchdb-validation@1.2.1": {
-      "couchdb-eval": "npm:couchdb-eval@1.0.6",
-      "couchdb-objects": "npm:couchdb-objects@1.0.7",
-      "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
-      "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
-      "pouchdb-promise": "npm:pouchdb-promise@0.0.0",
-      "pouchdb-wrappers": "npm:pouchdb-wrappers@1.3.6",
-      "random-uuid-v4": "npm:random-uuid-v4@0.0.4"
-    },
-    "npm:pouchdb-wrappers@1.3.6": {
-      "promise-nodify": "npm:promise-nodify@1.0.2"
     },
     "npm:pouchdb@5.4.5": {
       "argsarray": "npm:argsarray@0.0.1",
@@ -1636,11 +1440,6 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "source-map": "npm:source-map@0.5.6"
     },
-    "npm:repeating@1.1.3": {
-      "is-finite": "npm:is-finite@1.0.1",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
-    },
     "npm:request@2.72.0": {
       "aws-sign2": "npm:aws-sign2@0.6.0",
       "aws4": "npm:aws4@1.4.1",
@@ -1683,10 +1482,6 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:ripemd160@1.0.1": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:secure-random@1.1.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
