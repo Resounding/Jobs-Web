@@ -10,7 +10,7 @@ module.exports = {
                 "inject": true,
                 "minify": true,
                 "depCache": true,
-                "rev": true
+                "rev": false
             }
         },
         "dist/aurelia": {
@@ -29,6 +29,7 @@ module.exports = {
                 "aurelia-logging-console",
                 "fetch",
                 "es6-promise",
+                "underscore",
                 "pouchdb",
                 "pouchdb-find",
                 "text"

@@ -7,7 +7,7 @@
             <a class="header" route-href="route:jobs.edit; params.bind: {id: job._id}">
                 <i class="icon building" show.bind="isProject"></i>
                 <i class="icon wrench" show.bind="isServiceCall"></i>
-                &nbsp;${job.number}
+                &nbsp;${jobNumberDisplay}
             </a>
             <div class="meta">${job.customer.name}</div>
         </div>

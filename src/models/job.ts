@@ -1,4 +1,3 @@
-import * as _ from 'underscore';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
 import {Customer, CustomerDocument} from './customer';

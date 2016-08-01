@@ -42,6 +42,11 @@
             <p>No items for the rest of the week</p>
         </div>
 
+        <h3 class="ui dividing header" show.bind="futureItems.length">Future</h3>
+        <div class="ui cards" show.bind="futureItems.length">
+            <list-item job.bind="item" repeat.for="item of futureItems"></list-item>
+        </div>
+
         <h3 class="ui dividing header" show.bind="unscheduled.length">Unscheduled</h3>
         <div class="ui cards" show.bind="unscheduled.length">
             <list-item job.bind="item" repeat.for="item of unscheduled"></list-item>

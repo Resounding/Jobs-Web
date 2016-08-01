@@ -1,4 +1,4 @@
-import {Promise} from 'es6-promise';
+import {Promise as ef6} from 'es6-promise';
 // Type definitions for fetch API
 // Project: https://github.com/github/fetch
 // Definitions by: Ryan Graham <https://github.com/ryan-codingintrigue>
@@ -87,7 +87,7 @@ interface Window {
 }
 
 declare global {
-    interface Promise<T>{}
+    interface Promise<T> extends ef6{}
     interface Request{}
     interface Response{}
     interface Headers{}

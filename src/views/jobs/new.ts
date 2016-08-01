@@ -1,5 +1,4 @@
 import {Promise} from 'es6-promise';
-import * as _ from 'underscore';
 import {autoinject} from "aurelia-framework";
 import {Router} from "aurelia-router";
 import {JobDocument} from '../../models/job';
@@ -52,7 +51,11 @@ export class NewJob {
                 this.job.activities = (value || '').split(',');
             },
             onAdd: (value:string):void => {
-                this.activitiesService.create(value);
+                var exists = _.find(this.activities, activity => activity.toLowerCase() === value.toLowerCase());
+                if(!exists) {
+                    this.activitiesService.create(value);
+
+                }
             }
         });
         $('#status', this.element).dropdown();

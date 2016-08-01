@@ -1,7 +1,8 @@
 import {autoinject} from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {Authentication, Roles} from '../../services/auth/auth';
-import {Job} from '../../models/job'
+import {Job} from '../../models/job';
+import {JobStatus} from '../../models/job-status';
 import {JobService} from '../../services/data/job-service';
 import {CloseJobArgs} from './close-job';
 
@@ -10,6 +11,7 @@ export class JobList {
     items:Job[];
     todaysItems:Job[];
     weekItems:Job[];
+    futureItems:Job[];
     unscheduled:Job[];
     myJobs:boolean;
     showCompleted:boolean = false;
@@ -53,10 +55,12 @@ export class JobList {
         const sameDay = i => moment(i.startDate).isSame(moment(), 'day');
         const thisWeek = i => moment(i.startDate).isBefore(moment().startOf('week').add(1, 'week'));
         const mine = i => !this.myJobs || i.foreman === me;
-        const completed = i => this.showCompleted || (i.status && i.status._id !== 'complete');
+        const completed = i => this.showCompleted || (i.status !== JobStatus.COMPLETE);
+        const future = i => moment(i.startDate).isAfter(moment().startOf('week').add(1, 'week'));
 
         this.todaysItems = _.filter(this.items, i => sameDay(i) && mine(i) && completed(i));
         this.weekItems = _.filter(this.items, i => thisWeek(i) && !sameDay(i) && mine(i) && completed(i));
+        this.futureItems = _.filter(this.items, i => future(i) && mine(i) && completed(i));
         this.unscheduled = _.filter(this.items, i => !i.startDate && mine(i) && completed(i));
     }
 

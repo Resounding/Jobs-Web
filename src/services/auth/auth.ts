@@ -1,4 +1,5 @@
 import {Aurelia, autoinject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {Router} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
 import {Promise} from 'es6-promise';
@@ -12,13 +13,14 @@ let user_info: UserInfo = null;
 
 interface UserInfo {
     name: string;
+    password: string;
     roles: string[];
     basicAuth: string;
 }
 
 @autoinject()
 export class Authentication {
-    constructor(private app: Aurelia, private config: Configuration, private router:Router, private httpClient:HttpClient, private log:log) {
+    constructor(private app: Aurelia, private config: Configuration, private router:Router, private httpClient:HttpClient, private events:EventAggregator) {
         database = new PouchDB(this.config.remote_database_name, { skip_setup: true });
         user_info = JSON.parse(localStorage[storage_key] || null);
     }
@@ -37,18 +39,22 @@ export class Authentication {
                 )
                 .then(result => {
                     if(result.ok) {
+                        log.debug('Login succeeded');
                         result.json().then(info => {
                             user_info = {
                                 name: info.name,
+                                password: password,
                                 roles: info.roles,
                                 basicAuth: authHeader
                             };
 
                             localStorage[storage_key] = JSON.stringify(user_info);
                             this.app.setRoot(this.config.app_root);
+                            this.events.publish(Authentication.AuthenticatedEvent);
                             return resolve(user_info);
                         })
                     } else {
+                        log.debug('Login failed')
                         result.json().then(error => {
                             reject(new Error(`Login failed: ${error.reason}`));
                         });
@@ -78,6 +84,8 @@ export class Authentication {
     userInfo():UserInfo {
         return user_info;
     }
+
+    static AuthenticatedEvent:string = 'authenticated';
 }
 
 export class Roles {

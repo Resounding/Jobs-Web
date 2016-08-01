@@ -1,4 +1,4 @@
-import {App} from '../../src/app';
+import {App} from '../../src/views/app';
 
 class RouterStub {
     routes;

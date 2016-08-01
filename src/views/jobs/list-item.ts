@@ -1,5 +1,4 @@
 import {Promise} from 'es6-promise';
-import * as _ from 'underscore';
 import {autoinject, bindable} from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {Job} from "../../models/job";
@@ -124,6 +123,10 @@ export class ListItem {
     }
      get isServiceCall() {
          return this.job.job_type === JobType.SERVICE_CALL;
+     }
+     get jobNumberDisplay() {
+         const prefix = this.job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
+         return `${prefix}-${this.job.number}`;
      }
 
      onJobManHoursChanged(args:CloseJobArgs) {

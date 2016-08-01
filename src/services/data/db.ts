@@ -1,3 +1,4 @@
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {Promise} from 'es6-promise';
 import {autoinject} from 'aurelia-framework';
 import PouchDB = require('pouchdb');
@@ -14,17 +15,20 @@ let remoteDB:PouchDB = null;
 
 @autoinject()
 export class Database {
-    constructor(private auth:Authentication, private config:Configuration) {
+    constructor(private auth:Authentication, private config:Configuration, private events:EventAggregator) {
         this.init();
+        this.events.subscribe(Authentication.AuthenticatedEvent, this.init.bind(this));
     }
 
     init() {
-        localDB = new PouchDB(this.config.app_database_name);
+        if(localDB === null) {
+            localDB = new PouchDB(this.config.app_database_name);
+        }
 
         if(this.auth.isAuthenticated()) {
             const userInfo = this.auth.userInfo(),
                 headers = { Authorization: userInfo.basicAuth }
-            remoteDB = new PouchDB(this.config.remote_database_name, {skip_setup: true, ajax: { headers: headers }});
+            remoteDB = new PouchDB(this.config.remote_database_name, {skip_setup: true, auth: { username: userInfo.name, password: userInfo.password }});
             localDB.sync(remoteDB, {live: true})
                 .on('complete', () => {
                     log.debug('Sync complete');

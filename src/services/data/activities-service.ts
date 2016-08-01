@@ -1,6 +1,8 @@
+import {autoinject} from 'aurelia-framework';
 import {Promise} from 'es6-promise';
 import {Database} from './db';
 
+@autoinject()
 export class ActivitiesService {
     db: PouchDB;
 

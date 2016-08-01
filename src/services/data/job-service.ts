@@ -1,5 +1,4 @@
 import {autoinject} from 'aurelia-framework';
-import * as _ from 'underscore';
 import {Promise} from 'es6-promise';
 import {Database} from './db';
 import {Authentication, Roles} from '../auth/auth';
@@ -18,13 +17,13 @@ export class JobService {
         return new Promise((resolve, reject) => {
             this.db.find<Job>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
                 .then(items => {
-                    var jobs = items.docs.map(item => {
+                    items.docs.forEach(item => {
                         var job = new JobDocument(item);
                         if(_.isString(item.startDate)) {
                             job.startDate = moment(item.startDate).toDate();
                         }
                     });
-                    resolve(jobs);
+                    resolve(items.docs);
                 })
                 .catch(reject);
         });
@@ -32,28 +31,30 @@ export class JobService {
     }
 
     save(job:Job):Promise<PouchUpdateResponse> {
+        return new Promise((resolve, reject) => {
             if (!job._id) {
-            this.database.nextJobNumber()
-                .then(number => {
-                    job._id = `job:${number}`;
-                    job.number = number;
+                this.database.nextJobNumber()
+                    .then(number => {
+                        job._id = `job:${number}`;
+                        job.number = number;
 
-                    if(this.auth.isInRole(Roles.Foreman)) {
-                        job.foreman = this.auth.userInfo().name;
-                    }
+                        if (this.auth.isInRole(Roles.Foreman)) {
+                            job.foreman = this.auth.userInfo().name;
+                        }
 
-                    return this.save(job);
-                });
+                        return this.db.put(job)
+                            .then(resolve)
+                            .catch(reject);
+                    });
             } else {
-                return this.save(job);
+                return this.db.put(job)
+                    .then(resolve)
+                    .catch(reject);
             }
+        });
     }
 
     destroy():Promise<any> {
         return this.database.destroy();
-    }
-
-    save(job:Job):Promise<PouchUpdateResponse> {
-        return this.db.put(job);
     }
 }
