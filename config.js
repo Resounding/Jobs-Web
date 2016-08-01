@@ -209,7 +209,7 @@ System.config({
       "aurelia-pal": "npm:aurelia-pal@1.0.0",
       "aurelia-templating": "npm:aurelia-templating@1.0.0"
     },
-    "npm:aurelia-binding@1.0.0": {
+    "npm:aurelia-binding@1.0.1": {
       "aurelia-logging": "npm:aurelia-logging@1.0.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.0",
       "aurelia-pal": "npm:aurelia-pal@1.0.0",
@@ -239,7 +239,7 @@ System.config({
       "aurelia-logging": "npm:aurelia-logging@1.0.0"
     },
     "npm:aurelia-framework@1.0.1": {
-      "aurelia-binding": "npm:aurelia-binding@1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@1.0.1",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.0.0",
@@ -289,12 +289,12 @@ System.config({
       "aurelia-pal": "npm:aurelia-pal@1.0.0"
     },
     "npm:aurelia-templating-binding@1.0.0": {
-      "aurelia-binding": "npm:aurelia-binding@1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@1.0.1",
       "aurelia-logging": "npm:aurelia-logging@1.0.0",
       "aurelia-templating": "npm:aurelia-templating@1.0.0"
     },
     "npm:aurelia-templating-resources@1.0.0": {
-      "aurelia-binding": "npm:aurelia-binding@1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@1.0.1",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.0.0",
@@ -314,7 +314,7 @@ System.config({
       "aurelia-templating": "npm:aurelia-templating@1.0.0"
     },
     "npm:aurelia-templating@1.0.0": {
-      "aurelia-binding": "npm:aurelia-binding@1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@1.0.1",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.0.0",
@@ -424,7 +424,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "pako": "npm:pako@0.2.9",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@2.0.6",
+      "readable-stream": "npm:readable-stream@2.1.4",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:buffer-shims@1.0.0": {
@@ -910,7 +910,7 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "http": "github:jspm/nodelibs-http@1.7.1",
       "jsprim": "npm:jsprim@1.3.0",
-      "sshpk": "npm:sshpk@1.9.1",
+      "sshpk": "npm:sshpk@1.9.2",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:https-browserify@0.0.0": {
@@ -1036,7 +1036,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "inherits": "npm:inherits@2.0.1",
       "level-errors": "npm:level-errors@1.0.4",
-      "readable-stream": "npm:readable-stream@1.1.14",
+      "readable-stream": "npm:readable-stream@1.0.33",
       "xtend": "npm:xtend@4.0.1"
     },
     "npm:level-write-stream@1.0.0": {
@@ -1330,7 +1330,7 @@ System.config({
       "pouchdb": "npm:pouchdb@5.4.5",
       "pouchdb-bulkdocs-wrapper": "npm:pouchdb-bulkdocs-wrapper@1.0.2",
       "pouchdb-plugin-error": "npm:pouchdb-plugin-error@1.0.1",
-      "pouchdb-promise": "npm:pouchdb-promise@5.4.4",
+      "pouchdb-promise": "npm:pouchdb-promise@5.4.0",
       "pouchdb-req-http-query": "npm:pouchdb-req-http-query@1.0.3",
       "pouchdb-system-db": "npm:pouchdb-system-db@1.0.4",
       "pouchdb-validation": "npm:pouchdb-validation@1.2.1",
@@ -1740,7 +1740,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:sshpk@1.9.1": {
+    "npm:sshpk@1.9.2": {
       "asn1": "npm:asn1@0.2.3",
       "assert-plus": "npm:assert-plus@1.0.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -1826,7 +1826,7 @@ System.config({
       "constants": "github:jspm/nodelibs-constants@0.1.0",
       "end-of-stream": "npm:end-of-stream@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@2.0.6",
+      "readable-stream": "npm:readable-stream@2.1.4",
       "string_decoder": "github:jspm/nodelibs-string_decoder@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0",
       "xtend": "npm:xtend@4.0.1"
