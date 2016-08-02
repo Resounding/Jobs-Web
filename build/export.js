@@ -4,6 +4,8 @@
 module.exports = {
   'list': [
     'index.html',
+    'manifest.json',
+    'browserconfig.xml',
     'config.js',
     'favicon.ico',
     'LICENSE',
