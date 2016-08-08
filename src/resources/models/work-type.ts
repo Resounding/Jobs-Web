@@ -9,6 +9,6 @@ export class WorkType {
     static OPTIONS:WorkType[] = [
         { id: WorkType.MATERIALS_AND_INSTALL, name: 'Materials + Install' },
         { id: WorkType.INSTALL_ONLY, name: 'Install Only' },
-        { id: WorkType.INSTALL_ONLY, name: 'Materials Only' }
+        { id: WorkType.MATERIALS_ONLY, name: 'Materials Only' }
     ]
 }
