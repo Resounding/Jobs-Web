@@ -17,4 +17,5 @@ RUN git checkout $APP_RELEASE
 RUN npm install --ignore-scripts
 RUN typings install
 
+RUN mkdir -p /usr/src/Jobs-Web/export
 RUN au build --env prod
