@@ -9,7 +9,7 @@ RUN npm install -g \
 ARG APP_RELEASE=v0.0.0
 ARG GITHUB_KEY=xyz
 
-RUN git clone https://$GITHUB_KEY@github.com/Resounding/Jobs-Web-Au /usr/src/Jobs-Web
+RUN git clone https://$GITHUB_KEY@github.com/Resounding/Jobs-Web /usr/src/Jobs-Web
 
 WORKDIR /usr/src/Jobs-Web
 RUN git checkout $APP_RELEASE
