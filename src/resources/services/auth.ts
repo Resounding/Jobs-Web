@@ -1,11 +1,9 @@
 import {Aurelia, autoinject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {Router} from 'aurelia-router';
+import {Router, NavigationInstruction, Redirect, Next} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
 import {Configuration} from './config';
 import {log} from './log';
-import {NavigationInstruction} from "aurelia-router";
-import {Redirect} from "aurelia-router";
 
 const storage_key:string = 'auth_token';
 let database = null;
@@ -93,8 +91,8 @@ export class Authentication {
 }
 
 export class AuthorizeStep {
-  run(navigationInstruction:NavigationInstruction, next: Function) {
-    if(navigationInstruction.getAllInstructions().some((i:NavigationInstruction) => i.config.auth )) {
+  run(navigationInstruction:NavigationInstruction, next: Next) {
+    if(navigationInstruction.getAllInstructions().some(i => i.config.auth )) {
       var loggedIn = Authentication.isLoggedIn();
       if(!loggedIn) {
         return next.cancel(new Redirect('login'));
