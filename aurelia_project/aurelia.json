@@ -26,8 +26,7 @@
     "id": "less",
     "displayName": "Less",
     "fileExtension": ".less",
-    "source": "src/styles/*.less",
-    "dest": "styles/"
+    "source": "src/styles/*.less"
   },
   "editor": {
     "id": "webstorm",
@@ -39,11 +38,13 @@
   },
   "paths": {
     "root": "src",
-    "resources": "src/resources",
-    "elements": "src/resources/elements",
-    "attributes": "src/resources/attributes",
-    "valueConverters": "src/resources/value-converters",
-    "bindingBehaviors": "src/resources/binding-behaviors"
+    "export": "export/",
+    "assets": {
+      "images": "./images/*.png",
+      "theme": "node_modules/semantic-ui-css/themes/**/*.*",
+      "misc": ["./manifest.json", "browserconfig.xml", "favicon.ico"]
+    },
+    "app-bundle": "scripts/app-bundle.js"
   },
   "build": {
     "targets": [
@@ -70,7 +71,8 @@
     },
     "options": {
       "minify": "stage & prod",
-      "sourcemaps": "dev & stage" 
+      "sourcemaps": "dev & stage",
+      "requirejs-main": "aurelia-bootstrapper"
     },
     "bundles": [
       {

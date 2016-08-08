@@ -10,6 +10,5 @@ export default function processCSS() {
     .pipe(changedInPlace({firstPass:true}))
     .pipe(sourcemaps.init())
     .pipe(less())
-    //.pipe(gulp.dest(project.cssProcessor.dest));
     .pipe(build.bundle());
 };
