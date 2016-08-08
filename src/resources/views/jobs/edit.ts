@@ -120,18 +120,9 @@ export class EditJob {
   }
 
   onSaveClick() {
-    if (this.customer_id) {
-      this.saveJob()
-        .then(() => this.router.navigateToRoute('jobs.list'));
-    } else {
-      this.saveCustomer(this.job.customer)
-        .then(customer => {
-          this.job.customer = customer;
-          this.saveJob()
-            .then(() => this.router.navigateToRoute('jobs.list'));
-        })
-        .catch(Notifications.error);
-    }
+    this.saveJob()
+      .then(() => this.router.navigateToRoute('jobs.list'))
+      .catch(Notifications.error);
   }
 
   saveJob(): Promise<Job> {
