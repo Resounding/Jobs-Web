@@ -26,7 +26,7 @@
     "id": "less",
     "displayName": "Less",
     "fileExtension": ".less",
-    "source": "styles/styles.less",
+    "source": "src/styles/*.less",
     "dest": "styles/"
   },
   "editor": {
@@ -64,13 +64,13 @@
             ".html",
             ".css"
           ],
-          "stub": true
+          "stub": false
         }
       ]
     },
     "options": {
       "minify": "stage & prod",
-      "sourcemaps": "dev & stage"
+      "sourcemaps": "dev & stage" 
     },
     "bundles": [
       {
@@ -78,7 +78,8 @@
         "source": [
           "[**/*.js]",
           "**/*.{css,html}"
-        ]
+        ],
+        "rev": "stage & prod"
       },
       {
         "name": "vendor-bundle.js",
@@ -91,6 +92,8 @@
           "node_modules/toastr/toastr.js",
           "node_modules/pouchdb/dist/pouchdb.js",
           "node_modules/pouchdb-find/dist/pouchdb.find.js",
+          "node_modules/semantic-ui-css/semantic.js",
+          "node_modules/semantic-ui/dist/components/calendar.js",
           "scripts/require.js"
         ],
         "dependencies": [

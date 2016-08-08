@@ -16,6 +16,8 @@
     "moment": "^2.14.1",
     "pouchdb": "^5.4.5",
     "pouchdb-find": "^0.10.3",
+    "semantic-ui-css": "^2.2.2",
+    "semantic-ui-calendar": "mdehoog/Semantic-UI#2c10c1f",
     "toastr": "^2.1.2",
     "underscore": "^1.8.3",
     "whatwg-fetch": "^1.0.0"
