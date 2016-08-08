@@ -15,7 +15,7 @@ export class JobService {
     getAll():Promise<Job[]> {
         //db().allDocs({ include_docs: true}).then(r => console.log(r));
         return new Promise((resolve, reject) => {
-            this.db.find<Job>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
+            this.db.find<JobDocument>({ selector: { type: JobDocument.DOCUMENT_TYPE } })
                 .then(items => {
                     items.docs.forEach(item => {
                         var job = new JobDocument(item);
@@ -30,7 +30,7 @@ export class JobService {
 
     }
 
-    getOne(id:string):Promise<Job> {
+    getOne(id:string):Promise<JobDocument> {
       return new Promise((resolve, reject) => {
         this.db.get(id)
           .then(doc => {
