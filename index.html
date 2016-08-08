@@ -1,53 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Langendoen Mechanical Job Management Site</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>Langendoen Mechanical Job Management Site</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 minimum-scale=1.0, user-scalable=no" />
 
-        <link rel="manifest" href="manifest.json">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="application-name" content="Langendoen Mechanical Jobs">
-        <meta name="apple-mobile-web-app-title" content="Langendoen Mechanical Jobs">
-        <meta name="theme-color" content="#f6d002">
-        <meta name="msapplication-navbutton-color" content="#f6d002">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="msapplication-starturl" content="/">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Langendoen Mechanical Jobs">
+    <meta name="apple-mobile-web-app-title" content="Langendoen Mechanical Jobs">
+    <meta name="theme-color" content="#f6d002">
+    <meta name="msapplication-navbutton-color" content="#f6d002">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/">
 
-        <link rel="icon" href="/dist/images/logo.png">
-        <link rel="apple-touch-icon" href="/dist/images/apple-icon.png">
+    <link rel="icon" href="/images/logo.png">
+    <link rel="apple-touch-icon" href="/images/apple-icon.png">
 
-        <!-- build:css dist/styles/style.css -->
-        <link rel="stylesheet" href="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css">
-        <link rel="jspm_packages/github/mdehoog/Semantic-UI@calendar-dist/dist/components/calendar.css">
-        <link rel="stylesheet" href="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css">
-        <link rel="stylesheet" href="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css">
-        <link rel="stylesheet" href="dist/styles/styles.css">
-        <!-- endbuild -->
-    </head>
-    <body aurelia-app="main">
-        <div class="splash">
-            <div class="message">Langendoen Mechanical Job Management Site</div>
-            <i class="fa fa-spinner fa-spin"></i>
-        </div>
+    <!-- build:css dist/styles/style.css -->
+    <!--<link rel="stylesheet" href="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css">-->
+    <!--<link rel="jspm_packages/github/mdehoog/Semantic-UI@calendar-dist/dist/components/calendar.css">-->
+    <!--<link rel="stylesheet" href="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css">-->
+    <!--<link rel="stylesheet" href="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.css">-->
+    <!--<link rel="stylesheet" href="styles/styles.css">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.2/semantic.min.css">
+    <link rel="stylesheet" href="styles/semantic-ui-calendar.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <!-- endbuild -->
+  </head>
 
-        <!-- build:js dist/vendor.js -->
-        <script src="jspm_packages/npm/bluebird@3.4.1/js/browser/bluebird.js"></script>
-        <script src="jspm_packages/github/github/fetch@1.0.0/fetch.js"></script>
-        <script src="jspm_packages/npm/jquery@2.2.4/dist/jquery.js"></script>
-        <script src="jspm_packages/npm/moment@2.14.1/moment.js"></script>
-        <script src="jspm_packages/npm/underscore@1.8.3/underscore.js"></script>
-        <script src="jspm_packages/npm/toastr@2.1.2/toastr.js"></script>
-        <script src="jspm_packages/github/Semantic-Org/Semantic-UI@2.2.2/semantic.js"></script>
-        <script src="jspm_packages/github/mdehoog/Semantic-UI@calendar-dist/dist/components/calendar.js"></script>
-        <script src="jspm_packages/system.js"></script>
-        <script src="config.js"></script>
-        <!-- endbuild -->
-        <script>
-            System.import('aurelia-bootstrapper');
-        </script>
-    </body>
+  <body aurelia-app="main">
+      <div class="splash">
+          <div class="message">Langendoen Mechanical Job Management Site</div>
+          <i class="fa fa-spinner fa-spin"></i>
+      </div>
+
+    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.2/semantic.min.js"></script>
+    <script src="scripts/semantic-ui-calendar.js"></script>
+  </body>
 </html>

@@ -22,10 +22,11 @@ interface modalOptions {
 
 
 interface JQuery {
-    visibility(options?: visibilityOptions) : JQuery;
-    transition(transition:string) : JQuery;
-    dropdown(options?: dropdownOptions | string) : JQuery;
-    calendar(options?: calendarOptions | string) : JQuery;
-    modal(options?: modalOptions | string) : JQuery;
-    form(options?: Object | string, message?:string) : JQuery;
+  visibility(options?: visibilityOptions) : JQuery;
+  transition(transition:string) : JQuery;
+  dropdown(options?: dropdownOptions | string, values?:any) : JQuery;
+  calendar(options?: calendarOptions | string, values?:any) : JQuery;
+  modal(options?: modalOptions | string) : JQuery;
+  form(options?: Object | string, message?:string) : JQuery;
+  checkbox(options?: Object | string, message?:string) : JQuery;
 }

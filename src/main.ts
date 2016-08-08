@@ -1,16 +1,26 @@
-import {Aurelia} from 'aurelia-framework';
-import {Authentication} from './services/auth/auth';
-import {Configuration} from './services/config';
+import {Aurelia} from 'aurelia-framework'
+import {Authentication} from './resources/services/auth';
+import {Configuration} from './resources/services/config';
+
+Promise.config({
+  warnings: {
+    wForgottenReturn: false
+  }
+});
 
 export function configure(aurelia: Aurelia) {
-    aurelia.use
-        .standardConfiguration()
-        .developmentLogging();
+  aurelia.use
+    .standardConfiguration()
+    .feature('resources');
 
-    aurelia.start().then(() => {
-        const auth = aurelia.container.get(Authentication),
-              config = aurelia.container.get(Configuration),
-              root = auth.isAuthenticated() ? config.app_root : config.login_root;
-        aurelia.setRoot(root)
-    });
+  if (Configuration.isDebug()) {
+    aurelia.use.developmentLogging();
+  }
+
+  return aurelia.start().then(() => {
+      const auth = aurelia.container.get(Authentication),
+          config = aurelia.container.get(Configuration),
+          root = auth.isAuthenticated() ? config.app_root : config.login_root;
+      return aurelia.setRoot(root)
+  });
 }

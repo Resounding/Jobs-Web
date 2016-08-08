@@ -1,65 +1,62 @@
-@import '../jspm_packages/npm/font-awesome@4.6.3/less/font-awesome';
-@import '../jspm_packages/npm/toastr@2.1.2/toastr';
+@import '../node_modules/toastr/toastr';
 
 .login-form {
-  height: 100%;
-  background-color: #DADADA;
+    height: 100%;
+    background-color: #DADADA;
 
-  & > .column {
-    background-color: #ffffff;
-    max-width: 450px;
-  }
-
-  .ui.error.message ul {
-    list-style: none;
-
-    li:before {
-      content: "";
+    & > .column {
+        background-color: #ffffff;
+        max-width: 450px;
     }
-  }
+
+    .ui.error.message ul {
+        list-style: none;
+
+        li:before {
+            content: "";
+        }
+    }
 }
 
 .ui.secondary.pointing.menu .item.logo-item {
-  padding: 0 20px;
-}
-
-.fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
+    padding: 0 20px;
 }
 
 .ui.fixed.menu.button-bar.top {
-  top: 50px;
+    top: 50px;
 }
 
 .ui.popup.calendar:focus {
-  outline: none;
+    outline: none;
 }
 
 @media only screen and (max-width: 767px) {
-  list-item {
-    width: 100%;
-
-    & > .ui.card {
-      width: 100%;
+    // on mobile, eliminate margin on main menu
+    #main-menu > .ui.container {
+      margin: 0px !important;
     }
-  }
-  // hide the Company Name on phones
-  .menu .item.logo-item span {
-    display: none;
-  }
-  .ui.cards > .card {
-    width: 100%;
-  }
 
-  .hide-mobile {
-    display: none !important;
-  }
+    list-item {
+        width: 100%;
+
+        & > .ui.card {
+            width: 100%;
+        }
+    }
+    // hide the Company Name on phones
+    .menu .item.logo-item span {
+        display: none;
+    }
+    .ui.cards > .card {
+        width: 100%;
+    }
+
+    .hide-mobile {
+        display: none !important;
+    }
 }
 @media only screen and (min-width: 768px) {
-  .hide-desktop {
-    display: none !important;
-  }
+    .hide-desktop {
+        display: none !important;
+    }
 }

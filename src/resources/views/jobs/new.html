@@ -1,0 +1,111 @@
+<template>
+    <div class="ui menu button-bar">
+        <div class="ui container">
+            <a route-href="route:jobs.list" class="ui button">Cancel</a>
+            <button type="button" class="ui button positive" click.trigger="onSaveClick()">
+                <i class="fa fa-save"></i>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <form class="ui form">
+        <h2 class="ui ${isFollowup ? '' : 'dividing header'}">New Job</h2>
+        <h3 class="ui dividing header" show.bind="isFollowup" style="margin-top: 0;">${job.customer.name}</h3>
+
+        <div class="fields">
+            <div class="field eight wide">
+                <label for="job-name">Job Name</label>
+                <input type="text" name="job-name" id="job-name" value.bind="job.name">
+            </div>
+            <div class="field six wide" hide.bind="isFollowup">
+                <label for="customer">Customer</label>
+                <div class="ui search selection dropdown customer">
+                    <input type="hidden" name="customer" id="customer" value.bind="customer_id">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Customer</div>
+                    <div class="menu">
+                        <div repeat.for="customer of customers" class="item" data-value.bind="customer._id">
+                            ${customer.name}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="description">Job Description</label>
+                <textarea name="description" id="description" value.bind="job.description" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field six wide">
+                <label for="jobType">Job Type</label>
+                <select name="jobType" id="jobType" value.bind="job.job_type" class="ui dropdown">
+                    <option repeat.for="t of jobTypes" value="${t.id}">${t.name}</option>
+                </select>
+            </div>
+            <div class="field eight wide">
+                <label for="activity">Activities</label>
+                <div class="ui multiple search selection dropdown activity">
+                    <input type="hidden" name="activity" id="activity">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Activities</div>
+                    <div class="menu">
+                        <div repeat.for="activity of activities" class="item" data-value.bind="activity">
+                            ${activity}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field six wide">
+                <label for="status">Status</label>
+                <select name="status" id="status" value.bind="job.status" class="ui dropdown">
+                    <option repeat.for="s of jobStatuses" value="${s.id}">${s.name}</option>
+                </select>
+            </div>
+            <div class="field six wide">
+                <label for="billingType">Billing Type</label>
+                <select name="billingType" id="billingType" value.bind="job.billing_type" class="ui dropdown">
+                    <option repeat.for="bt of billingTypes" value="${bt.id}">${bt.name}</option>
+                </select>
+            </div>
+            <div class="field six wide">
+                <label for="jobType">Work Type</label>
+                <select name="workType" id="workType" value.bind="job.work_type" class="ui dropdown">
+                    <option repeat.for="wt of workTypes" value="${wt.id}">${wt.name}</option>
+                </select>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field five wide">
+                <label for="start">Scheduled Start</label>
+                <div class="ui calendar start">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Date/Time" id="start" name="start">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label style="visibility: hidden;">&nbsp;</label>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="multiday" id="multiday" checked.bind="job.isMultiDay" change.trigger="onIsMultiDayChange()">
+                    <label for="multiday">Multi-Day Job?</label>
+                </div>
+            </div>
+            <div class="field two wide" show.bind="job.isMultiDay">
+                <label for="days">Days</label>
+                <input type="number" id="days" name="days" value.bind="job.days">
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="notes">Notes</label>
+                <textarea name="notes" id="notes" value.bind="job.notes" cols="30" rows="3"></textarea>
+            </div>
+        </div>
+    </form>
+</template>
