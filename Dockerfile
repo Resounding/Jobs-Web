@@ -14,7 +14,7 @@ RUN git clone https://$GITHUB_KEY@github.com/Resounding/Jobs-Web-Au /usr/src/Job
 WORKDIR /usr/src/Jobs-Web
 RUN git checkout $APP_RELEASE
 
-RUN npm install
+RUN npm install --ignore-scripts
 RUN typings install
 
 RUN au build --env prod
