@@ -102,7 +102,7 @@ function revVendorBundle() {
 
   return gulp.src('./index.html')
     .pipe(usemin({
-      html: [minifyHtml({empty: true})],
+      //html: [minifyHtml({empty: true})],
       jsAttributes: {
         'data-main': [project.build.options['requirejs-main']]
       },
