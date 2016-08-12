@@ -9,10 +9,10 @@
                 <i class="icon wrench" show.bind="isServiceCall"></i>
                 &nbsp;${jobNumberDisplay}
             </a>
-            <div class="meta">${job.customer.name}</div>
+            <div class="ui header">${job.customer.name}</div>
         </div>
         <div class="content">
-            <div class="header">
+            <div class="ui sub header">
                 <button class="ui basic icon button right floated hide-desktop" click.trigger="toggleExpanded()">
                     <i class="dropdown icon ${expanded ? 'vertically flipped' : ''}"></i>
                 </button>
