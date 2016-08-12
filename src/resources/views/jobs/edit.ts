@@ -125,6 +125,15 @@ export class EditJob {
       .catch(Notifications.error);
   }
 
+  onDeleteClick() {
+    return this.jobService.delete(this.job.toJSON())
+      .then(() => {
+        Notifications.success('Job Deleted');
+        this.router.navigateToRoute('jobs.list');
+      })
+      .catch(Notifications.error);
+  }
+
   saveJob(): Promise<Job> {
     return this.jobService.save(this.job.toJSON())
       .then(() => {

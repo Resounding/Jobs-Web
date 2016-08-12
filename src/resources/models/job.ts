@@ -19,6 +19,7 @@ export interface Job {
   activities: string[];
   notes: string;
   manHours: number;
+  deleted: boolean;
   type: string;
   _rev: string;
 }
@@ -40,6 +41,7 @@ export class JobDocument implements Job {
   activities: string[] = [];
   notes: string = '';
   manHours: number;
+  deleted: boolean = false;
   // couch props
   type: string;
   _rev: string;
@@ -68,6 +70,7 @@ export class JobDocument implements Job {
       activities: this.activities,
       notes: this.notes,
       manHours: this.manHours,
+      deleted: this.deleted,
       type: JobDocument.DOCUMENT_TYPE,
       _rev: this._rev
     };
