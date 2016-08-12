@@ -65,6 +65,7 @@ export class EditJob {
     $('.dropdown.basic.button', this.element).dropdown();
     $('.dropdown.activity', this.element).dropdown({
       allowAdditions: true,
+      hideAdditions: false,
       fullTextSearch: true,
       onChange: (value: string): void => {
         this.job.activities = (value || '').split(',');

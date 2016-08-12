@@ -53,6 +53,7 @@ export class NewJob {
   attached() {
     $('.dropdown.customer', this.element).dropdown({
       allowAdditions: true,
+      hideAdditions: false,
       fullTextSearch: true,
       onChange: (value: string): void => {
         this.job.customer = _.find(this.customers, c => c._id === value);
@@ -66,6 +67,7 @@ export class NewJob {
 
     $('.dropdown.activity', this.element).dropdown({
       allowAdditions: true,
+      hideAdditions: false,
       fullTextSearch: true,
       onChange: (value: string): void => {
         this.job.activities = (value || '').split(',');
@@ -114,11 +116,6 @@ export class NewJob {
 
   get customer_id(): string {
     return this.job.customer ? this.job.customer._id : null;
-  }
-
-  set customer_id(id: string) {
-    const customer = _.find(this.customers, c => c._id === id);
-    this.job.customer = customer || null;
   }
 
   onIsMultiDayChange() {
