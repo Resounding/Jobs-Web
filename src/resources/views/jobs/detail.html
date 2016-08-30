@@ -14,11 +14,7 @@
         <h3 class="ui dividing header" show.bind="isFollowup" style="margin-top: 0;">${job.customer.name}</h3>
 
         <div class="fields">
-            <div class="field eight wide">
-                <label for="job-name">Job Name</label>
-                <input type="text" name="job-name" id="job-name" value.bind="job.name">
-            </div>
-            <div class="field six wide" hide.bind="isFollowup">
+            <div class="field eight wide" hide.bind="isFollowup">
                 <label for="customer">Customer</label>
                 <div class="ui search selection dropdown customer">
                     <input type="hidden" name="customer" id="customer" value.bind="customer_id">
@@ -31,6 +27,10 @@
                     </div>
                 </div>
             </div>
+          <div class="field eight wide">
+            <label for="job-name">Job Name</label>
+            <input type="text" name="job-name" id="job-name" value.bind="job.name">
+          </div>
         </div>
         <div class="fields">
             <div class="field sixteen wide">
@@ -44,19 +44,6 @@
                 <select name="jobType" id="jobType" value.bind="job.job_type" class="ui dropdown">
                     <option repeat.for="t of jobTypes" value="${t.id}">${t.name}</option>
                 </select>
-            </div>
-            <div class="field eight wide">
-                <label for="activity">Activities</label>
-                <div class="ui multiple search selection dropdown activity">
-                    <input type="hidden" name="activity" id="activity">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Activities</div>
-                    <div class="menu">
-                        <div repeat.for="activity of activities" class="item" data-value.bind="activity">
-                            ${activity}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="fields">

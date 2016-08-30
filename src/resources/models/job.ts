@@ -16,7 +16,6 @@ export interface Job {
   days: number;
   startDate: Date;
   foreman: string;
-  activities: string[];
   notes: string;
   manHours: number;
   deleted: boolean;
@@ -38,7 +37,6 @@ export class JobDocument implements Job {
   days: number = 1;
   startDate: Date = null;
   foreman: string;
-  activities: string[] = [];
   notes: string = '';
   manHours: number;
   deleted: boolean = false;
@@ -67,7 +65,6 @@ export class JobDocument implements Job {
       days: this.days,
       startDate: this.startDate,
       foreman: this.foreman,
-      activities: this.activities,
       notes: this.notes,
       manHours: this.manHours,
       deleted: this.deleted,

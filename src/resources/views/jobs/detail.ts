@@ -15,16 +15,20 @@ import {RouteConfig} from "aurelia-router";
 @autoinject()
 export class EditJob {
   job: JobDocument;
-  customer: string;
   customers: CustomerDocument[];
   activities: string[];
   jobTypes: JobType[] = JobType.OPTIONS;
   jobStatuses: JobStatus[] = JobStatus.OPTIONS;
   billingTypes: BillingType[] = BillingType.OPTIONS;
   workTypes: WorkType[] = WorkType.OPTIONS;
+  isFollowup:boolean = false;
   routeConfig: RouteConfig;
 
   constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, private activitiesService: ActivitiesService) {
+
+    customerService.getAll()
+      .then(customers => this.customers = customers)
+      .catch(Notifications.error);
 
     activitiesService.getAll()
       .then(activities => this.activities = activities)
@@ -35,33 +39,61 @@ export class EditJob {
     this.routeConfig = routeConfig;
 
     const id = params.id;
-    this.jobService.getOne(id)
-      .then(job => {
-        this.job = job;
+    if(_.isNaN(parseInt(id))) {
+      this.job = new JobDocument();
+      if (_.isString(params.type)) {
+        this.job.type = params.type;
+      }
 
-        if(job.customer){
-          this.customer = job.customer.name;
-          this.routeConfig.navModel.setTitle(this.title);
-        }
+      if (params.from) {
+        this.jobService.getOne(params.from)
+          .then(prev => {
+            this.isFollowup = true;
+            this.job.customer = prev.customer;
+          });
+      }
+    } else {
+      this.jobService.getOne(id)
+        .then(job => {
+          this.job = job;
 
-        if(!_.isArray(job.activities)) {
-          job.activities = [];
-        }
+          if (job.customer) {
+            this.customer = job.customer.name;
+            this.routeConfig.navModel.setTitle(this.title);
+          }
 
-        $('.dropdown.activity', this.element).dropdown('set selected', job.activities);
+          if (!_.isArray(job.activities)) {
+            job.activities = [];
+          }
 
-        if(_.isDate(job.startDate)) {
-          $('.calendar.start', this.element).calendar('set date', job.startDate);
-        }
+          $('.dropdown.activity', this.element).dropdown('set selected', job.activities);
 
-      })
-      .catch(err => {
-        Notifications.error(err);
-        this.router.navigateToRoute('jobs.list');
-      });
+          if (_.isDate(job.startDate)) {
+            $('.calendar.start', this.element).calendar('set date', job.startDate);
+          }
+
+        })
+        .catch(err => {
+          Notifications.error(err);
+          this.router.navigateToRoute('jobs.list');
+        });
+    }
   }
 
   attached() {
+    $('.dropdown.customer', this.element).dropdown({
+      allowAdditions: true,
+      hideAdditions: false,
+      fullTextSearch: true,
+      onChange: (value: string): void => {
+        this.job.customer = _.find(this.customers, c => c._id === value);
+        if (!this.job.customer) {
+          this.job.customer = new CustomerDocument();
+          this.job.customer.name = value;
+        }
+        console.log(this.job.customer);
+      }
+    });
     $('.dropdown.basic.button', this.element).dropdown();
     $('.dropdown.activity', this.element).dropdown({
       allowAdditions: true,

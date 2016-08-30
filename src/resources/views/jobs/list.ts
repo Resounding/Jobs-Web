@@ -11,19 +11,25 @@ import {CloseJobArgs} from './close-job';
 @autoinject()
 export class JobList {
   items: Job[];
+  filteredItems: Job[];
   todaysItems: Job[];
   weekItems: Job[];
   futureItems: Job[];
   unscheduled: Job[];
-  myJobs: boolean;
+  myJobs: boolean = false;
+  showOpen: boolean = true;
+  showClosed: boolean = false;
   showCompleted: boolean = false;
+  reverseSort: boolean = false;
   filtersExpanded: boolean = false;
   closeJobArgs: CloseJobArgs = new CloseJobArgs;
   showModalSubscription: Subscription;
 
   constructor(private element: Element, private auth: Authentication, private jobService: JobService, private events: EventAggregator) {
-    this.myJobs = this.auth.isInRole(Roles.Foreman);
     this.refresh();
+
+    this.showCompleted = auth.isInRole(Roles.OfficeAdmin);
+    this.showClosed = auth.isInRole(Roles.OfficeAdmin);
 
     events.subscribe(Database.SyncChangeEvent, this.refresh.bind(this));
   }
@@ -39,7 +45,7 @@ export class JobList {
     $('.ui.toggle.checkbox', this.element)
       .checkbox({
         onChange: this.filter.bind(this)
-      })
+      });
 
     this.showModalSubscription = this.events.subscribe(CloseJobArgs.ShowModalEvent, this.showCloseJobModal.bind(this));
   }
@@ -61,19 +67,24 @@ export class JobList {
   filter() {
     const me = this.auth.userInfo().name;
 
-    const sameDay = i => moment(i.startDate).isSame(moment(), 'day');
-    const thisWeek = i => moment(i.startDate).isBefore(moment().startOf('week').add(1, 'week'));
     const mine = i => !this.myJobs || i.foreman === me;
-    const completed = i => this.showCompleted || (i.status !== JobStatus.COMPLETE);
-    const future = i => moment(i.startDate).isAfter(moment().startOf('week').add(1, 'week'));
+    const open = i => this.showOpen && (i.status === JobStatus.PENDING || i.status === JobStatus.IN_PROGRESS);
+    const completed = i => this.showCompleted && (i.status == JobStatus.COMPLETE);
+    const closed = i => this.showClosed && (i.status === JobStatus.CLOSED);
 
     log.debug(`Only show my jobs: ${this.myJobs}`);
+    log.debug(`Show open jobs: ${this.showOpen}`);
     log.debug(`Show completed jobs: ${this.showCompleted}`);
+    log.debug(`Show closed jobs: ${this.showClosed}`);
 
-    this.todaysItems = _.filter(this.items, i => sameDay(i) && mine(i) && completed(i));
-    this.weekItems = _.filter(this.items, i => thisWeek(i) && !sameDay(i) && mine(i) && completed(i));
-    this.futureItems = _.filter(this.items, i => future(i) && mine(i) && completed(i));
-    this.unscheduled = _.filter(this.items, i => !i.startDate && mine(i) && completed(i));
+    let items = _.filter(this.items, i => mine(i) && (open(i) || closed(i) || completed(i))),
+        sortedItems = _.sortBy(items, i => parseInt(i.number));
+
+    if(this.reverseSort) {
+      sortedItems.reverse();
+    }
+
+    this.filteredItems = sortedItems;
   }
 
   toggleFiltersExpanded() {

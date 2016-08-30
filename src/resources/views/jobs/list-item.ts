@@ -34,14 +34,6 @@ export class ListItem {
         // if(isDevice()) {
             // swipe to reveal delete?
         // } else {
-            $('.calendar', this.element).calendar({
-                type: 'date',
-                popupOptions: {position: "bottom right", lastResort: "bottom right", prefer: "opposite", hideOnScroll: false},
-                onChange: date => {
-                    this.job.startDate = moment(date).toDate();
-                    this.save('Start Date');
-                }
-            });
 
             $('.dropdown.status', this.element).dropdown({
                 onChange: value => {
@@ -67,7 +59,6 @@ export class ListItem {
         //if(isDevice()) {
             // swipe to reveal delete?
         //} else {
-            $('.calendar', this.element).calendar('destroy');
             $('.dropdown.status', this.element).dropdown('destroy');
             $('.dropdown.foreman', this.element).dropdown('destroy');
         //}

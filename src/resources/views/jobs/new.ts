@@ -16,21 +16,16 @@ import {RouteConfig} from "aurelia-router";
 export class NewJob {
   job: JobDocument;
   customers: CustomerDocument[];
-  activities: string[];
   jobTypes: JobType[] = JobType.OPTIONS;
   jobStatuses: JobStatus[] = JobStatus.OPTIONS;
   billingTypes: BillingType[] = BillingType.OPTIONS;
   workTypes: WorkType[] = WorkType.OPTIONS;
   isFollowup:boolean = false;
 
-  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, private activitiesService: ActivitiesService) {
+  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService) {
     this.job = new JobDocument();
     customerService.getAll()
       .then(customers => this.customers = customers)
-      .catch(Notifications.error);
-
-    activitiesService.getAll()
-      .then(activities => this.activities = activities)
       .catch(Notifications.error);
   }
 
@@ -65,21 +60,6 @@ export class NewJob {
       }
     });
 
-    $('.dropdown.activity', this.element).dropdown({
-      allowAdditions: true,
-      hideAdditions: false,
-      fullTextSearch: true,
-      onChange: (value: string): void => {
-        this.job.activities = (value || '').split(',');
-      },
-      onAdd: (value: string): void => {
-        var exists = _.find(this.activities, activity => activity.toLowerCase() === value.toLowerCase());
-        if (!exists) {
-          this.activitiesService.create(value);
-
-        }
-      }
-    });
     $('#status', this.element).dropdown();
     $('#billingType', this.element).dropdown();
     $('#workType', this.element).dropdown();
@@ -102,7 +82,6 @@ export class NewJob {
 
   detached() {
     $('.dropdown.customer', this.element).dropdown('destroy');
-    $('.dropdown.activity', this.element).dropdown('destroy');
     $('#status', this.element).dropdown('destroy');
     $('#billingType', this.element).dropdown('destroy');
     $('#workType', this.element).dropdown('destroy');
