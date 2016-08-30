@@ -16,6 +16,7 @@ import {RouteConfig} from "aurelia-router";
 export class EditJob {
   job: JobDocument;
   customers: CustomerDocument[];
+  customerServicePromise:Promise;
   activities: string[];
   jobTypes: JobType[] = JobType.OPTIONS;
   jobStatuses: JobStatus[] = JobStatus.OPTIONS;
@@ -24,60 +25,56 @@ export class EditJob {
   isFollowup:boolean = false;
   routeConfig: RouteConfig;
 
-  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, private activitiesService: ActivitiesService) {
+  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService) {
 
-    customerService.getAll()
+    this.customerServicePromise = customerService.getAll()
       .then(customers => this.customers = customers)
-      .catch(Notifications.error);
-
-    activitiesService.getAll()
-      .then(activities => this.activities = activities)
       .catch(Notifications.error);
   }
 
   activate(params: any, routeConfig: RouteConfig) {
     this.routeConfig = routeConfig;
 
-    const id = params.id;
-    if(_.isNaN(parseInt(id))) {
-      this.job = new JobDocument();
-      if (_.isString(params.type)) {
-        this.job.type = params.type;
-      }
+    this.customerServicePromise.then(() => {
+      const id = params.id;
+      if(_.isUndefined(id)) {
+        this.job = new JobDocument();
+        if (_.isString(params.type)) {
+          this.job.type = params.type;
+        }
 
-      if (params.from) {
-        this.jobService.getOne(params.from)
-          .then(prev => {
-            this.isFollowup = true;
-            this.job.customer = prev.customer;
+        if (params.from) {
+          this.jobService.getOne(params.from)
+            .then(prev => {
+              this.isFollowup = true;
+              this.job.customer = prev.customer;
+            });
+        }
+      } else {
+        this.jobService.getOne(id)
+          .then(job => {
+            this.job = job;
+
+            if (_.isDate(job.startDate)) {
+              $('.calendar.start', this.element).calendar('set date', job.startDate);
+            }
+
+            if(_.isDate(job.endDate)) {
+              $('.calendar.end', this.element).calendar('set date', job.endDate);
+            }
+
+            if(job.customer) {
+              $('.customer', this.element).dropdown('set selected', job.customer.name);
+              $('.customer', this.element).dropdown('set value', job.customer._id);
+            }
+
+          })
+          .catch(err => {
+            Notifications.error(err);
+            this.router.navigateToRoute('jobs.list');
           });
       }
-    } else {
-      this.jobService.getOne(id)
-        .then(job => {
-          this.job = job;
-
-          if (job.customer) {
-            this.customer = job.customer.name;
-            this.routeConfig.navModel.setTitle(this.title);
-          }
-
-          if (!_.isArray(job.activities)) {
-            job.activities = [];
-          }
-
-          $('.dropdown.activity', this.element).dropdown('set selected', job.activities);
-
-          if (_.isDate(job.startDate)) {
-            $('.calendar.start', this.element).calendar('set date', job.startDate);
-          }
-
-        })
-        .catch(err => {
-          Notifications.error(err);
-          this.router.navigateToRoute('jobs.list');
-        });
-    }
+    });
   }
 
   attached() {
@@ -91,30 +88,19 @@ export class EditJob {
           this.job.customer = new CustomerDocument();
           this.job.customer.name = value;
         }
-        console.log(this.job.customer);
       }
     });
     $('.dropdown.basic.button', this.element).dropdown();
-    $('.dropdown.activity', this.element).dropdown({
-      allowAdditions: true,
-      hideAdditions: false,
-      fullTextSearch: true,
-      onChange: (value: string): void => {
-        this.job.activities = (value || '').split(',');
-      },
-      onAdd: (value: string): void => {
-        var exists = _.find(this.activities, activity => activity.toLowerCase() === value.toLowerCase());
-        if (!exists) {
-          this.activitiesService.create(value);
-        }
-      }
-    });
     $('#status', this.element).dropdown();
     $('#billingType', this.element).dropdown();
     $('#workType', this.element).dropdown();
     $('.calendar.start', this.element).calendar({
       type: 'date',
       onChange: date => this.job.startDate = moment(date).toDate()
+    });
+    $('.calendar.end', this.element).calendar({
+      type: 'date',
+      onChange: date => this.job.endDate = moment(date).toDate()
     });
 
     const $buttonBar = $('.button-bar', this.element);
@@ -135,13 +121,20 @@ export class EditJob {
     $('#billingType', this.element).dropdown('destroy');
     $('#workType', this.element).dropdown('destroy');
     $('.calendar.start', this.element).calendar('destroy');
+    $('.calendar.end', this.element).calendar('destroy');
     $('.button-bar', this.element).visibility('destroy');
     $('.dropdown.basic.button', this.element).dropdown('destroy');
   }
 
-  get title() {
-    if (!this.job) return '';
-    return `Edit Job ${this.job.number}`;
+  get customer_id(): string {
+    return (this.job && this.job.customer) ? this.job.customer._id : null;
+  }
+
+  set customer_id(value:string) {
+    var customer = _.findWhere(this.customers, c => c._id === value);
+    if(customer) {
+      this.job.customer = customer;
+    }
   }
 
   onIsMultiDayChange() {

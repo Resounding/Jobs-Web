@@ -2,7 +2,10 @@
     <div class="ui card">
         <div class="content">
             <div class="right floated meta" style="max-width: 40%;">
-                <span>${dateDisplay}</span>
+                <span>${startDateDisplay}</span>
+                <span show.bind="job.endDate">&nbsp;&ndash;&nbsp;</span>
+                <br show.bind="job.endDate">
+                <span show.bind="job.endDate">${endDateDisplay}</span>
             </div>
             <a class="header" route-href="route:jobs.edit; params.bind: {id: job._id}">
                 <i class="icon building" show.bind="isProject"></i>

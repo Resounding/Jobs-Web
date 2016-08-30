@@ -15,6 +15,7 @@ export interface Job {
   isMultiDay: boolean;
   days: number;
   startDate: Date;
+  endDate: Date;
   foreman: string;
   notes: string;
   manHours: number;
@@ -33,9 +34,9 @@ export class JobDocument implements Job {
   description: string = '';
   billing_type: string;
   work_type: string;
-  isMultiDay: boolean = false;
   days: number = 1;
   startDate: Date = null;
+  endDate: Date = null;
   foreman: string;
   notes: string = '';
   manHours: number;
@@ -43,6 +44,12 @@ export class JobDocument implements Job {
   // couch props
   type: string;
   _rev: string;
+
+  get isMultiDay():boolean {
+    if(!_.isDate(this.startDate) || !_.isDate(this.endDate)) return false;
+
+    return !moment(this.startDate).isSame(this.endDate, 'day');
+  }
 
   constructor(props?: Object) {
     if (props) {
@@ -64,6 +71,7 @@ export class JobDocument implements Job {
       isMultiDay: this.isMultiDay,
       days: this.days,
       startDate: this.startDate,
+      endDate: this.endDate,
       foreman: this.foreman,
       notes: this.notes,
       manHours: this.manHours,

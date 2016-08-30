@@ -68,28 +68,24 @@ export class ListItem {
         this.expanded = !this.expanded;
     }
     
-    get dateDisplay():string {
+    get startDateDisplay():string {
 
         let display = 'Not Scheduled';
 
-        if(this.job.startDate == null && this.job.days > 1) {
-            display += ` (${this.job.days} days)`;
-        } else if(this.job.startDate) {
-
-            let start = moment(this.job.startDate);
-
-            display = start.format('ddd, MMM Do');
-
-            if (this.job.days > 1) {
-                let end = start.clone().add(this.job.days, 'days');
-                while(end.weekday() === 6 || end.weekday() === 0) {
-                    end.add(1, 'day');
-                }
-                display = `${display} - ${end.format('ddd, MMM Do')}`;
-            }
+        if(this.job.startDate) {
+            display = moment(this.job.startDate).format('ddd, MMM Do');
         }
 
         return display;
+    }
+    get endDateDisplay():string {
+      let display = '';
+
+      if(this.job.endDate) {
+        display = moment(this.job.endDate).format('ddd, MMM Do');
+      }
+
+      return display;
     }
     get jobStatus():JobStatus {
         return _.find(this.jobStatuses, s => s.id == this.job.status);

@@ -25,6 +25,9 @@ export class JobService {
             if (_.isString(item.startDate)) {
               job.startDate = moment(item.startDate).toDate();
             }
+            if(_.isString(item.endDate)){
+              job.endDate = moment(item.endDate).toDate();
+            }
           });
 
           resolve(jobs);
@@ -42,6 +45,9 @@ export class JobService {
           var job = new JobDocument(doc);
           if (_.isString(doc.startDate)) {
             job.startDate = moment(doc.startDate).toDate();
+          }
+          if (_.isString(doc.endDate)) {
+            job.endDate = moment(doc.endDate).toDate();
           }
           resolve(job);
         })
