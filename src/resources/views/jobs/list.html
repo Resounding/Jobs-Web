@@ -44,7 +44,7 @@
     </div>
 
     <div class="ui cards" show.bind="filteredItems.length">
-      <list-item job.bind="item" repeat.for="item of filteredItems"></list-item>
+      <list-item job.bind="item" repeat.for="item of filteredItems" class="card"></list-item>
     </div>
     <div class="ui message" show.bind="!filteredItems.length">
       <div class="header">No items</div>
