@@ -31,6 +31,7 @@
     "jquery": "registry:dt/jquery#1.10.0+20160701124751",
     "moment": "registry:dt/moment#2.8.0+20160316155526",
     "moment-node": "registry:dt/moment-node#2.11.1+20160511043338",
+    "papaparse": "registry:dt/papaparse#4.1.0+20160317120654",
     "pouchdb/pouch": "registry:dt/pouchdb/pouch#0.1.0+20160608101805",
     "toastr": "registry:dt/toastr#2.1.1+20160510010435",
     "underscore": "registry:dt/underscore#1.7.0+20160622050840",

@@ -7,7 +7,12 @@
                     <span>Langendoen Mechanical</span>
                 </a>
                 <a repeat.for="item of router.navigation" href.bind="item.href" class="item ${item.isActive ? 'active' : ''}">
+                    <i if.bind="item.settings.icon" class="icon ${item.settings.icon}"></i>
                     ${item.title}
+                </a>
+                <a class="item hide-mobile" show.bind="csv" download="jobs.csv" href.bind="csv">
+                  <i class="cloud download icon"></i>
+                  Export
                 </a>
                 <div class="ui right dropdown item">
                     ${userName}
