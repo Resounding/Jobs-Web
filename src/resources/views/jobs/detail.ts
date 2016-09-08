@@ -81,7 +81,8 @@ export class EditJob {
     $('.dropdown.customer', this.element).dropdown({
       allowAdditions: true,
       hideAdditions: false,
-      fullTextSearch: true,
+      fullTextSearch: 'exact',
+      match: 'text',
       onChange: (value: string): void => {
         this.job.customer = _.find(this.customers, c => c._id === value);
         if (!this.job.customer) {

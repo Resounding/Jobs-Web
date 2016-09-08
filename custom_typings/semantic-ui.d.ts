@@ -8,7 +8,8 @@ interface visibilityOptions {
 interface dropdownOptions {
     allowAdditions?: boolean;
     hideAdditions?: boolean;
-    fullTextSearch?: boolean;
+    fullTextSearch?: boolean | 'exact';
+    match?: 'text' | 'value' | 'both';
     onChange?(changed:string):void;
     onAdd?(added:string)
 }
