@@ -31,6 +31,7 @@ declare global {
         find<T>(request?:FindRequest):Promise<DocList<T>>;
         get(id: string, opts?: PouchGetOptions):Promise<any>;
         put(item:any):Promise<PouchUpdateResponse>;
+        remove(doc:any):Promise<PouchUpdateResponse>;
         sync(remote:PouchDB, opts?:PouchSyncOptions):PouchEventEmitter;
     }
 }

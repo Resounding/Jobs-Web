@@ -11,7 +11,11 @@ Promise.config({
 export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature('resources');
+    .feature('resources')
+    .plugin('aurelia-dialog', config => {
+      config.useDefaults();
+      config.settings.lock = true;
+    });
 
   if (Configuration.isDebug()) {
     aurelia.use.developmentLogging();

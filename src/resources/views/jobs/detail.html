@@ -6,8 +6,13 @@
         <div class="ui container">
             <a route-href="route:jobs.list" class="ui button">Cancel</a>
             <button type="button" class="ui button positive" click.trigger="onSaveClick()">
-                <i class="fa fa-save"></i>
+                <i class="icon save"></i>
                 Save
+            </button>
+
+            <button type="button" class="ui button red basic right" click.trigger="onDeleteClick()" show.bind="job._id">
+              <i class="icon trash"></i>
+              Delete
             </button>
         </div>
     </div>

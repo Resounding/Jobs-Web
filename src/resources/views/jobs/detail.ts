@@ -1,8 +1,9 @@
 import {autoinject} from "aurelia-framework";
 import {Router} from "aurelia-router";
+import {DialogService} from 'aurelia-dialog';
+import {Prompt} from '../controls/prompt';
 import {JobService} from '../../services/data/job-service';
 import {CustomerService} from '../../services/data/customer-service';
-import {ActivitiesService} from '../../services/data/activities-service';
 import {Notifications} from '../../services/notifications';
 import {Job, JobDocument} from '../../models/job';
 import {CustomerDocument} from '../../models/customer';
@@ -12,6 +13,7 @@ import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
 import {RouteConfig} from "aurelia-router";
 import {Authentication, Roles} from "../../services/auth";
+import {DialogResult} from "aurelia-dialog";
 
 @autoinject()
 export class EditJob {
@@ -27,7 +29,7 @@ export class EditJob {
   routeConfig: RouteConfig;
   canEditManHours:boolean = false;
 
-  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, auth: Authentication) {
+  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, auth: Authentication, private dialogService:DialogService) {
 
     this.canEditManHours = auth.isInRole(Roles.OfficeAdmin);
 
@@ -141,7 +143,7 @@ export class EditJob {
   }
 
   set customer_id(value:string) {
-    var customer = _.findWhere(this.customers, c => c._id === value);
+    var customer = _.findWhere(this.customers, { _id: value });
     if(customer) {
       this.job.customer = customer;
     }
@@ -156,28 +158,45 @@ export class EditJob {
   }
 
   onSaveClick() {
-    this.saveJob()
-      .then(() => this.router.navigateToRoute('jobs.list'))
-      .catch(Notifications.error);
+    if (this.customer_id) {
+      this.saveJob();
+    } else {
+      this.saveCustomer(this.job.customer)
+        .then(customer => {
+          this.job.customer = customer;
+          this.saveJob();
+        })
+        .catch(Notifications.error);
+    }
   }
 
   onDeleteClick() {
-    return this.jobService.delete(this.job.toJSON())
-      .then(() => {
-        Notifications.success('Job Deleted');
-        this.router.navigateToRoute('jobs.list');
-      })
-      .catch(Notifications.error);
+    this.dialogService.open({ viewModel: Prompt, model: 'Are you sure you want to delete this job?'})
+      .then((result:DialogResult) => {
+        if(result.wasCancelled) return;
+
+        this.jobService.delete(this.job.toJSON())
+          .then(() => {
+            Notifications.success('Job Deleted');
+            this.router.navigateToRoute('jobs.list');
+          })
+          .catch(Notifications.error);
+      });
   }
 
   saveJob(): Promise<Job> {
     return this.jobService.save(this.job.toJSON())
       .then(() => {
         Notifications.success('Job Saved');
+        this.router.navigateToRoute('jobs.list');
       })
       .catch((err) => {
         Notifications.error(err);
       });
+  }
+
+  saveCustomer(customer: CustomerDocument): Promise<CustomerDocument> {
+    return this.customerService.create(customer.toJSON());
   }
 }
 
