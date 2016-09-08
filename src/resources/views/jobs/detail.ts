@@ -11,6 +11,7 @@ import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
 import {RouteConfig} from "aurelia-router";
+import {Authentication, Roles} from "../../services/auth";
 
 @autoinject()
 export class EditJob {
@@ -24,8 +25,11 @@ export class EditJob {
   workTypes: WorkType[] = WorkType.OPTIONS;
   isFollowup:boolean = false;
   routeConfig: RouteConfig;
+  canEditManHours:boolean = false;
 
-  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService) {
+  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, auth: Authentication) {
+
+    this.canEditManHours = auth.isInRole(Roles.OfficeAdmin);
 
     this.customerServicePromise = customerService.getAll()
       .then(customers => this.customers = customers)

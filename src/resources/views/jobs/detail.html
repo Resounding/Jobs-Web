@@ -1,5 +1,6 @@
 <template>
   <require from="styles/job-detail.css"></require>
+  <require from="../controls/integer-value-converter"></require>
 
     <div class="ui menu button-bar">
         <div class="ui container">
@@ -92,6 +93,13 @@
                 <label for="notes">Notes</label>
                 <textarea name="notes" id="notes" value.bind="job.notes" cols="30" rows="3"></textarea>
             </div>
+        </div>
+        <div class="fields">
+          <div class="field six wide">
+            <label for="man-hours">Man-hours:</label>
+            <input type="number" id="man-hours" name="man-hours" value.bind="job.manHours | integer" if.bind="canEditManHours">
+            <input type="number" id="man-hours-readonly" name="man-hours-readonly" value.bind="job.manHours | integer" if.bind="!canEditManHours" readonly>
+          </div>
         </div>
     </form>
 </template>
