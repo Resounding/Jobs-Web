@@ -71,6 +71,11 @@ export class EditJob {
               $('.customer', this.element).dropdown('set selected', job.customer.name);
               $('.customer', this.element).dropdown('set value', job.customer._id);
             }
+            
+            if(job.status) {
+              $('#status', this.element).dropdown('set selected', job.status);
+              $('#status', this.element).dropdown('set value', job.status);
+            }
 
           })
           .catch(err => {
