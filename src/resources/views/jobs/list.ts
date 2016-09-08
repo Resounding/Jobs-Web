@@ -12,15 +12,12 @@ import {CloseJobArgs} from './close-job';
 export class JobList {
   items: Job[];
   filteredItems: Job[];
-  todaysItems: Job[];
-  weekItems: Job[];
-  futureItems: Job[];
-  unscheduled: Job[];
   myJobs: boolean = false;
   showOpen: boolean = true;
   showClosed: boolean = false;
   showCompleted: boolean = false;
   reverseSort: boolean = false;
+  customerSort: boolean = false;
   filtersExpanded: boolean = false;
   closeJobArgs: CloseJobArgs = new CloseJobArgs;
   showModalSubscription: Subscription;
@@ -78,7 +75,13 @@ export class JobList {
     log.debug(`Show closed jobs: ${this.showClosed}`);
 
     let items = _.filter(this.items, i => mine(i) && (open(i) || closed(i) || completed(i))),
-        sortedItems = _.sortBy(items, i => parseInt(i.number));
+        sortedItems = _.sortBy(items, i => {
+          if(this.customerSort) {
+            return (i.customer.name || '').toString().toLowerCase() + i.number;
+          }
+
+          return parseInt(i.number);
+        });
 
     if(this.reverseSort) {
       sortedItems.reverse();
