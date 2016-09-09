@@ -12,9 +12,7 @@ export class CustomerList {
   search:string = '';
   allCustomers:Customer[];
 
-  constructor(private customerService:CustomerService, private dialogService:DialogService) {
-    this.refresh();
-  }
+  constructor(private customerService:CustomerService, private dialogService:DialogService) { }
 
   refresh() {
     this.customerService.getAll()
@@ -22,6 +20,10 @@ export class CustomerList {
         this.allCustomers = result;
       })
       .catch(Notifications.error);
+  }
+
+  attached() {
+    this.refresh();
   }
 
   @computedFrom('search', 'allCustomers')

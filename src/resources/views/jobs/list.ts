@@ -23,8 +23,6 @@ export class JobList {
   showModalSubscription: Subscription;
 
   constructor(private element: Element, private auth: Authentication, private jobService: JobService, private events: EventAggregator) {
-    this.refresh();
-
     this.showCompleted = auth.isInRole(Roles.OfficeAdmin);
     this.showClosed = auth.isInRole(Roles.OfficeAdmin);
 
@@ -45,6 +43,8 @@ export class JobList {
       });
 
     this.showModalSubscription = this.events.subscribe(CloseJobArgs.ShowModalEvent, this.showCloseJobModal.bind(this));
+
+    this.refresh();
   }
 
   detached() {
