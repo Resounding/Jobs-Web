@@ -21,12 +21,11 @@ export class JobList {
   filtersExpanded: boolean = false;
   closeJobArgs: CloseJobArgs = new CloseJobArgs;
   showModalSubscription: Subscription;
+  syncChangeSubscription: Subscription;
 
   constructor(private element: Element, private auth: Authentication, private jobService: JobService, private events: EventAggregator) {
     this.showCompleted = auth.isInRole(Roles.OfficeAdmin);
     this.showClosed = auth.isInRole(Roles.OfficeAdmin);
-
-    events.subscribe(Database.SyncChangeEvent, this.refresh.bind(this));
   }
 
   attached() {
@@ -43,6 +42,7 @@ export class JobList {
       });
 
     this.showModalSubscription = this.events.subscribe(CloseJobArgs.ShowModalEvent, this.showCloseJobModal.bind(this));
+    this.syncChangeSubscription = this.events.subscribe(Database.SyncChangeEvent, this.refresh.bind(this));
 
     this.refresh();
   }
