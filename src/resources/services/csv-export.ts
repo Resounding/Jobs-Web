@@ -22,7 +22,6 @@ export class CsvExport {
         .getAll()
         .then(jobs => {
           json.data = jobs
-            .filter(job => !job.deleted)
             .map(job => {
               //http://stackoverflow.com/a/10073761
               const formattedNumber: string = job.number < 99999 ? `0000${job.number}`.slice(-5) : job.number.toString(),

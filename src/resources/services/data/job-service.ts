@@ -15,12 +15,9 @@ export class JobService {
   getAll(): Promise<Job[]> {
     //db().allDocs({ include_docs: true}).then(r => console.log(r));
     return new Promise((resolve, reject) => {
-      this.db.find<JobDocument>({selector: {type: JobDocument.DOCUMENT_TYPE}})
+      this.db.find<JobDocument>({selector: {type: JobDocument.DOCUMENT_TYPE, deleted: { '$ne': true }}})
         .then(items => {
-          const jobs = items.docs
-            .filter(item => !item.deleted);
-
-          jobs.forEach(item => {
+          const jobs = items.docs.map(item => {
             var job = new JobDocument(item);
             if (_.isString(item.startDate)) {
               job.startDate = moment(item.startDate).toDate();
@@ -28,6 +25,8 @@ export class JobService {
             if(_.isString(item.endDate)){
               job.endDate = moment(item.endDate).toDate();
             }
+
+            return job;
           });
 
           resolve(jobs);
