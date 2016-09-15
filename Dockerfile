@@ -1,7 +1,7 @@
 FROM node:6.3.1
 
 RUN npm install -g \
-    typescript@beta \
+    typescript@rc \
     gulp \
     typings \
     aurelia-cli
