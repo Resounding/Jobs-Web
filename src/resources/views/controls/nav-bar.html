@@ -10,7 +10,7 @@
                     <i if.bind="item.settings.icon" class="icon ${item.settings.icon}"></i>
                     ${item.title}
                 </a>
-                <a class="item hide-mobile" show.bind="csv" download="jobs.csv" href.bind="csv">
+                <a class="item hide-mobile" click.delegate="downloadCsv()">
                   <i class="cloud download icon"></i>
                   Export
                 </a>
