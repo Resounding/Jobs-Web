@@ -12,7 +12,7 @@ export class CustomerService {
 
     getAll():Promise<CustomerDocument[]> {
         return new Promise((resolve, reject) => {
-            this.db.find({selector: {type: CustomerDocument.DOCUMENT_TYPE}})
+            this.db.find({selector: {type: CustomerDocument.DOCUMENT_TYPE}, sort: ['type', 'name'] })
                 .then(items => {
                     var customers = items.docs.map(item => {
                         var customer = new CustomerDocument(item);
