@@ -18,6 +18,36 @@ export class Database {
   init() {
     if (localDB === null) {
       localDB = new PouchDB(this.config.app_database_name);
+      localDB.getIndexes()
+        .then(indexes => {
+          const names = _.pluck(indexes.indexes, 'name');
+          if(names.indexOf('by_type_name') === -1) {
+            localDB.createIndex({
+              name: 'by_type_name',
+              index: {
+                fields: ['type', 'name'],
+                sort: ['name']
+              }
+            }).then(result => {
+              log.debug(result);
+            }).catch(error => {
+              log.error(error);
+            });
+          }
+
+          if(names.indexOf('by_type_deleted') === -1) {
+            localDB.createIndex({
+              name: 'by_type_deleted',
+              index: {
+                fields: ['type', 'deleted']
+              }
+            }).then(result => {
+              log.debug(result);
+            }).catch(error => {
+              log.error(error);
+            });
+          }
+        });
     }
 
     if (this.auth.isAuthenticated()) {
