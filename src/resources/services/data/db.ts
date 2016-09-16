@@ -15,9 +15,13 @@ export class Database {
     this.events.subscribe(Authentication.AuthenticatedEvent, this.init.bind(this));
   }
 
-  init() {
+  init(localOps?:PouchOptions) {
     if (localDB === null) {
-      localDB = new PouchDB(this.config.app_database_name);
+      if(localOps) {
+        localDB = new PouchDB(this.config.app_database_name, localOps);
+      } else {
+        localDB = new PouchDB(this.config.app_database_name);
+      }
       localDB.getIndexes()
         .then(indexes => {
           const names = _.pluck(indexes.indexes, 'name');
@@ -57,13 +61,24 @@ export class Database {
         skip_setup: true,
         auth: {username: userInfo.name, password: userInfo.password}
       });
-      localDB.sync(remoteDB, {live: true})
+      const sync = localDB.sync(remoteDB, {live: true})
         .on('complete', () => {
           log.debug('Sync complete');
         })
         .on('error', err => {
           log.error('Sync error');
           log.error(err);
+          const values = _.values(err);
+          // this happens on Samsung TV
+          if(values.indexOf('web_sql_went_bad') !== -1) {
+            try {
+              sync.cancel();
+            } catch(e) { }
+
+            localDB = null;
+            const options:PouchOptions = { adapter: 'localstorage' };
+            this.init(options);
+          }
         })
         .on('change', change => {
           log.info('Sync change');

@@ -94,6 +94,7 @@
           "node_modules/toastr/toastr.js",
           "node_modules/pouchdb/dist/pouchdb.js",
           "node_modules/pouchdb-find/dist/pouchdb.find.js",
+          "node_modules/pouchdb/dist/pouchdb.localstorage.js",
           "node_modules/semantic-ui-css/semantic.js",
           "node_modules/semantic-ui/dist/components/calendar.js",
           "scripts/require.js"
