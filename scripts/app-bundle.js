@@ -371,10 +371,15 @@ define('resources/services/data/db',["require", "exports", 'aurelia-event-aggreg
             this.init();
             this.events.subscribe(auth_1.Authentication.AuthenticatedEvent, this.init.bind(this));
         }
-        Database.prototype.init = function () {
+        Database.prototype.init = function (localOps) {
             var _this = this;
             if (localDB === null) {
-                localDB = new PouchDB(this.config.app_database_name);
+                if (localOps) {
+                    localDB = new PouchDB(this.config.app_database_name, localOps);
+                }
+                else {
+                    localDB = new PouchDB(this.config.app_database_name);
+                }
                 localDB.getIndexes()
                     .then(function (indexes) {
                     var names = _.pluck(indexes.indexes, 'name');
@@ -411,13 +416,23 @@ define('resources/services/data/db',["require", "exports", 'aurelia-event-aggreg
                     skip_setup: true,
                     auth: { username: userInfo.name, password: userInfo.password }
                 });
-                localDB.sync(remoteDB, { live: true })
+                var sync_1 = localDB.sync(remoteDB, { live: true })
                     .on('complete', function () {
                     log_1.log.debug('Sync complete');
                 })
                     .on('error', function (err) {
                     log_1.log.error('Sync error');
                     log_1.log.error(err);
+                    var values = _.values(err);
+                    if (values.indexOf('web_sql_went_bad') !== -1) {
+                        try {
+                            sync_1.cancel();
+                        }
+                        catch (e) { }
+                        localDB = null;
+                        var options = { adapter: 'localstorage' };
+                        _this.init(options);
+                    }
                 })
                     .on('change', function (change) {
                     log_1.log.info('Sync change');
@@ -604,7 +619,6 @@ define('resources/services/csv-export',["require", "exports", 'aurelia-framework
                     .getAll()
                     .then(function (jobs) {
                     json.data = jobs
-                        .filter(function (job) { return !job.deleted; })
                         .map(function (job) {
                         var formattedNumber = job.number < 99999 ? ("0000" + job.number).slice(-5) : job.number.toString(), prefix = job.job_type === job_type_1.JobType.SERVICE_CALL ? 'S' : 'P', startMoment = moment(job.startDate), endMoment = moment(job.endDate), start = job.startDate && startMoment.isValid() ? startMoment.format('YYYY-MM-DD') : '', end = job.endDate && endMoment.isValid() ? endMoment.format('YYYY-MM-DD') : '';
                         return [
