@@ -1514,7 +1514,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('resources/views/jobs/list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../../services/auth', '../../services/log', '../../services/data/db', '../../models/job-status', '../../services/data/job-service', './close-job'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, auth_1, log_1, db_1, job_status_1, job_service_1, close_job_1) {
+define('resources/views/jobs/list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../../services/auth', '../../services/log', '../../services/data/db', '../../models/job-type', '../../models/job-status', '../../services/data/job-service', './close-job'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, auth_1, log_1, db_1, job_type_1, job_status_1, job_service_1, close_job_1) {
     "use strict";
     var JobList = (function () {
         function JobList(element, auth, jobService, events) {
@@ -1528,6 +1528,8 @@ define('resources/views/jobs/list',["require", "exports", 'aurelia-framework', '
             this.showCompleted = false;
             this.reverseSort = false;
             this.customerSort = false;
+            this.showProjects = true;
+            this.showServiceCalls = true;
             this.filtersExpanded = false;
             this.closeJobArgs = new close_job_1.CloseJobArgs;
             this.showCompleted = auth.isInRole(auth_1.Roles.OfficeAdmin);
@@ -1568,11 +1570,15 @@ define('resources/views/jobs/list',["require", "exports", 'aurelia-framework', '
             var open = function (i) { return _this.showOpen && (i.status === job_status_1.JobStatus.PENDING || i.status === job_status_1.JobStatus.IN_PROGRESS); };
             var completed = function (i) { return _this.showCompleted && (i.status == job_status_1.JobStatus.COMPLETE); };
             var closed = function (i) { return _this.showClosed && (i.status === job_status_1.JobStatus.CLOSED); };
+            var projects = function (i) { return _this.showProjects && i.job_type == job_type_1.JobType.PROJECT; };
+            var serviceCalls = function (i) { return _this.showServiceCalls && i.job_type == job_type_1.JobType.SERVICE_CALL; };
             log_1.log.debug("Only show my jobs: " + this.myJobs);
             log_1.log.debug("Show open jobs: " + this.showOpen);
             log_1.log.debug("Show completed jobs: " + this.showCompleted);
             log_1.log.debug("Show closed jobs: " + this.showClosed);
-            var items = _.filter(this.items, function (i) { return mine(i) && (open(i) || closed(i) || completed(i)); }), sortedItems = _.sortBy(items, function (i) {
+            log_1.log.debug("Show projects: " + this.showProjects);
+            log_1.log.debug("Show service calls: " + this.showServiceCalls);
+            var items = _.filter(this.items, function (i) { return mine(i) && (open(i) || closed(i) || completed(i)) && (projects(i) || serviceCalls(i)); }), sortedItems = _.sortBy(items, function (i) {
                 if (_this.customerSort) {
                     return (i.customer.name || '').toString().toLowerCase() + i.number;
                 }
@@ -1825,7 +1831,9 @@ define('aurelia-dialog/dialog-controller',['exports', './lifecycle', './dialog-r
     DialogController.prototype.close = function close(ok, output) {
       var _this2 = this;
 
-      if (this._closePromise) return this._closePromise;
+      if (this._closePromise) {
+        return this._closePromise;
+      }
 
       this._closePromise = (0, _lifecycle.invokeLifecycle)(this.viewModel, 'canDeactivate').then(function (canDeactivate) {
         if (canDeactivate) {
@@ -1839,7 +1847,10 @@ define('aurelia-dialog/dialog-controller',['exports', './lifecycle', './dialog-r
           });
         }
 
-        return Promise.resolve();
+        _this2._closePromise = undefined;
+      }, function (e) {
+        _this2._closePromise = undefined;
+        return Promise.reject(e);
       });
 
       return this._closePromise;
@@ -2058,7 +2069,7 @@ define('aurelia-dialog/dialog-configuration',['exports', './renderer', './dialog
     'attach-focus': './attach-focus'
   };
 
-  var defaultCSSText = 'ai-dialog-container,ai-dialog-overlay{position:fixed;top:0;right:0;bottom:0;left:0}ai-dialog,ai-dialog-container>div>div{min-width:300px;margin:auto;display:block}ai-dialog-overlay{opacity:0}ai-dialog-overlay.active{opacity:1}ai-dialog-container{display:block;transition:opacity .2s linear;opacity:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}ai-dialog-container.active{opacity:1}ai-dialog-container>div{padding:30px}ai-dialog-container>div>div{width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;height:-moz-fit-content;height:-webkit-fit-content;height:fit-content}ai-dialog-container,ai-dialog-container>div,ai-dialog-container>div>div{outline:0}ai-dialog{box-shadow:0 5px 15px rgba(0,0,0,.5);border:1px solid rgba(0,0,0,.2);border-radius:5px;padding:3;width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;height:-moz-fit-content;height:-webkit-fit-content;height:fit-content;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;background:#fff}ai-dialog>ai-dialog-header{display:block;padding:16px;border-bottom:1px solid #e5e5e5}ai-dialog>ai-dialog-header>button{float:right;border:none;display:block;width:32px;height:32px;background:0 0;font-size:22px;line-height:16px;margin:-14px -16px 0 0;padding:0;cursor:pointer}ai-dialog>ai-dialog-body{display:block;padding:16px}ai-dialog>ai-dialog-footer{display:block;padding:6px;border-top:1px solid #e5e5e5;text-align:right}ai-dialog>ai-dialog-footer button{color:#333;background-color:#fff;padding:6px 12px;font-size:14px;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;background-image:none;border:1px solid #ccc;border-radius:4px;margin:5px 0 5px 5px}ai-dialog>ai-dialog-footer button:disabled{cursor:default;opacity:.45}ai-dialog>ai-dialog-footer button:hover:enabled{color:#333;background-color:#e6e6e6;border-color:#adadad}.ai-dialog-open{overflow:hidden}';
+  var defaultCSSText = 'ai-dialog-container,ai-dialog-overlay{position:fixed;top:0;right:0;bottom:0;left:0}ai-dialog-overlay{opacity:0}ai-dialog-overlay.active{opacity:1}ai-dialog-container{display:block;transition:opacity .2s linear;opacity:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}ai-dialog-container.active{opacity:1}ai-dialog-container>div{padding:30px}ai-dialog-container>div>div{display:block;min-width:300px;width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;height:-moz-fit-content;height:-webkit-fit-content;height:fit-content;margin:auto}ai-dialog-container,ai-dialog-container>div,ai-dialog-container>div>div{outline:0}ai-dialog{display:table;box-shadow:0 5px 15px rgba(0,0,0,.5);border:1px solid rgba(0,0,0,.2);border-radius:5px;padding:3;min-width:300px;width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;height:-moz-fit-content;height:-webkit-fit-content;height:fit-content;margin:auto;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;background:#fff}ai-dialog>ai-dialog-header{display:block;padding:16px;border-bottom:1px solid #e5e5e5}ai-dialog>ai-dialog-header>button{float:right;border:none;display:block;width:32px;height:32px;background:0 0;font-size:22px;line-height:16px;margin:-14px -16px 0 0;padding:0;cursor:pointer}ai-dialog>ai-dialog-body{display:block;padding:16px}ai-dialog>ai-dialog-footer{display:block;padding:6px;border-top:1px solid #e5e5e5;text-align:right}ai-dialog>ai-dialog-footer button{color:#333;background-color:#fff;padding:6px 12px;font-size:14px;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;background-image:none;border:1px solid #ccc;border-radius:4px;margin:5px 0 5px 5px}ai-dialog>ai-dialog-footer button:disabled{cursor:default;opacity:.45}ai-dialog>ai-dialog-footer button:hover:enabled{color:#333;background-color:#e6e6e6;border-color:#adadad}.ai-dialog-open{overflow:hidden}';
 
   var DialogConfiguration = exports.DialogConfiguration = function () {
     function DialogConfiguration(aurelia) {
@@ -2140,7 +2151,7 @@ define('aurelia-dialog/renderer',['exports'], function (exports) {
     return Renderer;
   }();
 });
-define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia-pal', 'aurelia-dependency-injection'], function (exports, _dialogOptions, _aureliaPal, _aureliaDependencyInjection) {
+define('aurelia-dialog/dialog-renderer',['exports', 'aurelia-pal', 'aurelia-dependency-injection'], function (exports, _aureliaPal, _aureliaDependencyInjection) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -2183,18 +2194,14 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
 
       
 
-      this.dialogControllers = [];
-
-      this.escapeKeyEvent = function (e) {
+      this._escapeKeyEventHandler = function (e) {
         if (e.keyCode === 27) {
-          var top = _this.dialogControllers[_this.dialogControllers.length - 1];
+          var top = _this._dialogControllers[_this._dialogControllers.length - 1];
           if (top && top.settings.lock !== true) {
             top.cancel();
           }
         }
       };
-
-      this.defaultSettings = _dialogOptions.dialogOptions;
     }
 
     DialogRenderer.prototype.getDialogContainer = function getDialogContainer() {
@@ -2204,7 +2211,7 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
     DialogRenderer.prototype.showDialog = function showDialog(dialogController) {
       var _this2 = this;
 
-      var settings = Object.assign({}, this.defaultSettings, dialogController.settings);
+      var settings = dialogController.settings;
       var body = _aureliaPal.DOM.querySelectorAll('body')[0];
       var wrapper = document.createElement('div');
 
@@ -2230,8 +2237,8 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
         centerDialog(_this2.modalContainer);
       };
 
-      this.modalOverlay.style.zIndex = this.defaultSettings.startingZIndex;
-      this.modalContainer.style.zIndex = this.defaultSettings.startingZIndex;
+      this.modalOverlay.style.zIndex = settings.startingZIndex;
+      this.modalContainer.style.zIndex = settings.startingZIndex;
 
       var lastContainer = Array.from(body.querySelectorAll(containerTagName)).pop();
 
@@ -2243,11 +2250,11 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
         body.insertBefore(this.modalOverlay, body.firstChild);
       }
 
-      if (!this.dialogControllers.length) {
-        _aureliaPal.DOM.addEventListener('keyup', this.escapeKeyEvent);
+      if (!this._dialogControllers.length) {
+        _aureliaPal.DOM.addEventListener('keyup', this._escapeKeyEventHandler);
       }
 
-      this.dialogControllers.push(dialogController);
+      this._dialogControllers.push(dialogController);
 
       dialogController.slot.attached();
 
@@ -2285,19 +2292,19 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
     DialogRenderer.prototype.hideDialog = function hideDialog(dialogController) {
       var _this3 = this;
 
-      var settings = Object.assign({}, this.defaultSettings, dialogController.settings);
+      var settings = dialogController.settings;
       var body = _aureliaPal.DOM.querySelectorAll('body')[0];
 
       this.modalContainer.removeEventListener('click', this.closeModalClick);
       this.anchor.removeEventListener('click', this.stopPropagation);
 
-      var i = this.dialogControllers.indexOf(dialogController);
+      var i = this._dialogControllers.indexOf(dialogController);
       if (i !== -1) {
-        this.dialogControllers.splice(i, 1);
+        this._dialogControllers.splice(i, 1);
       }
 
-      if (!this.dialogControllers.length) {
-        _aureliaPal.DOM.removeEventListener('keyup', this.escapeKeyEvent);
+      if (!this._dialogControllers.length) {
+        _aureliaPal.DOM.removeEventListener('keyup', this._escapeKeyEventHandler);
       }
 
       return new Promise(function (resolve) {
@@ -2320,7 +2327,7 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
         body.removeChild(_this3.modalContainer);
         dialogController.slot.detached();
 
-        if (!_this3.dialogControllers.length) {
+        if (!_this3._dialogControllers.length) {
           body.classList.remove('ai-dialog-open');
         }
 
@@ -2331,6 +2338,8 @@ define('aurelia-dialog/dialog-renderer',['exports', './dialog-options', 'aurelia
     return DialogRenderer;
   }()) || _class);
 
+
+  DialogRenderer.prototype._dialogControllers = [];
 
   function centerDialog(modalContainer) {
     var child = modalContainer.children[0];
@@ -2353,7 +2362,7 @@ define('aurelia-dialog/dialog-options',["exports"], function (exports) {
     ignoreTransitions: false
   };
 });
-define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-dependency-injection', 'aurelia-templating', './dialog-controller', './renderer', './lifecycle', './dialog-result'], function (exports, _aureliaMetadata, _aureliaDependencyInjection, _aureliaTemplating, _dialogController, _renderer, _lifecycle, _dialogResult) {
+define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-dependency-injection', 'aurelia-templating', './dialog-controller', './renderer', './lifecycle', './dialog-result', './dialog-options'], function (exports, _aureliaMetadata, _aureliaDependencyInjection, _aureliaTemplating, _dialogController, _renderer, _lifecycle, _dialogResult, _dialogOptions) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -2376,47 +2385,26 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
     }
 
     DialogService.prototype.open = function open(settings) {
-      var _this = this;
-
-      var dialogController = void 0;
-
-      var promise = new Promise(function (resolve, reject) {
-        var childContainer = _this.container.createChild();
-        dialogController = new _dialogController.DialogController(childContainer.get(_renderer.Renderer), settings, resolve, reject);
-        childContainer.registerInstance(_dialogController.DialogController, dialogController);
-        return _openDialog(_this, childContainer, dialogController);
-      });
-
-      return promise.then(function (result) {
-        var i = _this.controllers.indexOf(dialogController);
-        if (i !== -1) {
-          _this.controllers.splice(i, 1);
-          _this.hasActiveDialog = !!_this.controllers.length;
-        }
-
-        return result;
+      return this.openAndYieldController(settings).then(function (controller) {
+        return controller.result;
       });
     };
 
     DialogService.prototype.openAndYieldController = function openAndYieldController(settings) {
-      var _this2 = this;
+      var _this = this;
 
       var childContainer = this.container.createChild();
-      var dialogController = new _dialogController.DialogController(childContainer.get(_renderer.Renderer), settings, null, null);
-      childContainer.registerInstance(_dialogController.DialogController, dialogController);
-
-      dialogController.result = new Promise(function (resolve, reject) {
-        dialogController._resolve = resolve;
-        dialogController._reject = reject;
-      }).then(function (result) {
-        var i = _this2.controllers.indexOf(dialogController);
-        if (i !== -1) {
-          _this2.controllers.splice(i, 1);
-          _this2.hasActiveDialog = !!_this2.controllers.length;
-        }
-        return result;
+      var dialogController = void 0;
+      var promise = new Promise(function (resolve, reject) {
+        dialogController = new _dialogController.DialogController(childContainer.get(_renderer.Renderer), _createSettings(settings), resolve, reject);
       });
-
+      childContainer.registerInstance(_dialogController.DialogController, dialogController);
+      dialogController.result = promise;
+      dialogController.result.then(function () {
+        _removeController(_this, dialogController);
+      }, function () {
+        _removeController(_this, dialogController);
+      });
       return _openDialog(this, childContainer, dialogController).then(function () {
         return dialogController;
       });
@@ -2425,6 +2413,12 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
     return DialogService;
   }(), _class.inject = [_aureliaDependencyInjection.Container, _aureliaTemplating.CompositionEngine], _temp);
 
+
+  function _createSettings(settings) {
+    settings = Object.assign({}, _dialogOptions.dialogOptions, settings);
+    settings.startingZIndex = _dialogOptions.dialogOptions.startingZIndex;
+    return settings;
+  }
 
   function _openDialog(service, childContainer, dialogController) {
     var host = dialogController.renderer.getDialogContainer();
@@ -2444,10 +2438,9 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
 
       return (0, _lifecycle.invokeLifecycle)(dialogController.viewModel, 'canActivate', dialogController.settings.model).then(function (canActivate) {
         if (canActivate) {
-          service.controllers.push(dialogController);
-          service.hasActiveDialog = !!service.controllers.length;
-
           return service.compositionEngine.compose(returnedInstruction).then(function (controller) {
+            service.controllers.push(dialogController);
+            service.hasActiveDialog = !!service.controllers.length;
             dialogController.controller = controller;
             dialogController.view = controller.view;
 
@@ -2469,6 +2462,14 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
 
     return Promise.resolve(instruction);
   }
+
+  function _removeController(service, controller) {
+    var i = service.controllers.indexOf(controller);
+    if (i !== -1) {
+      service.controllers.splice(i, 1);
+      service.hasActiveDialog = !!service.controllers.length;
+    }
+  }
 });
 define('text!resources/views/app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"styles/styles.css\"></require>\n  <require from=\"./controls/nav-bar\"></require>\n\n  <nav-bar router.bind=\"router\"></nav-bar>\n\n  <div class=\"ui main container\">\n    <router-view></router-view>\n  </div>\n</template>\n"; });
 define('text!styles/customer-list.css', ['module'], function(module) { module.exports = "#customer-list .ui.header {\n  margin-bottom: 0;\n}\n"; });
@@ -2485,5 +2486,5 @@ define('text!resources/views/jobs/close-job.html', ['module'], function(module) 
 define('text!styles/styles.css', ['module'], function(module) { module.exports = "@import '../../node_modules/semantic-ui-css/semantic.css';\n@import '../../node_modules/semantic-ui/dist/components/calendar.css';\n.toast-title {\n  font-weight: bold;\n}\n.toast-message {\n  -ms-word-wrap: break-word;\n  word-wrap: break-word;\n}\n.toast-message a,\n.toast-message label {\n  color: #FFFFFF;\n}\n.toast-message a:hover {\n  color: #CCCCCC;\n  text-decoration: none;\n}\n.toast-close-button {\n  position: relative;\n  right: -0.3em;\n  top: -0.3em;\n  float: right;\n  font-size: 20px;\n  font-weight: bold;\n  color: #FFFFFF;\n  -webkit-text-shadow: 0 1px 0 #ffffff;\n  text-shadow: 0 1px 0 #ffffff;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n}\n.toast-close-button:hover,\n.toast-close-button:focus {\n  color: #000000;\n  text-decoration: none;\n  cursor: pointer;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n/*Additional properties for button version\n iOS requires the button element instead of an anchor tag.\n If you want the anchor version, it requires `href=\"#\"`.*/\nbutton.toast-close-button {\n  padding: 0;\n  cursor: pointer;\n  background: transparent;\n  border: 0;\n  -webkit-appearance: none;\n}\n.toast-top-center {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-center {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-full-width {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-full-width {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-left {\n  top: 12px;\n  left: 12px;\n}\n.toast-top-right {\n  top: 12px;\n  right: 12px;\n}\n.toast-bottom-right {\n  right: 12px;\n  bottom: 12px;\n}\n.toast-bottom-left {\n  bottom: 12px;\n  left: 12px;\n}\n#toast-container {\n  position: fixed;\n  z-index: 999999;\n  pointer-events: none;\n  /*overrides*/\n}\n#toast-container * {\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n#toast-container > div {\n  position: relative;\n  pointer-events: auto;\n  overflow: hidden;\n  margin: 0 0 6px;\n  padding: 15px 15px 15px 50px;\n  width: 300px;\n  -moz-border-radius: 3px 3px 3px 3px;\n  -webkit-border-radius: 3px 3px 3px 3px;\n  border-radius: 3px 3px 3px 3px;\n  background-position: 15px center;\n  background-repeat: no-repeat;\n  -moz-box-shadow: 0 0 12px #999999;\n  -webkit-box-shadow: 0 0 12px #999999;\n  box-shadow: 0 0 12px #999999;\n  color: #FFFFFF;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n}\n#toast-container > :hover {\n  -moz-box-shadow: 0 0 12px #000000;\n  -webkit-box-shadow: 0 0 12px #000000;\n  box-shadow: 0 0 12px #000000;\n  opacity: 1;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);\n  filter: alpha(opacity=100);\n  cursor: pointer;\n}\n#toast-container > .toast-info {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-error {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHOSURBVEhLrZa/SgNBEMZzh0WKCClSCKaIYOED+AAKeQQLG8HWztLCImBrYadgIdY+gIKNYkBFSwu7CAoqCgkkoGBI/E28PdbLZmeDLgzZzcx83/zZ2SSXC1j9fr+I1Hq93g2yxH4iwM1vkoBWAdxCmpzTxfkN2RcyZNaHFIkSo10+8kgxkXIURV5HGxTmFuc75B2RfQkpxHG8aAgaAFa0tAHqYFfQ7Iwe2yhODk8+J4C7yAoRTWI3w/4klGRgR4lO7Rpn9+gvMyWp+uxFh8+H+ARlgN1nJuJuQAYvNkEnwGFck18Er4q3egEc/oO+mhLdKgRyhdNFiacC0rlOCbhNVz4H9FnAYgDBvU3QIioZlJFLJtsoHYRDfiZoUyIxqCtRpVlANq0EU4dApjrtgezPFad5S19Wgjkc0hNVnuF4HjVA6C7QrSIbylB+oZe3aHgBsqlNqKYH48jXyJKMuAbiyVJ8KzaB3eRc0pg9VwQ4niFryI68qiOi3AbjwdsfnAtk0bCjTLJKr6mrD9g8iq/S/B81hguOMlQTnVyG40wAcjnmgsCNESDrjme7wfftP4P7SP4N3CJZdvzoNyGq2c/HWOXJGsvVg+RA/k2MC/wN6I2YA2Pt8GkAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-success {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==\") !important;\n}\n#toast-container > .toast-warning {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=\") !important;\n}\n#toast-container.toast-top-center > div,\n#toast-container.toast-bottom-center > div {\n  width: 300px;\n  margin-left: auto;\n  margin-right: auto;\n}\n#toast-container.toast-top-full-width > div,\n#toast-container.toast-bottom-full-width > div {\n  width: 96%;\n  margin-left: auto;\n  margin-right: auto;\n}\n.toast {\n  background-color: #030303;\n}\n.toast-success {\n  background-color: #51A351;\n}\n.toast-error {\n  background-color: #BD362F;\n}\n.toast-info {\n  background-color: #2F96B4;\n}\n.toast-warning {\n  background-color: #F89406;\n}\n.toast-progress {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  height: 4px;\n  background-color: #000000;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n/*Responsive Design*/\n@media all and (max-width: 240px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 11em;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n}\n@media all and (min-width: 241px) and (max-width: 480px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 18em;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n}\n@media all and (min-width: 481px) and (max-width: 768px) {\n  #toast-container > div {\n    padding: 15px 15px 15px 50px;\n    width: 25em;\n  }\n}\n.ui.secondary.pointing.menu .item.logo-item {\n  padding: 0 20px;\n}\n.ui.fixed.menu.button-bar.top {\n  top: 0px;\n}\n.ui.popup.calendar:focus {\n  outline: none;\n}\n@media only screen and (max-width: 767px) {\n  #main-menu > .ui.container {\n    margin: 0px !important;\n  }\n  list-item {\n    width: 100%;\n  }\n  list-item > .ui.card {\n    width: 100%;\n  }\n  list-item > .ui.card .ui.header {\n    margin-top: 10px;\n  }\n  .menu .item.logo-item span {\n    display: none;\n  }\n  .ui.cards > .card {\n    width: 100%;\n  }\n  .hide-mobile {\n    display: none !important;\n  }\n}\n@media only screen and (min-width: 768px) {\n  .hide-desktop {\n    display: none !important;\n  }\n}\n"; });
 define('text!resources/views/jobs/detail.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"styles/job-detail.css\"></require>\n  <require from=\"../controls/integer-value-converter\"></require>\n\n    <div class=\"ui menu button-bar\">\n        <div class=\"ui container\">\n            <a route-href=\"route:jobs.list\" class=\"ui button\">Cancel</a>\n            <button type=\"button\" class=\"ui button positive\" click.trigger=\"onSaveClick()\">\n                <i class=\"icon save\"></i>\n                Save\n            </button>\n\n            <button type=\"button\" class=\"ui button red basic right\" click.trigger=\"onDeleteClick()\" show.bind=\"job._id\">\n              <i class=\"icon trash\"></i>\n              Delete\n            </button>\n        </div>\n    </div>\n\n    <form class=\"ui form\">\n        <h2 class=\"ui ${isFollowup ? '' : 'dividing header'}\">${routeConfig.title}</h2>\n\n        <div class=\"fields\">\n            <div class=\"field eight wide\">\n                <label for=\"customer\">Customer</label>\n                <div class=\"ui search selection dropdown customer\">\n                    <input type=\"hidden\" name=\"customer\" id=\"customer\" value.bind=\"customer_id\">\n                    <i class=\"dropdown icon\"></i>\n                    <div class=\"default text\">Select Customer</div>\n                    <div class=\"menu\">\n                        <div repeat.for=\"customer of customers\" class=\"item\" data-value.bind=\"customer._id\" data-text.bind=\"customer.name\">\n                            ${customer.name}\n                        </div>\n                    </div>\n                </div>\n            </div>\n          <div class=\"field eight wide\">\n            <label for=\"job-name\">Job Name</label>\n            <input type=\"text\" name=\"job-name\" id=\"job-name\" value.bind=\"job.name\">\n          </div>\n        </div>\n        <div class=\"fields\">\n            <div class=\"field sixteen wide\">\n                <label for=\"description\">Job Description</label>\n                <textarea name=\"description\" id=\"description\" value.bind=\"job.description\" cols=\"30\" rows=\"5\"></textarea>\n            </div>\n        </div>\n        <div class=\"fields\">\n            <div class=\"field six wide\">\n                <label for=\"jobType\">Job Type</label>\n                <select name=\"jobType\" id=\"jobType\" value.bind=\"job.job_type\" class=\"ui compact dropdown\">\n                    <option repeat.for=\"t of jobTypes\" value=\"${t.id}\">${t.name}</option>\n                </select>\n            </div>\n        </div>\n        <div class=\"fields\">\n            <div class=\"field six wide\">\n                <label for=\"status\">Status</label>\n                <select name=\"status\" id=\"status\" value.bind=\"job.status\" class=\"ui compact dropdown\">\n                    <option repeat.for=\"s of jobStatuses\" value=\"${s.id}\">${s.name}</option>\n                </select>\n            </div>\n            <div class=\"field six wide\">\n                <label for=\"billingType\">Billing Type</label>\n                <select name=\"billingType\" id=\"billingType\" value.bind=\"job.billing_type\" class=\"ui compact dropdown\">\n                    <option repeat.for=\"bt of billingTypes\" value=\"${bt.id}\">${bt.name}</option>\n                </select>\n            </div>\n            <div class=\"field six wide\">\n                <label for=\"jobType\">Work Type</label>\n                <select name=\"workType\" id=\"workType\" value.bind=\"job.work_type\" class=\"ui compact dropdown\">\n                    <option repeat.for=\"wt of workTypes\" value=\"${wt.id}\">${wt.name}</option>\n                </select>\n            </div>\n        </div>\n        <div class=\"fields\">\n            <div class=\"field six wide\">\n                <label for=\"start\">Scheduled Start</label>\n                <div class=\"ui calendar start\">\n                    <div class=\"ui input compact left icon\">\n                        <i class=\"calendar icon\"></i>\n                        <input type=\"text\" placeholder=\"Date/Time\" id=\"start\" name=\"start\">\n                    </div>\n                </div>\n            </div>\n          <div class=\"field six wide\">\n            <label for=\"start\">Scheduled End</label>\n            <div class=\"ui calendar end\">\n              <div class=\"ui input compact left icon\">\n                <i class=\"calendar icon\"></i>\n                <input type=\"text\" placeholder=\"Date/Time\" id=\"end\" name=\"end\">\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"fields\">\n            <div class=\"field sixteen wide\">\n                <label for=\"notes\">Notes</label>\n                <textarea name=\"notes\" id=\"notes\" value.bind=\"job.notes\" cols=\"30\" rows=\"3\"></textarea>\n            </div>\n        </div>\n        <div class=\"fields\">\n          <div class=\"field six wide\">\n            <label for=\"man-hours\">Man-hours:</label>\n            <input type=\"number\" id=\"man-hours\" name=\"man-hours\" value.bind=\"job.manHours | integer\" if.bind=\"canEditManHours\">\n            <input type=\"number\" id=\"man-hours-readonly\" name=\"man-hours-readonly\" value.bind=\"job.manHours | integer\" if.bind=\"!canEditManHours\" readonly>\n          </div>\n        </div>\n    </form>\n</template>\n"; });
 define('text!resources/views/jobs/list-item.html', ['module'], function(module) { module.exports = "<template>\n      <div class=\"content\">\n          <div class=\"right floated meta\" style=\"max-width: 40%;\">\n              <span>${startDateDisplay}</span>\n              <span show.bind=\"job.endDate\">&nbsp;&ndash;&nbsp;</span>\n              <br show.bind=\"job.endDate\">\n              <span show.bind=\"job.endDate\">${endDateDisplay}</span>\n          </div>\n          <a class=\"header\" route-href=\"route:jobs.edit; params.bind: {id: job._id}\">\n              <i class=\"icon building\" show.bind=\"isProject\"></i>\n              <i class=\"icon wrench\" show.bind=\"isServiceCall\"></i>\n              &nbsp;${jobNumberDisplay}\n          </a>\n          <div class=\"ui header\">${job.customer.name}</div>\n      </div>\n      <div class=\"content\">\n          <div class=\"ui sub header\">\n              <button class=\"ui basic icon button right floated hide-desktop\" click.trigger=\"toggleExpanded()\">\n                  <i class=\"dropdown icon ${expanded ? 'vertically flipped' : ''}\"></i>\n              </button>\n              ${job.name}\n          </div>\n          <p class=\"ui ${expanded ? '' : 'hide-mobile'}\">${job.description}</p>\n          <div class=\"ui sub header ${expanded ? '' : 'hide-mobile'}\" show.bind=\"job.manHours\">Man hours: ${job.manHours}</div>\n      </div>\n      <div class=\"ui extra content ${expanded ? '' : 'hide-mobile'}\">\n          <div class=\"right floated author\">\n              <div class=\"ui dropdown foreman\">\n                  <div class=\"text\">\n                      <i class=\"icon user\" show.bind=\"job.foreman\"></i>\n                      <i class=\"icon user plus\" hide.bind=\"job.foreman\"></i>\n                      &nbsp;${foremanDisplay}\n                  </div>\n                  <i class=\"dropdown icon\"></i>\n                  <div class=\"menu\">\n                      <div repeat.for=\"f of foremen\" class=\"item\" data-value.bind=\"f\">${f}</div>\n                  </div>\n              </div>\n          </div>\n          <div class=\"ui dropdown status\">\n              <div class=\"text\">\n                  <i class=\"icon circular ${jobStatus.cssClass}\"></i>\n                  <span>&nbsp;${jobStatus.name}</span>\n              </div>\n              <i class=\"dropdown icon\"></i>\n              <div class=\"menu\">\n                  <div class=\"item\" repeat.for=\"status of jobStatuses\" data-value.bind=\"status.id\">\n                      <i class=\"icon circular ${status.cssClass}\"></i>\n                      <span>&nbsp;${status.name}</span>\n                  </div>\n              </div>\n          </div>\n      </div>\n</template>\n"; });
-define('text!resources/views/jobs/list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./list-item\"></require>\n  <require from=\"./close-job\"></require>\n\n  <require from=\"styles/job-list.css\"></require>\n\n  <div class=\"ui segment\">\n    <button class=\"ui button basic right floated hide-desktop mini\" click.trigger=\"toggleFiltersExpanded()\"\n            show.bind=\"isOwner\">\n      Filters\n      <i class=\"dropdown icon ${filtersExpanded ? 'vertically flipped' : ''}\"></i>\n    </button>\n    <div class=\"ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}\" show.bind=\"isOwner\">\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox\">\n          <input type=\"checkbox\" checked.bind=\"myJobs\">\n          <label>My Jobs Only</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showOpen\">\n          <label>Show open jobs</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showCompleted\">\n          <label>Show completed jobs</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showClosed\">\n          <label>Show closed jobs</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"customerSort\">\n          <label>Customer Sort</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"reverseSort\">\n          <label>Reverse Sort</label>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"ui cards\" show.bind=\"filteredItems.length\">\n      <list-item job.bind=\"item\" repeat.for=\"item of filteredItems\" class=\"card\"></list-item>\n    </div>\n    <div class=\"ui message\" show.bind=\"!filteredItems.length\">\n      <div class=\"header\">No items</div>\n    </div>\n  </div>\n\n  <close-job id=\"close-job\" args.bind=\"closeJobArgs\"></close-job>\n</template>\n"; });
+define('text!resources/views/jobs/list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./list-item\"></require>\n  <require from=\"./close-job\"></require>\n\n  <require from=\"styles/job-list.css\"></require>\n\n  <div class=\"ui segment\">\n    <button class=\"ui button basic right floated hide-desktop mini\" click.trigger=\"toggleFiltersExpanded()\"\n            show.bind=\"isOwner\">\n      Filters\n      <i class=\"dropdown icon ${filtersExpanded ? 'vertically flipped' : ''}\"></i>\n    </button>\n    <div class=\"ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}\" show.bind=\"isOwner\">\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox\">\n          <input type=\"checkbox\" checked.bind=\"myJobs\">\n          <label>My Jobs Only</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showOpen\">\n          <label>Show open jobs</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showCompleted\">\n          <label>Show completed jobs</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showClosed\">\n          <label>Show closed jobs</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"customerSort\">\n          <label>Customer Sort</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"reverseSort\">\n          <label>Reverse Sort</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showProjects\">\n          <label>Show Projects</label>\n        </div>\n      </div>\n      <div class=\"column\">\n        <div class=\"ui toggle checkbox column\">\n          <input type=\"checkbox\" checked.bind=\"showServiceCalls\">\n          <label>Show Service Calls</label>\n        </div>\n      </div>      \n    </div>\n\n    <div class=\"ui cards\" show.bind=\"filteredItems.length\">\n      <list-item job.bind=\"item\" repeat.for=\"item of filteredItems\" class=\"card\"></list-item>\n    </div>\n    <div class=\"ui message\" show.bind=\"!filteredItems.length\">\n      <div class=\"header\">No items</div>\n    </div>\n  </div>\n\n  <close-job id=\"close-job\" args.bind=\"closeJobArgs\"></close-job>\n</template>\n"; });
 //# sourceMappingURL=app-bundle.js.map

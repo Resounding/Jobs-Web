@@ -47,6 +47,18 @@
           <label>Reverse Sort</label>
         </div>
       </div>
+      <div class="column">
+        <div class="ui toggle checkbox column">
+          <input type="checkbox" checked.bind="showProjects">
+          <label>Show Projects</label>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui toggle checkbox column">
+          <input type="checkbox" checked.bind="showServiceCalls">
+          <label>Show Service Calls</label>
+        </div>
+      </div>      
     </div>
 
     <div class="ui cards" show.bind="filteredItems.length">
