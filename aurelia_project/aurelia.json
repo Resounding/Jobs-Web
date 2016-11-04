@@ -38,20 +38,19 @@
   },
   "paths": {
     "root": "src",
-    "export": "export/",
     "assets": {
       "images": "./images/*.png",
       "theme": "node_modules/semantic-ui-css/themes/**/*.*",
       "misc": ["./manifest.json", "browserconfig.xml", "favicon.ico"]
-    },
-    "app-bundle": "scripts/app-bundle.js"
+    }
   },
   "build": {
     "targets": [
       {
         "id": "web",
         "displayName": "Web",
-        "output": "scripts"
+        "output": "scripts",
+        "index": "index.html"
       }
     ],
     "loader": {
@@ -72,7 +71,8 @@
     "options": {
       "minify": "stage & prod",
       "sourcemaps": "dev & stage",
-      "requirejs-main": "aurelia-bootstrapper"
+      "requirejs-main": "aurelia-bootstrapper",
+      "rev": "stage & prod"
     },
     "bundles": [
       {

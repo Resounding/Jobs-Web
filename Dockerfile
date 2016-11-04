@@ -19,5 +19,4 @@ RUN git checkout $APP_RELEASE
 RUN yarn install --ignore-scripts
 RUN typings install
 
-RUN mkdir -p /usr/src/Jobs-Web/export
 RUN au build --env prod
