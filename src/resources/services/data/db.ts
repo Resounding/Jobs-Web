@@ -4,6 +4,8 @@ import {Job, JobDocument} from '../../models/job';
 import {Configuration} from '../config';
 import {log} from '../log';
 import {Authentication} from '../auth';
+import {PouchSyncOptions} from "../../../../custom_typings/pouchdb-find";
+import DatabaseConfiguration = PouchDB.Configuration.DatabaseConfiguration;
 
 let localDB: PouchDB = null;
 let remoteDB: PouchDB = null;
@@ -15,7 +17,7 @@ export class Database {
     this.events.subscribe(Authentication.AuthenticatedEvent, this.init.bind(this));
   }
 
-  init(localOps?:PouchOptions) {
+  init(localOps?:DatabaseConfiguration, remoteOps?:DatabaseConfiguration) {
     if (localDB === null) {
       if(localOps) {
         localDB = new PouchDB(this.config.app_database_name, localOps);
@@ -56,11 +58,15 @@ export class Database {
 
     if (this.auth.isAuthenticated()) {
       const userInfo = this.auth.userInfo(),
-        headers = {Authorization: userInfo.basicAuth}
-      remoteDB = new PouchDB(this.config.remote_database_name, {
-        skip_setup: true,
-        auth: {username: userInfo.name, password: userInfo.password}
-      });
+        headers = {Authorization: userInfo.basicAuth},
+        opts = {
+          skip_setup: true,
+          auth: {username: userInfo.name, password: userInfo.password}
+        };
+      if(remoteOps) {
+        _.extend(opts, remoteOps);
+      }
+      let remoteDB = new PouchDB(this.config.remote_database_name, opts);
       const sync = localDB.sync(remoteDB, {live: true})
         .on('complete', () => {
           log.debug('Sync complete');
@@ -76,8 +82,20 @@ export class Database {
             } catch(e) { }
 
             localDB = null;
-            const options:PouchOptions = { adapter: 'localstorage' };
+            const options:DatabaseConfiguration = { adapter: 'localstorage' };
             this.init(options);
+          // this happens on iOS 10/Safari. Use the API keys...
+          } else if(values.indexOf('_reader access is required for this request') !== -1) {
+            try {
+              sync.cancel();
+            } catch (e) { }
+
+            localDB = null;
+            const options:DatabaseConfiguration = {
+              skip_setup: true,
+              auth: {username: 'servaryinallyzeaccedicie', password: 'f2062820500e00f931c25f848928023cc1b427cc'}
+            };
+            this.init(undefined, options);
           }
         })
         .on('change', change => {
