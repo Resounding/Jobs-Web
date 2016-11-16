@@ -9,7 +9,7 @@ const storage_key:string = 'auth_token';
 let database = null;
 let user_info: UserInfo = null;
 
-interface UserInfo {
+export interface UserInfo {
     name: string;
     password: string;
     roles: string[];

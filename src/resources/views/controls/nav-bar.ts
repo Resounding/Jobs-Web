@@ -1,17 +1,15 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {Authentication} from '../../services/auth';
+import {Authentication, UserInfo} from '../../services/auth';
 import {CsvExport} from "../../services/csv-export";
-import {Database} from "../../services/data/db";
 
 @autoinject()
 export class NavBar {
 
   @bindable router: Router;
   csv: string;
-  changes: PouchCancellable;
 
-  constructor(private element: Element, private auth: Authentication, database: Database, private csvExport: CsvExport) { }
+  constructor(private element: Element, private auth: Authentication, private csvExport: CsvExport) { }
 
   attached() {
     $('.dropdown', this.element).dropdown();
@@ -19,7 +17,6 @@ export class NavBar {
 
   detached() {
     $('.dropdown', this.element).dropdown('destroy');
-    this.changes.cancel();
   }
 
   downloadCsv() {
@@ -40,6 +37,6 @@ export class NavBar {
   }
 
   get userName() {
-    return (this.auth.userInfo() || {}).name;
+    return (this.auth.userInfo() || <UserInfo>{}).name;
   }
 }
