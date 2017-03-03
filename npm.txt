@@ -1,0 +1,1391 @@
+jobs-web@1.0.5 D:\Projects\LangendoenMechanical\Jobs-Web
++-- ansicolors@0.3.2 extraneous
++-- ansistyles@0.1.3 extraneous
++-- aurelia-animator-css@1.0.1
+| +-- aurelia-metadata@1.0.2
+| +-- aurelia-pal@1.0.0
+| `-- aurelia-templating@1.1.2
+|   +-- aurelia-binding@1.0.9
+|   +-- aurelia-loader@1.0.0
+|   +-- aurelia-path@1.1.1
+|   `-- aurelia-task-queue@1.1.0
++-- aurelia-bootstrapper@2.1.0
+| +-- aurelia-event-aggregator@1.0.0
+| +-- aurelia-framework@1.0.7
+| +-- aurelia-history@1.0.0
+| +-- aurelia-history-browser@1.0.0
+| +-- aurelia-loader-default@1.0.0
+| +-- aurelia-logging-console@1.0.0
+| +-- aurelia-pal@1.3.0
+| +-- aurelia-pal-browser@1.0.0
+| +-- aurelia-polyfills@1.1.1
+| +-- aurelia-router@1.0.7
+| | `-- aurelia-route-recognizer@1.1.0
+| +-- aurelia-templating-binding@1.0.0
+| +-- aurelia-templating-resources@1.1.1
+| `-- aurelia-templating-router@1.0.0
++-- aurelia-cli@0.26.0
+| +-- aurelia-dependency-injection@1.2.0
+| +-- aurelia-logging@1.3.0
+| +-- esprima@3.1.3
+| +-- glob@7.1.1
+| | +-- fs.realpath@1.0.0
+| | +-- inflight@1.0.6
+| | | `-- wrappy@1.0.2
+| | +-- once@1.4.0
+| | `-- path-is-absolute@1.0.1
+| +-- npm@3.10.9
+| | +-- abbrev@1.0.9
+| | +-- ansi-regex@2.0.0
+| | +-- ansicolors@0.3.2
+| | +-- ansistyles@0.1.3
+| | +-- aproba@1.0.4
+| | +-- archy@1.0.0
+| | +-- asap@2.0.5
+| | +-- bl@1.1.2 extraneous
+| | +-- chownr@1.0.1
+| | +-- cmd-shim@2.0.2
+| | +-- columnify@1.5.4
+| | | `-- wcwidth@1.0.0
+| | |   `-- defaults@1.0.3
+| | |     `-- clone@1.0.2
+| | +-- config-chain@1.1.11
+| | | `-- proto-list@1.2.4
+| | +-- debuglog@1.0.1
+| | +-- dezalgo@1.0.3
+| | +-- editor@1.0.0
+| | +-- form-data@2.0.0 extraneous
+| | +-- fs-vacuum@1.2.9
+| | +-- fs-write-stream-atomic@1.0.8
+| | +-- fstream@1.0.10
+| | +-- fstream-npm@1.2.0
+| | | `-- fstream-ignore@1.0.5
+| | |   `-- minimatch@3.0.3
+| | |     `-- brace-expansion@1.1.6
+| | |       +-- balanced-match@0.4.2
+| | |       `-- concat-map@0.0.1
+| | +-- glob@7.1.0
+| | | +-- fs.realpath@1.0.0
+| | | +-- minimatch@3.0.3
+| | | | `-- brace-expansion@1.1.6
+| | | |   +-- balanced-match@0.4.2
+| | | |   `-- concat-map@0.0.1
+| | | `-- path-is-absolute@1.0.1
+| | +-- graceful-fs@4.1.9
+| | +-- has-unicode@2.0.1
+| | +-- hosted-git-info@2.1.5
+| | +-- iferr@0.1.5
+| | +-- imurmurhash@0.1.4
+| | +-- inflight@1.0.5
+| | +-- inherits@2.0.3
+| | +-- ini@1.3.4
+| | +-- init-package-json@1.9.4
+| | | +-- glob@6.0.4
+| | | | +-- minimatch@3.0.3
+| | | | | `-- brace-expansion@1.1.6
+| | | | |   +-- balanced-match@0.4.2
+| | | | |   `-- concat-map@0.0.1
+| | | | `-- path-is-absolute@1.0.0
+| | | `-- promzard@0.3.0
+| | +-- lockfile@1.0.2
+| | +-- lodash._baseindexof@3.1.0
+| | +-- lodash._baseuniq@4.6.0
+| | | +-- lodash._createset@4.0.3
+| | | `-- lodash._root@3.0.1
+| | +-- lodash._bindcallback@3.0.1
+| | +-- lodash._cacheindexof@3.0.2
+| | +-- lodash._createcache@3.1.2
+| | +-- lodash._getnative@3.9.1
+| | +-- lodash.clonedeep@4.5.0
+| | +-- lodash.restparam@3.6.1
+| | +-- lodash.union@4.6.0
+| | +-- lodash.uniq@4.5.0
+| | +-- lodash.without@4.4.0
+| | +-- mkdirp@0.5.1
+| | | `-- minimist@0.0.8
+| | +-- node-gyp@3.4.0
+| | | +-- minimatch@3.0.3
+| | | | `-- brace-expansion@1.1.6
+| | | |   +-- balanced-match@0.4.2
+| | | |   `-- concat-map@0.0.1
+| | | +-- npmlog@3.1.2
+| | | | +-- are-we-there-yet@1.1.2
+| | | | | `-- delegates@1.0.0
+| | | | +-- console-control-strings@1.1.0
+| | | | +-- gauge@2.6.0
+| | | | | +-- has-color@0.1.7
+| | | | | +-- object-assign@4.1.0
+| | | | | +-- signal-exit@3.0.0
+| | | | | +-- string-width@1.0.2
+| | | | | | +-- code-point-at@1.0.0
+| | | | | | | `-- number-is-nan@1.0.0
+| | | | | | `-- is-fullwidth-code-point@1.0.0
+| | | | | |   `-- number-is-nan@1.0.0
+| | | | | `-- wide-align@1.1.0
+| | | | `-- set-blocking@2.0.0
+| | | `-- path-array@1.0.1
+| | |   `-- array-index@1.0.0
+| | |     +-- debug@2.2.0
+| | |     | `-- ms@0.7.1
+| | |     `-- es6-symbol@3.1.0
+| | |       +-- d@0.1.1
+| | |       `-- es5-ext@0.10.12
+| | |         `-- es6-iterator@2.0.0
+| | +-- nopt@3.0.6
+| | +-- normalize-git-url@3.0.2
+| | +-- normalize-package-data@2.3.5
+| | | `-- is-builtin-module@1.0.0
+| | |   `-- builtin-modules@1.1.1
+| | +-- npm-cache-filename@1.0.2
+| | +-- npm-install-checks@3.0.0
+| | +-- npm-package-arg@4.2.0
+| | +-- npm-registry-client@7.2.1
+| | | +-- concat-stream@1.5.2
+| | | | +-- readable-stream@2.0.6
+| | | | | +-- core-util-is@1.0.2
+| | | | | +-- isarray@1.0.0
+| | | | | +-- process-nextick-args@1.0.7
+| | | | | +-- string_decoder@0.10.31
+| | | | | `-- util-deprecate@1.0.2
+| | | | `-- typedarray@0.0.6
+| | | +-- npmlog@3.1.2
+| | | | +-- are-we-there-yet@1.1.2
+| | | | | `-- delegates@1.0.0
+| | | | +-- console-control-strings@1.1.0
+| | | | +-- gauge@2.6.0
+| | | | | +-- has-color@0.1.7
+| | | | | +-- object-assign@4.1.0
+| | | | | +-- signal-exit@3.0.0
+| | | | | +-- string-width@1.0.2
+| | | | | | +-- code-point-at@1.0.0
+| | | | | | | `-- number-is-nan@1.0.0
+| | | | | | `-- is-fullwidth-code-point@1.0.0
+| | | | | |   `-- number-is-nan@1.0.0
+| | | | | `-- wide-align@1.1.0
+| | | | `-- set-blocking@2.0.0
+| | | `-- retry@0.10.0
+| | +-- npm-user-validate@0.1.5
+| | +-- npmlog@4.0.0
+| | | +-- are-we-there-yet@1.1.2
+| | | | `-- delegates@1.0.0
+| | | +-- console-control-strings@1.1.0
+| | | +-- gauge@2.6.0
+| | | | +-- has-color@0.1.7
+| | | | +-- object-assign@4.1.0
+| | | | +-- signal-exit@3.0.0
+| | | | +-- string-width@1.0.2
+| | | | | +-- code-point-at@1.0.0
+| | | | | | `-- number-is-nan@1.0.0
+| | | | | `-- is-fullwidth-code-point@1.0.0
+| | | | |   `-- number-is-nan@1.0.0
+| | | | `-- wide-align@1.1.0
+| | | `-- set-blocking@2.0.0
+| | +-- once@1.4.0
+| | +-- opener@1.4.2
+| | +-- osenv@0.1.3
+| | | +-- os-homedir@1.0.1
+| | | `-- os-tmpdir@1.0.1
+| | +-- path-is-inside@1.0.2
+| | +-- read@1.0.7
+| | | `-- mute-stream@0.0.5
+| | +-- read-cmd-shim@1.0.1
+| | +-- read-installed@4.0.3
+| | | `-- util-extend@1.0.3
+| | +-- read-package-json@2.0.4
+| | | +-- glob@6.0.4
+| | | | +-- minimatch@3.0.3
+| | | | | `-- brace-expansion@1.1.6
+| | | | |   +-- balanced-match@0.4.2
+| | | | |   `-- concat-map@0.0.1
+| | | | `-- path-is-absolute@1.0.0
+| | | `-- json-parse-helpfulerror@1.0.3
+| | |   `-- jju@1.3.0
+| | +-- read-package-tree@5.1.5
+| | +-- readable-stream@2.1.5
+| | | +-- buffer-shims@1.0.0
+| | | +-- core-util-is@1.0.2
+| | | +-- isarray@1.0.0
+| | | +-- process-nextick-args@1.0.7
+| | | +-- string_decoder@0.10.31
+| | | `-- util-deprecate@1.0.2
+| | +-- readdir-scoped-modules@1.0.2
+| | +-- realize-package-specifier@3.0.3
+| | +-- request@2.75.0
+| | | +-- aws-sign2@0.6.0
+| | | +-- aws4@1.4.1
+| | | +-- bl@1.1.2
+| | | | `-- readable-stream@2.0.6
+| | | |   +-- core-util-is@1.0.2
+| | | |   +-- isarray@1.0.0
+| | | |   +-- process-nextick-args@1.0.7
+| | | |   +-- string_decoder@0.10.31
+| | | |   `-- util-deprecate@1.0.2
+| | | +-- caseless@0.11.0
+| | | +-- combined-stream@1.0.5
+| | | | `-- delayed-stream@1.0.0
+| | | +-- extend@3.0.0
+| | | +-- forever-agent@0.6.1
+| | | +-- form-data@2.0.0
+| | | | `-- asynckit@0.4.0
+| | | +-- har-validator@2.0.6
+| | | | +-- chalk@1.1.3
+| | | | | +-- ansi-styles@2.2.1
+| | | | | +-- escape-string-regexp@1.0.5
+| | | | | +-- has-ansi@2.0.0
+| | | | | `-- supports-color@2.0.0
+| | | | +-- commander@2.9.0
+| | | | | `-- graceful-readlink@1.0.1
+| | | | +-- is-my-json-valid@2.15.0
+| | | | | +-- generate-function@2.0.0
+| | | | | +-- generate-object-property@1.2.0
+| | | | | | `-- is-property@1.0.2
+| | | | | +-- jsonpointer@4.0.0
+| | | | | `-- xtend@4.0.1
+| | | | `-- pinkie-promise@2.0.1
+| | | |   `-- pinkie@2.0.4
+| | | +-- hawk@3.1.3
+| | | | +-- boom@2.10.1
+| | | | +-- cryptiles@2.0.5
+| | | | +-- hoek@2.16.3
+| | | | `-- sntp@1.0.9
+| | | +-- http-signature@1.1.1
+| | | | +-- assert-plus@0.2.0
+| | | | +-- jsprim@1.3.1
+| | | | | +-- extsprintf@1.0.2
+| | | | | +-- json-schema@0.2.3
+| | | | | `-- verror@1.3.6
+| | | | `-- sshpk@1.10.1
+| | | |   +-- asn1@0.2.3
+| | | |   +-- assert-plus@1.0.0
+| | | |   +-- bcrypt-pbkdf@1.0.0
+| | | |   +-- dashdash@1.14.0
+| | | |   +-- ecc-jsbn@0.1.1
+| | | |   +-- getpass@0.1.6
+| | | |   +-- jodid25519@1.0.2
+| | | |   +-- jsbn@0.1.0
+| | | |   `-- tweetnacl@0.14.3
+| | | +-- is-typedarray@1.0.0
+| | | +-- isstream@0.1.2
+| | | +-- json-stringify-safe@5.0.1
+| | | +-- mime-types@2.1.12
+| | | | `-- mime-db@1.24.0
+| | | +-- node-uuid@1.4.7
+| | | +-- oauth-sign@0.8.2
+| | | +-- qs@6.2.1
+| | | +-- stringstream@0.0.5
+| | | +-- tough-cookie@2.3.1
+| | | `-- tunnel-agent@0.4.3
+| | +-- retry@0.10.0
+| | +-- rimraf@2.5.4
+| | +-- semver@5.3.0
+| | +-- sha@2.0.1
+| | +-- slide@1.1.6
+| | +-- sorted-object@2.0.1
+| | +-- strip-ansi@3.0.1
+| | +-- tar@2.2.1
+| | | `-- block-stream@0.0.8
+| | +-- text-table@0.2.0
+| | +-- uid-number@0.0.6
+| | +-- umask@1.1.0
+| | +-- unique-filename@1.1.0
+| | | `-- unique-slug@2.0.0
+| | +-- unpipe@1.0.0
+| | +-- validate-npm-package-license@3.0.1
+| | | +-- spdx-correct@1.0.2
+| | | | `-- spdx-license-ids@1.2.0
+| | | `-- spdx-expression-parse@1.0.2
+| | |   +-- spdx-exceptions@1.0.4
+| | |   `-- spdx-license-ids@1.2.0
+| | +-- validate-npm-package-name@2.2.2
+| | | `-- builtins@0.0.7
+| | +-- which@1.2.11
+| | | `-- isexe@1.1.2
+| | +-- wrappy@1.0.2
+| | `-- write-file-atomic@1.2.0
+| +-- rfc6902@1.3.0
+| `-- semver@5.3.0
++-- aurelia-dialog@1.0.0-beta.3.0.1
++-- aurelia-fetch-client@1.1.1
++-- aurelia-testing@1.0.0-beta.3.0.0
+| `-- aurelia-logging@1.1.0
++-- aurelia-tools@1.0.0
+| `-- breeze-dag@0.1.0
+|   +-- breeze-queue@0.1.0
+|   | `-- breeze-nexttick@0.2.1
+|   `-- gaia-tsort@0.1.0
++-- bluebird@3.4.6
++-- browser-sync@2.17.5
+| +-- browser-sync-client@2.4.3
+| | +-- etag@1.7.0
+| | `-- fresh@0.3.0
+| +-- browser-sync-ui@0.6.1
+| | +-- async-each-series@0.1.1
+| | +-- stream-throttle@0.1.3
+| | | +-- commander@2.9.0
+| | | | `-- graceful-readlink@1.0.1
+| | | `-- limiter@1.1.0
+| | `-- weinre@2.0.0-pre-I0Z7U9OV
+| |   +-- express@2.5.11
+| |   | +-- connect@1.9.2
+| |   | | +-- formidable@1.0.17
+| |   | | +-- mime@1.3.4
+| |   | | `-- qs@6.2.1
+| |   | +-- mime@1.2.4
+| |   | +-- mkdirp@0.3.0
+| |   | `-- qs@0.4.2
+| |   +-- nopt@3.0.6
+| |   | `-- abbrev@1.0.9
+| |   `-- underscore@1.7.0
+| +-- bs-recipes@1.2.3
+| +-- chokidar@1.6.0
+| | +-- anymatch@1.3.0
+| | +-- async-each@1.0.1
+| | +-- fsevents@1.0.15
+| | | `-- node-pre-gyp@0.6.29
+| | |   +-- mkdirp@0.5.1
+| | |   | `-- minimist@0.0.8
+| | |   +-- nopt@3.0.6
+| | |   | `-- abbrev@1.0.9
+| | |   +-- npmlog@3.1.2
+| | |   | +-- are-we-there-yet@1.1.2
+| | |   | | `-- delegates@1.0.0
+| | |   | +-- console-control-strings@1.1.0
+| | |   | +-- gauge@2.6.0
+| | |   | | +-- aproba@1.0.4
+| | |   | | +-- has-color@0.1.7
+| | |   | | +-- has-unicode@2.0.1
+| | |   | | +-- object-assign@4.1.0
+| | |   | | +-- signal-exit@3.0.0
+| | |   | | +-- string-width@1.0.1
+| | |   | | | +-- code-point-at@1.0.0
+| | |   | | | | `-- number-is-nan@1.0.0
+| | |   | | | `-- is-fullwidth-code-point@1.0.0
+| | |   | | +-- strip-ansi@3.0.1
+| | |   | | | `-- ansi-regex@2.0.0
+| | |   | | `-- wide-align@1.1.0
+| | |   | `-- set-blocking@2.0.0
+| | |   +-- rc@1.1.6
+| | |   | +-- deep-extend@0.4.1
+| | |   | +-- ini@1.3.4
+| | |   | +-- minimist@1.2.0
+| | |   | `-- strip-json-comments@1.0.4
+| | |   +-- request@2.73.0
+| | |   | +-- aws-sign2@0.6.0
+| | |   | +-- aws4@1.4.1
+| | |   | +-- bl@1.1.2
+| | |   | | `-- readable-stream@2.0.6
+| | |   | +-- caseless@0.11.0
+| | |   | +-- combined-stream@1.0.5
+| | |   | | `-- delayed-stream@1.0.0
+| | |   | +-- extend@3.0.0
+| | |   | +-- forever-agent@0.6.1
+| | |   | +-- form-data@1.0.0-rc4
+| | |   | | `-- async@1.5.2
+| | |   | +-- har-validator@2.0.6
+| | |   | | +-- chalk@1.1.3
+| | |   | | | +-- ansi-styles@2.2.1
+| | |   | | | +-- escape-string-regexp@1.0.5
+| | |   | | | +-- has-ansi@2.0.0
+| | |   | | | `-- supports-color@2.0.0
+| | |   | | +-- commander@2.9.0
+| | |   | | | `-- graceful-readlink@1.0.1
+| | |   | | +-- is-my-json-valid@2.13.1
+| | |   | | | +-- generate-function@2.0.0
+| | |   | | | +-- generate-object-property@1.2.0
+| | |   | | | | `-- is-property@1.0.2
+| | |   | | | +-- jsonpointer@2.0.0
+| | |   | | | `-- xtend@4.0.1
+| | |   | | `-- pinkie-promise@2.0.1
+| | |   | |   `-- pinkie@2.0.4
+| | |   | +-- hawk@3.1.3
+| | |   | | +-- boom@2.10.1
+| | |   | | +-- cryptiles@2.0.5
+| | |   | | +-- hoek@2.16.3
+| | |   | | `-- sntp@1.0.9
+| | |   | +-- http-signature@1.1.1
+| | |   | | +-- assert-plus@0.2.0
+| | |   | | +-- jsprim@1.3.0
+| | |   | | | +-- extsprintf@1.0.2
+| | |   | | | +-- json-schema@0.2.2
+| | |   | | | `-- verror@1.3.6
+| | |   | | `-- sshpk@1.8.3
+| | |   | |   +-- asn1@0.2.3
+| | |   | |   +-- assert-plus@1.0.0
+| | |   | |   +-- dashdash@1.14.0
+| | |   | |   | `-- assert-plus@1.0.0
+| | |   | |   +-- ecc-jsbn@0.1.1
+| | |   | |   +-- getpass@0.1.6
+| | |   | |   | `-- assert-plus@1.0.0
+| | |   | |   +-- jodid25519@1.0.2
+| | |   | |   +-- jsbn@0.1.0
+| | |   | |   `-- tweetnacl@0.13.3
+| | |   | +-- is-typedarray@1.0.0
+| | |   | +-- isstream@0.1.2
+| | |   | +-- json-stringify-safe@5.0.1
+| | |   | +-- mime-types@2.1.11
+| | |   | | `-- mime-db@1.23.0
+| | |   | +-- node-uuid@1.4.7
+| | |   | +-- oauth-sign@0.8.2
+| | |   | +-- qs@6.2.0
+| | |   | +-- stringstream@0.0.5
+| | |   | +-- tough-cookie@2.2.2
+| | |   | `-- tunnel-agent@0.4.3
+| | |   +-- rimraf@2.5.3
+| | |   | `-- glob@7.0.5
+| | |   |   +-- fs.realpath@1.0.0
+| | |   |   +-- inflight@1.0.5
+| | |   |   +-- minimatch@3.0.2
+| | |   |   | `-- brace-expansion@1.1.5
+| | |   |   |   +-- balanced-match@0.4.2
+| | |   |   |   `-- concat-map@0.0.1
+| | |   |   `-- path-is-absolute@1.0.0
+| | |   +-- semver@5.2.0
+| | |   +-- tar@2.2.1
+| | |   | +-- block-stream@0.0.9
+| | |   | +-- fstream@1.0.10
+| | |   | | `-- graceful-fs@4.1.4
+| | |   | `-- inherits@2.0.1
+| | |   `-- tar-pack@3.1.4
+| | |     +-- debug@2.2.0
+| | |     | `-- ms@0.7.1
+| | |     +-- fstream-ignore@1.0.5
+| | |     +-- once@1.3.3
+| | |     | `-- wrappy@1.0.2
+| | |     +-- readable-stream@2.1.4
+| | |     | +-- buffer-shims@1.0.0
+| | |     | +-- core-util-is@1.0.2
+| | |     | +-- isarray@1.0.0
+| | |     | +-- process-nextick-args@1.0.7
+| | |     | +-- string_decoder@0.10.31
+| | |     | `-- util-deprecate@1.0.2
+| | |     `-- uid-number@0.0.6
+| | +-- glob-parent@2.0.0
+| | +-- is-binary-path@1.0.1
+| | | `-- binary-extensions@1.7.0
+| | +-- is-glob@2.0.1
+| | `-- readdirp@2.1.0
+| |   +-- readable-stream@2.0.6
+| |   | `-- isarray@1.0.0
+| |   `-- set-immediate-shim@1.0.1
+| +-- connect@3.5.0
+| | +-- debug@2.2.0
+| | +-- finalhandler@0.5.0
+| | | +-- debug@2.2.0
+| | | +-- on-finished@2.3.0
+| | | | `-- ee-first@1.1.1
+| | | +-- statuses@1.3.0
+| | | `-- unpipe@1.0.0
+| | +-- parseurl@1.3.1
+| | `-- utils-merge@1.0.0
+| +-- dev-ip@1.0.1
+| +-- easy-extender@2.3.2
+| | `-- lodash@3.10.1
+| +-- eazy-logger@3.0.2
+| | `-- tfunk@3.0.2
+| |   `-- object-path@0.9.2
+| +-- emitter-steward@1.0.0
+| +-- fs-extra@0.30.0
+| | +-- jsonfile@2.4.0
+| | `-- klaw@1.3.1
+| +-- http-proxy@1.15.1
+| | +-- eventemitter3@1.2.0
+| | `-- requires-port@1.0.0
+| +-- immutable@3.8.1
+| +-- localtunnel@1.8.1
+| | +-- debug@2.2.0
+| | +-- openurl@1.1.0
+| | +-- request@2.65.0
+| | | +-- bl@1.0.3
+| | | | `-- readable-stream@2.0.6
+| | | |   `-- isarray@1.0.0
+| | | +-- form-data@1.0.1
+| | | | `-- async@2.1.2
+| | | +-- http-signature@0.11.0
+| | | | +-- asn1@0.1.11
+| | | | +-- assert-plus@0.1.5
+| | | | `-- ctype@0.5.3
+| | | +-- qs@5.2.1
+| | | `-- tough-cookie@2.2.2
+| | `-- yargs@3.29.0
+| |   +-- cliui@3.2.0
+| |   `-- window-size@0.1.4
+| +-- micromatch@2.3.11
+| | +-- arr-diff@2.0.0
+| | +-- array-unique@0.2.1
+| | +-- braces@1.8.5
+| | | +-- expand-range@1.8.2
+| | | | `-- fill-range@2.2.3
+| | | |   +-- is-number@2.1.0
+| | | |   +-- randomatic@1.1.5
+| | | |   `-- repeat-string@1.6.1
+| | | +-- preserve@0.2.0
+| | | `-- repeat-element@1.1.2
+| | +-- expand-brackets@0.1.5
+| | | `-- is-posix-bracket@0.1.1
+| | +-- extglob@0.3.2
+| | +-- filename-regex@2.0.0
+| | +-- is-extglob@1.0.0
+| | +-- kind-of@3.0.4
+| | | `-- is-buffer@1.1.4
+| | +-- normalize-path@2.0.1
+| | +-- object.omit@2.0.1
+| | | +-- for-own@0.1.4
+| | | | `-- for-in@0.1.6
+| | | `-- is-extendable@0.1.1
+| | +-- parse-glob@3.0.4
+| | | +-- glob-base@0.3.0
+| | | `-- is-dotfile@1.0.2
+| | `-- regex-cache@0.4.3
+| |   +-- is-equal-shallow@0.1.3
+| |   `-- is-primitive@2.0.0
+| +-- opn@4.0.2
+| +-- portscanner@1.0.0
+| | `-- async@0.1.15
+| +-- qs@6.2.1
+| +-- resp-modifier@6.0.2
+| | `-- debug@2.2.0
+| +-- rx@4.1.0
+| +-- serve-index@1.8.0
+| | +-- accepts@1.3.3
+| | | `-- negotiator@0.6.1
+| | +-- batch@0.5.3
+| | +-- debug@2.2.0
+| | +-- escape-html@1.0.3
+| | +-- http-errors@1.5.0
+| | | +-- inherits@2.0.1
+| | | `-- setprototypeof@1.0.1
+| | `-- mime-types@2.1.12
+| |   `-- mime-db@1.24.0
+| +-- serve-static@1.11.1
+| | +-- encodeurl@1.0.1
+| | `-- send@0.14.1
+| |   +-- debug@2.2.0
+| |   +-- depd@1.1.0
+| |   +-- destroy@1.0.4
+| |   `-- range-parser@1.2.0
+| +-- server-destroy@1.0.1
+| +-- socket.io@1.5.0
+| | +-- debug@2.2.0
+| | +-- engine.io@1.7.0
+| | | +-- base64id@0.1.0
+| | | +-- debug@2.2.0
+| | | +-- engine.io-parser@1.3.0
+| | | | +-- after@0.8.1
+| | | | +-- arraybuffer.slice@0.0.6
+| | | | +-- base64-arraybuffer@0.1.5
+| | | | +-- blob@0.0.4
+| | | | +-- has-binary@0.1.6
+| | | | `-- wtf-8@1.0.0
+| | | `-- ws@1.1.1
+| | |   +-- options@0.0.6
+| | |   `-- ultron@1.0.2
+| | +-- has-binary@0.1.7
+| | +-- socket.io-adapter@0.4.0
+| | | +-- debug@2.2.0
+| | | `-- socket.io-parser@2.2.2
+| | |   +-- debug@0.7.4
+| | |   `-- json3@3.2.6
+| | +-- socket.io-client@1.5.0
+| | | +-- backo2@1.0.2
+| | | +-- component-bind@1.0.0
+| | | +-- component-emitter@1.2.0
+| | | +-- debug@2.2.0
+| | | +-- engine.io-client@1.7.0
+| | | | +-- component-inherit@0.0.3
+| | | | +-- debug@2.2.0
+| | | | +-- has-cors@1.1.0
+| | | | +-- parsejson@0.0.1
+| | | | +-- parseqs@0.0.2
+| | | | +-- xmlhttprequest-ssl@1.5.1
+| | | | `-- yeast@0.1.2
+| | | +-- indexof@0.0.1
+| | | +-- object-component@0.0.3
+| | | +-- parseuri@0.0.4
+| | | | `-- better-assert@1.0.2
+| | | |   `-- callsite@1.0.0
+| | | `-- to-array@0.1.4
+| | `-- socket.io-parser@2.2.6
+| |   +-- benchmark@1.0.0
+| |   +-- component-emitter@1.1.2
+| |   +-- debug@2.2.0
+| |   `-- json3@3.3.2
+| +-- ua-parser-js@0.7.10
+| `-- yargs@6.0.0
+|   +-- cliui@3.2.0
+|   | `-- wrap-ansi@2.0.0
+|   +-- decamelize@1.2.0
+|   +-- get-caller-file@1.0.2
+|   +-- os-locale@1.4.0
+|   | `-- lcid@1.0.0
+|   |   `-- invert-kv@1.0.0
+|   +-- read-pkg-up@1.0.1
+|   | +-- find-up@1.1.2
+|   | | `-- path-exists@2.1.0
+|   | `-- read-pkg@1.1.0
+|   |   +-- load-json-file@1.1.0
+|   |   | `-- strip-bom@2.0.0
+|   |   +-- normalize-package-data@2.3.5
+|   |   | +-- hosted-git-info@2.1.5
+|   |   | +-- is-builtin-module@1.0.0
+|   |   | | `-- builtin-modules@1.1.1
+|   |   | `-- validate-npm-package-license@3.0.1
+|   |   |   +-- spdx-correct@1.0.2
+|   |   |   | `-- spdx-license-ids@1.2.2
+|   |   |   `-- spdx-expression-parse@1.0.4
+|   |   `-- path-type@1.1.0
+|   +-- require-directory@2.1.1
+|   +-- require-main-filename@1.0.1
+|   +-- set-blocking@2.0.0
+|   +-- string-width@1.0.2
+|   | +-- code-point-at@1.1.0
+|   | `-- is-fullwidth-code-point@1.0.0
+|   |   `-- number-is-nan@1.0.1
+|   +-- which-module@1.0.0
+|   +-- window-size@0.2.0
+|   +-- y18n@3.2.1
+|   `-- yargs-parser@4.0.2
+|     `-- camelcase@3.0.0
++-- chownr@1.0.1 extraneous
++-- cmd-shim@2.0.2 extraneous
++-- config-chain@1.1.11 extraneous
++-- connect-history-api-fallback@1.3.0
++-- del@2.2.2
+| +-- globby@5.0.0
+| | +-- array-union@1.0.2
+| | `-- arrify@1.0.1
+| +-- is-path-cwd@1.0.0
+| +-- is-path-in-cwd@1.0.0
+| | `-- is-path-inside@1.0.0
+| |   `-- path-is-inside@1.0.2
+| +-- object-assign@4.1.0
+| +-- pify@2.3.0
+| +-- pinkie-promise@2.0.1
+| | `-- pinkie@2.0.4
+| `-- rimraf@2.5.4
++-- editor@1.0.0 extraneous
++-- event-stream@3.3.4
+| +-- duplexer@0.1.1
+| +-- from@0.1.3
+| +-- map-stream@0.1.0
+| +-- pause-stream@0.0.11
+| +-- split@0.3.3
+| +-- stream-combiner@0.0.4
+| `-- through@2.3.8
++-- fs-vacuum@1.2.9 extraneous
++-- fs-write-stream-atomic@1.0.8 extraneous
++-- fstream-npm@1.2.0 extraneous
++-- gulp@4.0.0-alpha.2 (git://github.com/gulpjs/gulp.git#3f5aba28718dc19e4bf600fb88f128158ff2ff83)
+| +-- glob-watcher@3.1.0
+| | +-- async-done@1.2.2
+| | | +-- end-of-stream@1.1.0
+| | | | `-- once@1.3.3
+| | | +-- next-tick@1.0.0
+| | | `-- stream-exhaust@1.0.1
+| | +-- lodash.assignwith@4.2.0
+| | `-- lodash.debounce@4.0.8
+| +-- gulp-cli@1.2.2
+| | +-- fancy-log@1.2.0
+| | | `-- time-stamp@1.0.1
+| | +-- interpret@1.0.1
+| | +-- liftoff@2.3.0
+| | | +-- findup-sync@0.4.3
+| | | | +-- detect-file@0.1.0
+| | | | | `-- fs-exists-sync@0.1.0
+| | | | `-- resolve-dir@0.1.1
+| | | |   `-- global-modules@0.2.3
+| | | |     `-- global-prefix@0.1.5
+| | | |       +-- homedir-polyfill@1.0.1
+| | | |       | `-- parse-passwd@1.0.0
+| | | |       `-- which@1.2.12
+| | | +-- fined@1.0.2
+| | | | +-- expand-tilde@1.2.2
+| | | | +-- lodash.isempty@4.4.0
+| | | | `-- parse-filepath@1.0.1
+| | | |   +-- map-cache@0.2.2
+| | | |   `-- path-root@0.1.1
+| | | |     `-- path-root-regex@0.1.2
+| | | +-- flagged-respawn@0.3.2
+| | | +-- lodash.mapvalues@4.6.0
+| | | `-- rechoir@0.6.2
+| | +-- lodash.isfunction@3.0.8
+| | +-- lodash.isplainobject@4.0.6
+| | +-- lodash.isstring@4.0.1
+| | +-- lodash.sortby@4.7.0
+| | +-- matchdep@1.0.1
+| | | `-- stack-trace@0.0.9
+| | +-- mute-stdout@1.0.0
+| | +-- pretty-hrtime@1.0.3
+| | +-- semver-greatest-satisfied-range@1.0.0
+| | | +-- semver@4.3.6
+| | | `-- semver-regex@1.0.0
+| | +-- tildify@1.2.0
+| | | `-- os-homedir@1.0.2
+| | +-- v8flags@2.0.11
+| | | `-- user-home@1.1.1
+| | +-- wreck@6.3.0
+| | | +-- boom@2.10.1
+| | | `-- hoek@2.16.3
+| | `-- yargs@3.32.0
+| |   +-- camelcase@2.1.1
+| |   +-- cliui@3.2.0
+| |   `-- window-size@0.1.4
+| `-- undertaker@1.1.0
+|   +-- arr-flatten@1.0.1
+|   +-- arr-map@2.0.2
+|   | `-- make-iterator@1.0.0
+|   |   `-- kind-of@3.1.0
+|   +-- bach@1.1.0
+|   | +-- arr-filter@1.1.2
+|   | +-- array-each@1.0.1
+|   | +-- array-initial@1.0.0
+|   | | `-- is-number@0.1.1
+|   | +-- array-last@1.1.1
+|   | | `-- is-number@0.1.1
+|   | +-- async-settle@1.0.0
+|   | `-- now-and-later@1.0.0
+|   +-- collection-map@0.1.0
+|   | +-- get-values@0.1.0
+|   | +-- is-plain-object@2.0.1
+|   | | `-- isobject@1.0.2
+|   | `-- make-iterator@0.1.1
+|   +-- es6-weak-map@2.0.1
+|   | +-- d@0.1.1
+|   | +-- es5-ext@0.10.12
+|   | +-- es6-iterator@2.0.0
+|   | `-- es6-symbol@3.1.0
+|   +-- last-run@1.1.1
+|   | `-- default-resolution@2.0.0
+|   +-- object.defaults@0.3.0
+|   | +-- array-each@0.1.1
+|   | +-- array-slice@0.2.3
+|   | `-- isobject@1.0.2
+|   +-- object.reduce@0.1.7
+|   `-- undertaker-registry@1.0.0
++-- gulp-changed-in-place@2.0.3
++--  extraneous error: ENOENT: no such file or directory, open 'D:\Projects\LangendoenMechanical\Jobs-Web\node_modules\gulp-cli\package.json
++-- gulp-less@3.2.0
+| +-- accord@0.26.3
+| | +-- indx@0.2.3
+| | +-- lodash.clone@4.5.0
+| | +-- lodash.defaults@4.2.0
+| | +-- lodash.flatten@4.4.0
+| | +-- lodash.merge@4.6.0
+| | +-- lodash.partialright@4.2.1
+| | +-- lodash.pick@4.4.0
+| | +-- lodash.uniq@4.5.0
+| | `-- when@3.7.7
+| +-- gulp-util@3.0.7
+| | +-- array-differ@1.0.0
+| | +-- array-uniq@1.0.3
+| | +-- beeper@1.1.0
+| | +-- dateformat@1.0.12
+| | | +-- get-stdin@4.0.1
+| | | `-- meow@3.7.0
+| | |   +-- camelcase-keys@2.1.0
+| | |   | `-- camelcase@2.1.1
+| | |   +-- loud-rejection@1.6.0
+| | |   | +-- currently-unhandled@0.4.1
+| | |   | | `-- array-find-index@1.0.2
+| | |   | `-- signal-exit@3.0.1
+| | |   +-- map-obj@1.0.1
+| | |   +-- redent@1.0.0
+| | |   | +-- indent-string@2.1.0
+| | |   | `-- strip-indent@1.0.1
+| | |   `-- trim-newlines@1.0.0
+| | +-- lodash._reescape@3.0.0
+| | +-- lodash._reevaluate@3.0.0
+| | +-- lodash._reinterpolate@3.0.0
+| | +-- multipipe@0.1.2
+| | | `-- duplexer2@0.0.2
+| | |   `-- readable-stream@1.1.14
+| | +-- object-assign@3.0.0
+| | +-- replace-ext@0.0.1
+| | `-- vinyl@0.5.3
+| +-- less@2.7.1
+| | +-- errno@0.1.4
+| | | `-- prr@0.0.0
+| | +-- image-size@0.5.0
+| | +-- mime@1.3.4
+| | `-- promise@7.1.1
+| |   `-- asap@2.0.5
+| `-- vinyl-sourcemaps-apply@0.2.1
++-- gulp-minify-html@1.0.6
+| +-- minimize@1.8.1
+| | +-- argh@0.1.4
+| | +-- async@1.5.2
+| | +-- cli-color@1.1.0
+| | | +-- ansi-regex@2.0.0
+| | | +-- memoizee@0.3.10
+| | | | +-- es6-weak-map@0.1.4
+| | | | | +-- es6-iterator@0.1.3
+| | | | | `-- es6-symbol@2.0.1
+| | | | +-- event-emitter@0.3.4
+| | | | +-- lru-queue@0.1.0
+| | | | `-- next-tick@0.2.2
+| | | `-- timers-ext@0.1.0
+| | |   `-- next-tick@0.2.2
+| | +-- diagnostics@1.0.1
+| | | +-- colorspace@1.0.1
+| | | | +-- color@0.8.0
+| | | | | +-- color-convert@0.5.3
+| | | | | `-- color-string@0.3.0
+| | | | |   `-- color-name@1.1.1
+| | | | `-- text-hex@0.0.0
+| | | +-- enabled@1.0.2
+| | | | `-- env-variable@0.0.3
+| | | `-- kuler@0.0.0
+| | |   `-- colornames@0.0.2
+| | +-- emits@3.0.0
+| | +-- htmlparser2@3.9.2
+| | | +-- domelementtype@1.3.0
+| | | +-- domhandler@2.3.0
+| | | +-- domutils@1.5.1
+| | | | `-- dom-serializer@0.1.0
+| | | |   `-- domelementtype@1.1.3
+| | | +-- entities@1.1.1
+| | | `-- readable-stream@2.0.6
+| | |   `-- isarray@1.0.0
+| | `-- node-uuid@1.4.7
+| `-- through2@0.6.5
+|   `-- readable-stream@1.0.34
++-- gulp-notify@2.2.0
+| +-- lodash.template@3.6.2
+| | +-- lodash._basecopy@3.0.1
+| | +-- lodash._basetostring@3.0.1
+| | +-- lodash._basevalues@3.0.0
+| | +-- lodash._isiterateecall@3.0.9
+| | +-- lodash._reinterpolate@3.0.0
+| | +-- lodash.escape@3.2.0
+| | | `-- lodash._root@3.0.1
+| | +-- lodash.keys@3.1.2
+| | | +-- lodash._getnative@3.9.1
+| | | +-- lodash.isarguments@3.1.0
+| | | `-- lodash.isarray@3.0.4
+| | +-- lodash.restparam@3.6.1
+| | `-- lodash.templatesettings@3.1.1
+| |   `-- lodash._reinterpolate@3.0.0
+| +-- node-notifier@4.6.1
+| | +-- cli-usage@0.1.4
+| | | +-- marked@0.3.6
+| | | `-- marked-terminal@1.7.0
+| | |   +-- cardinal@1.0.0
+| | |   | +-- ansicolors@0.2.1
+| | |   | `-- redeyed@1.0.1
+| | |   |   `-- esprima@3.0.0
+| | |   +-- cli-table@0.3.1
+| | |   | `-- colors@1.0.3
+| | |   +-- lodash.assign@4.2.0
+| | |   `-- node-emoji@1.4.1
+| | |     `-- string.prototype.codepointat@0.2.0
+| | +-- growly@1.3.0
+| | +-- lodash.clonedeep@3.0.2
+| | | +-- lodash._baseclone@3.3.0
+| | | | +-- lodash._arraycopy@3.0.0
+| | | | +-- lodash._arrayeach@3.0.0
+| | | | +-- lodash._baseassign@3.2.0
+| | | | `-- lodash._basefor@3.0.3
+| | | `-- lodash._bindcallback@3.0.1
+| | +-- shellwords@0.1.0
+| | `-- which@1.2.11
+| |   `-- isexe@1.1.2
+| +-- node.extend@1.1.6
+| | `-- is@3.2.0
+| `-- through2@0.6.5
+|   `-- readable-stream@1.0.34
++-- gulp-plumber@1.1.0
++-- gulp-rename@1.2.2
++-- gulp-rev@7.1.2
+| +-- modify-filename@1.1.0
+| +-- rev-hash@1.0.0
+| +-- rev-path@1.0.0
+| +-- sort-keys@1.1.2
+| | `-- is-plain-obj@1.1.0
+| `-- vinyl-file@1.3.0
+|   `-- strip-bom@2.0.0
++-- gulp-rev-replace@0.4.3
++-- gulp-sourcemaps@2.2.0
+| +-- acorn@4.0.3
+| +-- convert-source-map@1.3.0
+| +-- css@2.2.1
+| | +-- source-map@0.1.43
+| | | `-- amdefine@1.0.1
+| | +-- source-map-resolve@0.3.1
+| | | +-- atob@1.1.3
+| | | +-- resolve-url@0.2.1
+| | | `-- source-map-url@0.3.0
+| | `-- urix@0.1.0
+| +-- debug-fabulous@0.0.4
+| | +-- debug@2.2.0
+| | `-- lazy-debug-legacy@0.0.1
+| |   `-- debug@2.2.0 extraneous
+| +-- detect-newline@2.1.0
+| +-- graceful-fs@4.1.10
+| +-- source-map@0.5.6
+| +-- strip-bom@3.0.0
+| `-- vinyl@1.2.0
+|   +-- clone@1.0.2
+|   `-- clone-stats@0.0.1
++-- gulp-tslint@5.0.0
++-- gulp-typescript@3.1.5
++-- gulp-uglify@2.0.0
+| +-- gulplog@1.0.0
+| | `-- glogg@1.0.0
+| +-- has-gulplog@0.1.0
+| | `-- sparkles@1.0.0
+| +-- lodash@4.16.6
+| +-- make-error-cause@1.2.2
+| | `-- make-error@1.2.1
+| +-- uglify-js@2.7.0
+| | `-- yargs@3.10.0
+| `-- uglify-save-license@0.4.1
++-- gulp-usemin@0.3.25
+| +-- glob@4.0.6
+| | +-- graceful-fs@3.0.11
+| | | `-- natives@1.1.0
+| | `-- minimatch@1.0.0
+| |   +-- lru-cache@2.7.3
+| |   `-- sigmund@1.0.1
+| +-- gulp-concat@2.4.3
+| | `-- concat-with-sourcemaps@1.0.4
+| +-- gulp-util@2.2.20
+| | +-- chalk@0.5.1
+| | | +-- ansi-styles@1.1.0
+| | | +-- has-ansi@0.1.0
+| | | | `-- ansi-regex@0.2.1
+| | | +-- strip-ansi@0.3.0
+| | | `-- supports-color@0.2.0
+| | +-- lodash._reinterpolate@2.4.1
+| | +-- lodash.template@2.4.1
+| | | +-- lodash._escapestringchar@2.4.1
+| | | +-- lodash.defaults@2.4.1
+| | | | `-- lodash._objecttypes@2.4.1
+| | | +-- lodash.escape@2.4.1
+| | | | +-- lodash._escapehtmlchar@2.4.1
+| | | | | `-- lodash._htmlescapes@2.4.1
+| | | | `-- lodash._reunescapedhtml@2.4.1
+| | | |   `-- lodash.keys@2.4.1
+| | | +-- lodash.keys@2.4.1
+| | | | +-- lodash._isnative@2.4.1
+| | | | +-- lodash._shimkeys@2.4.1
+| | | | `-- lodash.isobject@2.4.1
+| | | +-- lodash.templatesettings@2.4.1
+| | | `-- lodash.values@2.4.1
+| | |   `-- lodash.keys@2.4.1
+| | +-- minimist@0.2.0
+| | `-- vinyl@0.2.3
+| `-- through2@0.5.1
+|   +-- readable-stream@1.0.34
+|   `-- xtend@3.0.0
++-- init-package-json@1.9.4 extraneous
++-- jquery@3.1.1
++-- lodash._baseuniq@4.6.0 extraneous
++-- lodash.union@4.6.0 extraneous
++-- lodash.without@4.4.0 extraneous
++-- minimatch@3.0.3
+| `-- brace-expansion@1.1.6
+|   +-- balanced-match@0.4.2
+|   `-- concat-map@0.0.1
++-- moment@2.15.2
++-- node-pre-gyp@0.6.31 extraneous
++-- normalize-git-url@3.0.2 extraneous
++-- npm-cache-filename@1.0.2 extraneous
++-- npm-install-checks@3.0.0 extraneous
++-- npm-registry-client@7.2.1 extraneous
++-- npm-user-validate@0.1.5 extraneous
++-- opener@1.4.2 extraneous
++-- papaparse@4.1.2
++-- pouchdb@6.1.2
+| +-- argsarray@0.0.1
+| +-- buffer-from@0.1.1
+| | `-- is-array-buffer-x@1.0.13
+| |   +-- has-to-string-tag-x@1.1.0
+| |   | `-- has-symbol-support-x@1.1.0
+| |   +-- is-object-like-x@1.0.11
+| |   | `-- is-function-x@1.1.0
+| |   `-- to-string-tag-x@1.1.0
+| |     +-- lodash.isnull@3.0.0
+| |     `-- validate.io-undefined@1.0.3
+| +-- clone-buffer@1.0.0
+| +-- debug@2.6.0
+| | `-- ms@0.7.2
+| +-- double-ended-queue@2.1.0-0
+| +-- immediate@3.0.6
+| +-- inherits@2.0.3
+| +-- level-codec@7.0.0
+| +-- level-write-stream@1.0.0
+| | `-- end-stream@0.1.0
+| |   `-- write-stream@0.4.3
+| |     `-- readable-stream@0.0.4
+| +-- leveldown@1.5.0
+| | +-- abstract-leveldown@2.6.1
+| | +-- bindings@1.2.1
+| | +-- fast-future@1.0.1
+| | +-- nan@2.4.0
+| | `-- prebuild@4.4.0
+| |   +-- async@1.5.2
+| |   +-- execspawn@1.0.1
+| |   | `-- util-extend@1.0.3
+| |   +-- expand-template@1.0.3
+| |   +-- ghreleases@1.0.5
+| |   | +-- ghrepos@2.0.0
+| |   | +-- ghutils@3.2.1
+| |   | | `-- jsonist@1.3.0
+| |   | |   `-- hyperquest@1.2.0
+| |   | |     `-- through2@0.6.5
+| |   | |       `-- readable-stream@1.0.34
+| |   | +-- simple-mime@0.1.0
+| |   | `-- url-template@2.0.8
+| |   +-- github-from-package@0.0.0
+| |   +-- node-gyp@3.4.0
+| |   | +-- fstream@1.0.10
+| |   | +-- npmlog@2.0.4
+| |   | | `-- gauge@1.2.7
+| |   | +-- path-array@1.0.1
+| |   | | `-- array-index@1.0.0
+| |   | |   `-- debug@2.2.0
+| |   | +-- request@2.78.0
+| |   | | `-- qs@6.3.0
+| |   | `-- tar@2.2.1
+| |   |   `-- block-stream@0.0.9
+| |   +-- node-ninja@1.0.2
+| |   | +-- npmlog@2.0.4
+| |   | | `-- gauge@1.2.7
+| |   | `-- request@2.78.0
+| |   |   `-- qs@6.3.0
+| |   +-- noop-logger@0.1.1
+| |   +-- npmlog@2.0.4
+| |   | +-- ansi@0.3.1
+| |   | +-- are-we-there-yet@1.1.2
+| |   | | +-- delegates@1.0.0
+| |   | | `-- readable-stream@2.1.5
+| |   | |   +-- buffer-shims@1.0.0
+| |   | |   `-- isarray@1.0.0
+| |   | `-- gauge@1.2.7
+| |   |   +-- lodash.pad@4.5.1
+| |   |   +-- lodash.padend@4.6.1
+| |   |   `-- lodash.padstart@4.6.1
+| |   +-- pump@1.0.1
+| |   | `-- end-of-stream@1.1.0
+| |   |   `-- once@1.3.3
+| |   +-- simple-get@1.4.3
+| |   | `-- unzip-response@1.0.2
+| |   +-- tar-fs@1.14.0
+| |   `-- tar-stream@1.5.2
+| |     +-- end-of-stream@1.1.0
+| |     | `-- once@1.3.3
+| |     `-- readable-stream@2.0.6
+| |       `-- isarray@1.0.0
+| +-- levelup@1.3.3
+| | +-- deferred-leveldown@1.2.1
+| | | `-- abstract-leveldown@2.4.1
+| | +-- level-codec@6.1.0
+| | +-- level-errors@1.0.4
+| | +-- level-iterator-stream@1.3.1
+| | | `-- readable-stream@1.1.14
+| | +-- prr@1.0.1
+| | `-- semver@5.1.1
+| +-- lie@3.1.0
+| +-- ltgt@2.1.2
+| +-- readable-stream@1.0.33
+| | +-- core-util-is@1.0.2
+| | +-- isarray@0.0.1
+| | `-- string_decoder@0.10.31
+| +-- request@2.79.0
+| | +-- aws-sign2@0.6.0
+| | +-- aws4@1.5.0
+| | +-- caseless@0.11.0
+| | +-- combined-stream@1.0.5
+| | | `-- delayed-stream@1.0.0
+| | +-- extend@3.0.0
+| | +-- forever-agent@0.6.1
+| | +-- form-data@2.1.1
+| | | `-- asynckit@0.4.0
+| | +-- har-validator@2.0.6
+| | | `-- is-my-json-valid@2.15.0
+| | |   +-- generate-function@2.0.0
+| | |   +-- generate-object-property@1.2.0
+| | |   | `-- is-property@1.0.2
+| | |   `-- jsonpointer@4.0.0
+| | +-- hawk@3.1.3
+| | | +-- cryptiles@2.0.5
+| | | `-- sntp@1.0.9
+| | +-- http-signature@1.1.1
+| | | +-- assert-plus@0.2.0
+| | | +-- jsprim@1.3.1
+| | | | +-- extsprintf@1.0.2
+| | | | +-- json-schema@0.2.3
+| | | | `-- verror@1.3.6
+| | | `-- sshpk@1.10.1
+| | |   +-- asn1@0.2.3
+| | |   +-- assert-plus@1.0.0
+| | |   +-- bcrypt-pbkdf@1.0.0
+| | |   +-- dashdash@1.14.0
+| | |   | `-- assert-plus@1.0.0
+| | |   +-- ecc-jsbn@0.1.1
+| | |   +-- getpass@0.1.6
+| | |   | `-- assert-plus@1.0.0
+| | |   +-- jodid25519@1.0.2
+| | |   +-- jsbn@0.1.0
+| | |   `-- tweetnacl@0.14.3
+| | +-- is-typedarray@1.0.0
+| | +-- isstream@0.1.2
+| | +-- json-stringify-safe@5.0.1
+| | +-- oauth-sign@0.8.2
+| | +-- qs@6.3.0
+| | +-- stringstream@0.0.5
+| | +-- tough-cookie@2.3.2
+| | | `-- punycode@1.4.1
+| | +-- tunnel-agent@0.4.3
+| | `-- uuid@3.0.1
+| +-- scope-eval@0.0.3
+| +-- spark-md5@3.0.0
+| `-- vuvuzela@1.0.3
++-- pouchdb-find@0.10.5
+| +-- debug@2.2.0
+| | `-- ms@0.7.1
+| +-- is-array@1.0.1
+| +-- pouchdb-collate@1.2.0
+| +-- pouchdb-extend@0.1.2
+| +-- pouchdb-promise@5.4.0
+| | `-- lie@3.0.4
+| |   +-- es3ify@0.2.2
+| |   | +-- esprima@2.7.3
+| |   | `-- jstransform@11.0.3
+| |   |   +-- base62@1.1.1
+| |   |   +-- commoner@0.10.4
+| |   |   | +-- detective@4.3.2
+| |   |   | | +-- acorn@3.3.0
+| |   |   | | `-- defined@1.0.0
+| |   |   | +-- glob@5.0.15
+| |   |   | +-- iconv-lite@0.4.13
+| |   |   | `-- q@1.4.1
+| |   |   +-- esprima-fb@15001.1.0-dev-harmony-fb
+| |   |   +-- object-assign@2.1.1
+| |   |   `-- source-map@0.4.4
+| |   +-- inline-process-browser@1.0.0
+| |   | +-- falafel@1.2.0
+| |   | | +-- acorn@1.2.2
+| |   | | +-- foreach@2.0.5
+| |   | | `-- object-keys@1.0.11
+| |   | `-- through2@0.6.5
+| |   |   `-- readable-stream@1.0.34
+| |   `-- unreachable-branch-transform@0.3.0
+| |     +-- esmangle-evaluator@1.0.1
+| |     +-- recast@0.10.43
+| |     | +-- ast-types@0.8.15
+| |     | +-- esprima-fb@15001.1001.0-dev-harmony-fb
+| |     | `-- private@0.1.6
+| |     `-- through2@0.6.5
+| |       `-- readable-stream@1.0.34
+| +-- pouchdb-upsert@2.0.2
+| | `-- pouchdb-promise@5.4.5
+| |   `-- lie@3.0.4
+| `-- spark-md5@2.0.2
++-- read-cmd-shim@1.0.1 extraneous
++-- read-installed@4.0.3 extraneous
++-- read-package-tree@5.1.5 extraneous
++-- realize-package-specifier@3.0.3 extraneous
++-- semantic-ui-calendar@0.0.6
++-- semantic-ui-css@2.2.9
++-- sha@2.0.1 extraneous
++-- sorted-object@2.0.1 extraneous
++-- text-table@0.2.0 extraneous
++-- through2@2.0.1
+| +-- readable-stream@2.0.6
+| | +-- isarray@1.0.0
+| | +-- process-nextick-args@1.0.7
+| | `-- util-deprecate@1.0.2
+| `-- xtend@4.0.1
++-- toastr@2.1.2
++-- tslint@3.15.1
+| +-- colors@1.1.2
+| +-- diff@2.2.3
+| +-- findup-sync@0.3.0
+| | `-- glob@5.0.15
+| +-- optimist@0.6.1
+| | +-- minimist@0.0.10
+| | `-- wordwrap@0.0.3
+| +-- resolve@1.1.7
+| `-- underscore.string@3.3.4
+|   `-- sprintf-js@1.0.3
++-- typescript@2.2.1
++-- typings@2.1.0
+| +-- archy@1.0.0
+| +-- chalk@1.1.3
+| | +-- ansi-styles@2.2.1
+| | +-- escape-string-regexp@1.0.5
+| | +-- has-ansi@2.0.0
+| | +-- strip-ansi@3.0.1
+| | `-- supports-color@2.0.0
+| +-- cli-truncate@0.2.1
+| | `-- slice-ansi@0.0.4
+| +-- columnify@1.5.4
+| | `-- wcwidth@1.0.1
+| |   `-- defaults@1.0.3
+| +-- elegant-spinner@1.0.1
+| +-- has-unicode@2.0.1
+| +-- listify@1.0.0
+| +-- log-update@1.0.2
+| | +-- ansi-escapes@1.4.0
+| | `-- cli-cursor@1.0.2
+| |   `-- restore-cursor@1.0.1
+| |     +-- exit-hook@1.1.1
+| |     `-- onetime@1.1.0
+| +-- minimist@1.2.0
+| +-- promise-finally@3.0.0
+| +-- typings-core@2.3.2
+| | +-- configstore@3.0.0
+| | | +-- dot-prop@4.1.1
+| | | | `-- is-obj@1.0.1
+| | | +-- unique-string@1.0.0
+| | | | `-- crypto-random-string@1.0.0
+| | | +-- write-file-atomic@1.2.0
+| | | | +-- imurmurhash@0.1.4
+| | | | `-- slide@1.1.6
+| | | `-- xdg-basedir@3.0.0
+| | +-- debug@2.2.0
+| | +-- detect-indent@5.0.0
+| | +-- has@1.0.1
+| | | `-- function-bind@1.1.0
+| | +-- invariant@2.2.1
+| | | `-- loose-envify@1.3.0
+| | |   `-- js-tokens@2.0.0
+| | +-- is-absolute@0.2.6
+| | | +-- is-relative@0.2.1
+| | | | `-- is-unc-path@0.1.1
+| | | |   `-- unc-path-regex@0.1.2
+| | | `-- is-windows@0.2.0
+| | +-- jspm-config@0.3.4
+| | | `-- any-promise@1.3.0
+| | +-- lockfile@1.0.2
+| | +-- object.pick@1.2.0
+| | | `-- isobject@2.1.0
+| | |   `-- isarray@1.0.0
+| | +-- parse-json@2.2.0
+| | | `-- error-ex@1.3.0
+| | |   `-- is-arrayish@0.2.1
+| | +-- popsicle@9.1.0
+| | | `-- concat-stream@1.5.2
+| | |   +-- readable-stream@2.0.6
+| | |   | `-- isarray@1.0.0
+| | |   `-- typedarray@0.0.6
+| | +-- popsicle-proxy-agent@3.0.0
+| | | +-- http-proxy-agent@1.0.0
+| | | | `-- agent-base@2.0.1
+| | | |   `-- semver@5.0.3
+| | | `-- https-proxy-agent@1.0.0
+| | +-- popsicle-retry@3.2.1
+| | +-- popsicle-rewrite@1.0.0
+| | +-- popsicle-status@2.0.0
+| | +-- rc@1.1.6
+| | | +-- deep-extend@0.4.1
+| | | +-- ini@1.3.4
+| | | `-- strip-json-comments@1.0.4
+| | +-- string-template@1.0.0
+| | +-- thenify@3.2.1
+| | +-- throat@3.0.0
+| | +-- touch@1.0.0
+| | | `-- nopt@1.0.10
+| | `-- zip-object@0.1.0
+| +-- update-notifier@1.0.2
+| | +-- boxen@0.6.0
+| | | +-- ansi-align@1.1.0
+| | | +-- camelcase@2.1.1
+| | | +-- cli-boxes@1.0.0
+| | | +-- filled-array@1.1.0
+| | | +-- repeating@2.0.1
+| | | | `-- is-finite@1.0.2
+| | | `-- widest-line@1.0.0
+| | +-- configstore@2.1.0
+| | | +-- dot-prop@3.0.0
+| | | +-- os-tmpdir@1.0.2
+| | | +-- osenv@0.1.3
+| | | `-- uuid@2.0.3
+| | +-- is-npm@1.0.0
+| | +-- latest-version@2.0.0
+| | | `-- package-json@2.4.0
+| | |   +-- got@5.7.1
+| | |   | +-- create-error-class@3.0.2
+| | |   | | `-- capture-stack-trace@1.0.0
+| | |   | +-- duplexer2@0.1.4
+| | |   | +-- is-redirect@1.0.0
+| | |   | +-- is-retry-allowed@1.1.0
+| | |   | +-- lowercase-keys@1.0.0
+| | |   | +-- node-status-codes@1.0.0
+| | |   | +-- read-all-stream@3.1.0
+| | |   | | `-- readable-stream@2.0.6
+| | |   | |   `-- isarray@1.0.0
+| | |   | +-- readable-stream@2.0.6
+| | |   | | `-- isarray@1.0.0
+| | |   | +-- timed-out@3.0.0
+| | |   | `-- url-parse-lax@1.0.0
+| | |   |   `-- prepend-http@1.0.4
+| | |   +-- registry-auth-token@3.1.0
+| | |   `-- registry-url@3.1.0
+| | +-- lazy-req@1.1.0
+| | +-- semver-diff@2.1.0
+| | `-- xdg-basedir@2.0.0
+| `-- wordwrap@1.0.0
++-- uglify-js@2.7.4
+| +-- async@0.2.10
+| +-- uglify-to-browserify@1.0.2
+| `-- yargs@3.10.0
+|   +-- camelcase@1.2.1
+|   +-- cliui@2.1.0
+|   | +-- center-align@0.1.3
+|   | | +-- align-text@0.1.4
+|   | | | `-- longest@1.0.1
+|   | | `-- lazy-cache@1.0.4
+|   | +-- right-align@0.1.3
+|   | `-- wordwrap@0.0.2
+|   `-- window-size@0.1.0
++-- umask@1.1.0 extraneous
++-- underscore@1.8.3
++-- unique-filename@1.1.0 extraneous
++-- vinyl-fs@2.4.4
+| +-- duplexify@3.5.0
+| | +-- end-of-stream@1.0.0
+| | | `-- once@1.3.3
+| | +-- readable-stream@2.0.6
+| | | `-- isarray@1.0.0
+| | `-- stream-shift@1.0.0
+| +-- glob-stream@5.3.5
+| | +-- glob@5.0.15
+| | +-- glob-parent@3.0.1
+| | | +-- is-glob@3.1.0
+| | | | `-- is-extglob@2.1.0
+| | | `-- path-dirname@1.0.2
+| | +-- ordered-read-streams@0.3.0
+| | | +-- is-stream@1.1.0
+| | | `-- readable-stream@2.0.6
+| | |   `-- isarray@1.0.0
+| | +-- through2@0.6.5
+| | | `-- readable-stream@1.0.34
+| | +-- to-absolute-glob@0.1.1
+| | | `-- extend-shallow@2.0.1
+| | `-- unique-stream@2.2.1
+| |   `-- json-stable-stringify@1.0.1
+| |     `-- jsonify@0.0.0
+| +-- gulp-sourcemaps@1.6.0
+| +-- is-valid-glob@0.3.0
+| +-- lazystream@1.0.0
+| | `-- readable-stream@2.0.6
+| |   `-- isarray@1.0.0
+| +-- lodash.isequal@4.4.0
+| +-- merge-stream@1.0.0
+| | `-- readable-stream@2.0.6
+| |   `-- isarray@1.0.0
+| +-- mkdirp@0.5.1
+| | `-- minimist@0.0.8
+| +-- readable-stream@2.0.6
+| | `-- isarray@1.0.0
+| +-- strip-bom@2.0.0
+| | `-- is-utf8@0.2.1
+| +-- strip-bom-stream@1.0.0
+| | +-- first-chunk-stream@1.0.0
+| | `-- strip-bom@2.0.0
+| +-- through2-filter@2.0.0
+| `-- vali-date@1.0.0
++-- vinyl-paths@2.1.0
+`-- whatwg-fetch@2.0.3
+

@@ -1,5 +1,5 @@
 import {autoinject} from "aurelia-framework";
-import {Router} from "aurelia-router";
+import { NavigationInstruction, Router } from 'aurelia-router';
 import {DialogService} from 'aurelia-dialog';
 import {Prompt} from '../controls/prompt';
 import {JobService} from '../../services/data/job-service';
@@ -26,7 +26,6 @@ export class EditJob {
   billingTypes: BillingType[] = BillingType.OPTIONS;
   workTypes: WorkType[] = WorkType.OPTIONS;
   isFollowup:boolean = false;
-  routeConfig: RouteConfig;
   canEditManHours:boolean = false;
 
   constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, auth: Authentication, private dialogService:DialogService) {
@@ -38,15 +37,21 @@ export class EditJob {
       .catch(Notifications.error);
   }
 
-  activate(params: any, routeConfig: RouteConfig) {
-    this.routeConfig = routeConfig;
+  activate(params: any, private routeConfig: RouteConfig, navigationInstruction:NavigationInstruction) {
 
     this.customerServicePromise.then(() => {
-      const id = params.id;
+      const id = params.id,
+        date = moment(params.date, 'YYYY-MM-DD');
+
       if(_.isUndefined(id)) {
         this.job = new JobDocument();
         if (_.isString(params.type)) {
           this.job.type = params.type;
+        }
+
+        if(!_.isUndefined(params.date) && date.isValid()) {
+          this.job.startDate = date.toDate();
+          $('.calendar.start', this.element).calendar('set date', this.job.startDate);
         }
 
         if (params.from) {
@@ -168,6 +173,10 @@ export class EditJob {
         })
         .catch(Notifications.error);
     }
+  }
+
+  onCancelClick() {
+    this.router.navigateBack();
   }
 
   onDeleteClick() {

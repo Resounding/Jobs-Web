@@ -25,7 +25,8 @@
     "aurelia-templating-binding": "github:aurelia/templating-binding",
     "aurelia-templating-resources": "github:aurelia/templating-resources",
     "aurelia-templating-router": "github:aurelia/templating-router",
-    "bluebird": "registry:npm/bluebird#3.3.4+20160802085254"
+    "bluebird": "registry:npm/bluebird#3.3.4+20160802085254",
+    "fullcalendar": "registry:dt/fullcalendar#2.7.0+20170223151516"
   },
   "globalDependencies": {
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
