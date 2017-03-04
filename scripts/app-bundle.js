@@ -225,6 +225,68 @@ define('resources/models/work-type',["require", "exports"], function (require, e
     exports.WorkType = WorkType;
 });
 
+define('resources/views/app',["require", "exports", "../services/auth"], function (require, exports, auth_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var App = (function () {
+        function App() {
+        }
+        App.prototype.configureRouter = function (config, router) {
+            config.addPipelineStep('authorize', auth_1.AuthorizeStep);
+            config.title = 'Langendoen Mechanical Job Management Application';
+            config.map([
+                { route: ['', 'jobs'], name: 'jobs.list', moduleId: 'resources/views/jobs/list', title: 'Jobs List', nav: true, auth: true, settings: { icon: 'browser' } },
+                { route: 'jobs/new', name: 'jobs.new', moduleId: 'resources/views/jobs/detail', title: 'New Job', nav: true, auth: true, settings: { icon: 'plus' } },
+                { route: 'jobs/:id', name: 'jobs.edit', moduleId: 'resources/views/jobs/detail', title: 'Edit Job', auth: true },
+                { route: 'customers', name: 'customers.list', moduleId: 'resources/views/customers/list', title: 'Customer List', nav: true, auth: true, settings: { icon: 'building outline', hideMobile: true } },
+                { route: 'calendar/:date?', href: '#calendar?:date', name: 'calendar', moduleId: 'resources/views/calendar/calendar', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', hideMobile: true } }
+            ]);
+            this.router = router;
+        };
+        return App;
+    }());
+    exports.App = App;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/views/login',["require", "exports", "aurelia-framework", "../services/auth"], function (require, exports, aurelia_framework_1, auth_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Login = (function () {
+        function Login(auth) {
+            this.auth = auth;
+        }
+        Login.prototype.login = function () {
+            var _this = this;
+            this.errorMessage = '';
+            if (!this.password)
+                this.errorMessage = 'Please enter your password';
+            if (!this.username)
+                this.errorMessage = 'Please enter your username';
+            if (!this.errorMessage) {
+                this.auth.login(this.username, this.password)
+                    .catch(function (err) {
+                    _this.errorMessage = err.message;
+                });
+            }
+        };
+        return Login;
+    }());
+    Login = __decorate([
+        aurelia_framework_1.autoinject(),
+        __metadata("design:paramtypes", [auth_1.Authentication])
+    ], Login);
+    exports.Login = Login;
+});
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -457,29 +519,6 @@ define('resources/services/utils',["require", "exports"], function (require, exp
     exports.isDevice = isDevice;
 });
 
-define('resources/views/app',["require", "exports", "../services/auth"], function (require, exports, auth_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var App = (function () {
-        function App() {
-        }
-        App.prototype.configureRouter = function (config, router) {
-            config.addPipelineStep('authorize', auth_1.AuthorizeStep);
-            config.title = 'Langendoen Mechanical Job Management Application';
-            config.map([
-                { route: ['', 'jobs'], name: 'jobs.list', moduleId: 'resources/views/jobs/list', title: 'Jobs List', nav: true, auth: true, settings: { icon: 'browser' } },
-                { route: 'jobs/new', name: 'jobs.new', moduleId: 'resources/views/jobs/detail', title: 'New Job', nav: true, auth: true, settings: { icon: 'plus' } },
-                { route: 'jobs/:id', name: 'jobs.edit', moduleId: 'resources/views/jobs/detail', title: 'Edit Job', auth: true },
-                { route: 'customers', name: 'customers.list', moduleId: 'resources/views/customers/list', title: 'Customer List', nav: true, auth: true, settings: { icon: 'building outline', hideMobile: true } },
-                { route: 'calendar/:date?', href: '#calendar?:date', name: 'calendar', moduleId: 'resources/views/calendar/calendar', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', hideMobile: true } }
-            ]);
-            this.router = router;
-        };
-        return App;
-    }());
-    exports.App = App;
-});
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -489,453 +528,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('resources/views/login',["require", "exports", "aurelia-framework", "../services/auth"], function (require, exports, aurelia_framework_1, auth_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Login = (function () {
-        function Login(auth) {
-            this.auth = auth;
-        }
-        Login.prototype.login = function () {
-            var _this = this;
-            this.errorMessage = '';
-            if (!this.password)
-                this.errorMessage = 'Please enter your password';
-            if (!this.username)
-                this.errorMessage = 'Please enter your username';
-            if (!this.errorMessage) {
-                this.auth.login(this.username, this.password)
-                    .catch(function (err) {
-                    _this.errorMessage = err.message;
-                });
-            }
-        };
-        return Login;
-    }());
-    Login = __decorate([
-        aurelia_framework_1.autoinject(),
-        __metadata("design:paramtypes", [auth_1.Authentication])
-    ], Login);
-    exports.Login = Login;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('resources/services/data/activities-service',["require", "exports", "aurelia-framework", "./db"], function (require, exports, aurelia_framework_1, db_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ActivitiesService = (function () {
-        function ActivitiesService(database) {
-            this.db = database.db;
-        }
-        ActivitiesService.prototype.getAll = function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.db.get('activities')
-                    .then(function (result) {
-                    resolve(result.items);
-                })
-                    .catch(function (err) {
-                    if (err.status === 404) {
-                        var activities = {
-                            _id: 'activities',
-                            items: []
-                        };
-                        _this.db.put(activities)
-                            .then(function () { return resolve([]); })
-                            .catch(reject);
-                    }
-                    else {
-                        reject(err);
-                    }
-                });
-            });
-        };
-        ActivitiesService.prototype.create = function (activity) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.db.get('activities')
-                    .then(function (result) {
-                    result.items.push(activity);
-                    return _this.db.put(result);
-                })
-                    .catch(function (err) {
-                    if (err.status === 404) {
-                        var activities = {
-                            _id: 'activities',
-                            items: [activity]
-                        };
-                        return _this.db.put(activities);
-                    }
-                    else {
-                        reject(err);
-                    }
-                });
-            });
-        };
-        return ActivitiesService;
-    }());
-    ActivitiesService = __decorate([
-        aurelia_framework_1.autoinject(),
-        __metadata("design:paramtypes", [db_1.Database])
-    ], ActivitiesService);
-    exports.ActivitiesService = ActivitiesService;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('resources/services/data/customer-service',["require", "exports", "aurelia-framework", "./db", "../../models/customer"], function (require, exports, aurelia_framework_1, db_1, customer_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CustomerService = (function () {
-        function CustomerService(database) {
-            this.db = database.db;
-        }
-        CustomerService.prototype.getAll = function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.db.find({ selector: { type: customer_1.CustomerDocument.DOCUMENT_TYPE }, sort: ['type', 'name'] })
-                    .then(function (items) {
-                    var customers = items.docs.map(function (item) {
-                        var customer = new customer_1.CustomerDocument(item);
-                        return customer;
-                    });
-                    resolve(customers);
-                })
-                    .catch(reject);
-            });
-        };
-        CustomerService.prototype.create = function (customer) {
-            var _this = this;
-            if (!customer._id) {
-                customer._id = customer_1.CustomerDocument.createId(customer.name);
-            }
-            return new Promise(function (resolve, reject) {
-                return _this.db.put(customer)
-                    .then(function (result) {
-                    _this.db.get(result.id)
-                        .then(function (custResult) {
-                        var saved = new customer_1.CustomerDocument(custResult);
-                        resolve(saved);
-                    })
-                        .catch(reject);
-                })
-                    .catch(reject);
-            });
-        };
-        CustomerService.prototype.save = function (customer) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                if (!customer._id) {
-                    return _this.create(customer);
-                }
-                else {
-                    return _this.db.put(customer)
-                        .then(resolve)
-                        .catch(reject);
-                }
-            });
-        };
-        CustomerService.prototype.delete = function (customer) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.db.remove(customer)
-                    .then(resolve)
-                    .catch(reject);
-            });
-        };
-        return CustomerService;
-    }());
-    CustomerService = __decorate([
-        aurelia_framework_1.autoinject(),
-        __metadata("design:paramtypes", [db_1.Database])
-    ], CustomerService);
-    exports.CustomerService = CustomerService;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('resources/services/data/db',["require", "exports", "aurelia-event-aggregator", "aurelia-framework", "../../models/job", "../config", "../log", "../auth"], function (require, exports, aurelia_event_aggregator_1, aurelia_framework_1, job_1, config_1, log_1, auth_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var localDB = null;
-    var remoteDB = null;
-    var Database = Database_1 = (function () {
-        function Database(auth, config, events) {
-            this.auth = auth;
-            this.config = config;
-            this.events = events;
-            this.init();
-            this.events.subscribe(auth_1.Authentication.AuthenticatedEvent, this.init.bind(this));
-        }
-        Database.prototype.init = function (localOps, remoteOps) {
-            var _this = this;
-            if (localDB === null) {
-                if (localOps) {
-                    localDB = new PouchDB(this.config.app_database_name, localOps);
-                }
-                else {
-                    localDB = new PouchDB(this.config.app_database_name);
-                }
-                localDB.getIndexes()
-                    .then(function (indexes) {
-                    var names = _.pluck(indexes.indexes, 'name');
-                    if (names.indexOf('by_type_name') === -1) {
-                        localDB.createIndex({
-                            name: 'by_type_name',
-                            index: {
-                                fields: ['type', 'name'],
-                                sort: ['name']
-                            }
-                        }).then(function (result) {
-                            log_1.log.debug(result);
-                        }).catch(function (error) {
-                            log_1.log.error(error);
-                        });
-                    }
-                    if (names.indexOf('by_type_deleted') === -1) {
-                        localDB.createIndex({
-                            name: 'by_type_deleted',
-                            index: {
-                                fields: ['type', 'deleted']
-                            }
-                        }).then(function (result) {
-                            log_1.log.debug(result);
-                        }).catch(function (error) {
-                            log_1.log.error(error);
-                        });
-                    }
-                });
-            }
-            if (this.auth.isAuthenticated()) {
-                var userInfo = this.auth.userInfo(), headers = { Authorization: userInfo.basicAuth }, opts = {
-                    skip_setup: true,
-                    auth: { username: userInfo.name, password: userInfo.password }
-                };
-                if (remoteOps) {
-                    _.extend(opts, remoteOps);
-                }
-                var remoteDB_1 = new PouchDB(this.config.remote_database_name, opts);
-                var sync_1 = localDB.sync(remoteDB_1, { live: true })
-                    .on('complete', function () {
-                    log_1.log.debug('Sync complete');
-                })
-                    .on('error', function (err) {
-                    log_1.log.error('Sync error');
-                    log_1.log.error(err);
-                    var values = _.values(err);
-                    if (values.indexOf('web_sql_went_bad') !== -1) {
-                        try {
-                            sync_1.cancel();
-                        }
-                        catch (e) { }
-                        localDB = null;
-                        var options = { adapter: 'localstorage' };
-                        _this.init(options);
-                    }
-                    else if (values.indexOf('_reader access is required for this request') !== -1) {
-                        try {
-                            sync_1.cancel();
-                        }
-                        catch (e) { }
-                        localDB = null;
-                        var options = {
-                            skip_setup: true,
-                            auth: { username: 'servaryinallyzeaccedicie', password: 'f2062820500e00f931c25f848928023cc1b427cc' }
-                        };
-                        _this.init(undefined, options);
-                    }
-                })
-                    .on('change', function (change) {
-                    log_1.log.info('Sync change');
-                    log_1.log.debug(change);
-                    if (change.direction === 'pull') {
-                        if (_.isArray(change.change.docs)) {
-                            change.change.docs.forEach(function (doc) {
-                                if (doc.type === job_1.JobDocument.DOCUMENT_TYPE) {
-                                    var job = new job_1.JobDocument(doc);
-                                    _this.events.publish(Database_1.SyncChangeEvent, job);
-                                }
-                            });
-                        }
-                    }
-                }).on('paused', function (info) {
-                    log_1.log.info('Sync pause');
-                    log_1.log.debug(info);
-                }).on('active', function (info) {
-                    log_1.log.info('Sync active');
-                    log_1.log.debug(info);
-                });
-            }
-        };
-        Database.prototype.destroy = function () {
-            return localDB.destroy()
-                .then(this.init.bind(this));
-        };
-        Database.prototype.nextJobNumber = function () {
-            return new Promise(function (resolve, reject) {
-                localDB.find({
-                    selector: { type: job_1.JobDocument.DOCUMENT_TYPE },
-                    fields: ['number']
-                })
-                    .then(function (rows) {
-                    log_1.log.debug(rows);
-                    var nextNumber = rows.docs.reduce(function (memo, job) {
-                        var number = parseInt(job.number);
-                        if (!isNaN(number) && number > memo)
-                            memo = number;
-                        return memo;
-                    }, 0) + 1;
-                    var formattedNumber = nextNumber < 99999 ? ("0000" + nextNumber).slice(-5) : nextNumber.toString();
-                    resolve(formattedNumber);
-                })
-                    .catch(reject);
-            });
-        };
-        Object.defineProperty(Database.prototype, "db", {
-            get: function () {
-                return localDB;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Database;
-    }());
-    Database.SyncChangeEvent = 'SyncChangeEvent';
-    Database = Database_1 = __decorate([
-        aurelia_framework_1.autoinject(),
-        __metadata("design:paramtypes", [auth_1.Authentication, config_1.Configuration, aurelia_event_aggregator_1.EventAggregator])
-    ], Database);
-    exports.Database = Database;
-    var Database_1;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('resources/services/data/job-service',["require", "exports", "aurelia-framework", "../log", "./db", "../auth", "../../models/job"], function (require, exports, aurelia_framework_1, log_1, db_1, auth_1, job_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var JobService = (function () {
-        function JobService(auth, database) {
-            this.auth = auth;
-            this.database = database;
-            this.db = database.db;
-        }
-        JobService.prototype.getAll = function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.db.find({ selector: { type: job_1.JobDocument.DOCUMENT_TYPE, deleted: { '$ne': true } } })
-                    .then(function (items) {
-                    var jobs = items.docs.map(function (item) {
-                        var job = new job_1.JobDocument(item);
-                        if (_.isString(item.startDate)) {
-                            job.startDate = moment(item.startDate).toDate();
-                        }
-                        if (_.isString(item.endDate)) {
-                            job.endDate = moment(item.endDate).toDate();
-                        }
-                        return job;
-                    });
-                    resolve(jobs);
-                })
-                    .catch(reject);
-            });
-        };
-        JobService.prototype.getOne = function (id) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.db.get(id)
-                    .then(function (doc) {
-                    log_1.log.info(doc);
-                    var job = new job_1.JobDocument(doc);
-                    if (_.isString(doc.startDate)) {
-                        job.startDate = moment(doc.startDate).toDate();
-                    }
-                    if (_.isString(doc.endDate)) {
-                        job.endDate = moment(doc.endDate).toDate();
-                    }
-                    resolve(job);
-                })
-                    .catch(reject);
-            });
-        };
-        JobService.prototype.save = function (job) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                if (!job._id) {
-                    _this.database.nextJobNumber()
-                        .then(function (number) {
-                        job._id = "job:" + number;
-                        job.number = number;
-                        if (_this.auth.isInRole(auth_1.Roles.Foreman)) {
-                            job.foreman = _this.auth.userInfo().name;
-                        }
-                        return _this.db.put(job)
-                            .then(resolve)
-                            .catch(reject);
-                    });
-                }
-                else {
-                    return _this.db.put(job)
-                        .then(resolve)
-                        .catch(reject);
-                }
-            });
-        };
-        JobService.prototype.delete = function (job) {
-            job.deleted = true;
-            return this.db.put(job);
-        };
-        JobService.prototype.destroy = function () {
-            return this.database.destroy();
-        };
-        return JobService;
-    }());
-    JobService = __decorate([
-        aurelia_framework_1.autoinject(),
-        __metadata("design:paramtypes", [auth_1.Authentication, db_1.Database])
-    ], JobService);
-    exports.JobService = JobService;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('resources/views/calendar/calendar',["require", "exports", "aurelia-router", "aurelia-framework", "../../services/data/job-service"], function (require, exports, aurelia_router_1, aurelia_framework_1, job_service_1) {
+define('resources/views/calendar/calendar',["require", "exports", "../../models/job-type", "aurelia-router", "aurelia-framework", "../../services/data/job-service"], function (require, exports, job_type_1, aurelia_router_1, aurelia_framework_1, job_service_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Calendar = (function () {
@@ -959,11 +552,18 @@ define('resources/views/calendar/calendar',["require", "exports", "aurelia-route
             this.jobService
                 .getAll()
                 .then(function (items) {
-                var filtered = items
-                    .filter(function (i) { return i.startDate; });
-                var mapped = filtered
+                var events = items
+                    .filter(function (i) { return i.startDate; })
                     .map(function (i) {
-                    return { title: i.number, start: i.startDate };
+                    var event = _.extend(i, {
+                        title: i.number,
+                        start: i.startDate,
+                        allDay: true,
+                        backgroundColor: (i.job_type === job_type_1.JobType.SERVICE_CALL ? '#ba3237' : '#3343bd'),
+                        url: _this.router.generate('jobs.edit', { id: i._id }),
+                        end: i.endDate || i.startDate
+                    });
+                    return event;
                 });
                 _this.cal = $('#calendar', _this.element).fullCalendar({
                     weekNumberCalculation: 'ISO',
@@ -973,7 +573,23 @@ define('resources/views/calendar/calendar',["require", "exports", "aurelia-route
                     defaultDate: _this.date,
                     dayClick: _this.onDayClick.bind(_this),
                     viewRender: _this.onViewRender.bind(_this),
-                    events: mapped
+                    events: events,
+                    eventRender: function (ev, el) {
+                        var $el = $(el), $title = $el.find('.fc-title'), className = (ev.job_type === job_type_1.JobType.SERVICE_CALL) ? 'wrench' : 'building', icon = "<i class=\"icon " + className + "\"></i>&nbsp;", description = icon + "<strong>" + getTitle(ev) + "</strong><br><em>" + ev.customer.name + "</em>";
+                        if (ev.description) {
+                            description += "<br>" + ev.description;
+                        }
+                        $title
+                            .html(getTitle(ev))
+                            .before(icon);
+                        $el.popup({
+                            title: getTitle(ev) + ": " + ev.name,
+                            html: description
+                        });
+                    },
+                    eventDestroy: function (ev, el) {
+                        $(el).popup('destroy');
+                    }
                 });
             });
         };
@@ -1026,6 +642,10 @@ define('resources/views/calendar/calendar',["require", "exports", "aurelia-route
         __metadata("design:paramtypes", [job_service_1.JobService, aurelia_router_1.Router, Element])
     ], Calendar);
     exports.Calendar = Calendar;
+    function getTitle(job) {
+        var prefix = job.job_type === job_type_1.JobType.SERVICE_CALL ? 'S' : 'P';
+        return prefix + "-" + job.number + ": " + job.name;
+    }
 });
 
 define('resources/views/controls/integer-value-converter',["require", "exports"], function (require, exports) {
@@ -1461,7 +1081,7 @@ define('resources/views/jobs/detail',["require", "exports", "aurelia-framework",
                 _this.jobService.delete(_this.job.toJSON())
                     .then(function () {
                     notifications_1.Notifications.success('Job Deleted');
-                    _this.router.navigateToRoute('jobs.list');
+                    _this.router.navigateBack();
                 })
                     .catch(notifications_1.Notifications.error);
             });
@@ -1471,7 +1091,7 @@ define('resources/views/jobs/detail',["require", "exports", "aurelia-framework",
             return this.jobService.save(this.job.toJSON())
                 .then(function () {
                 notifications_1.Notifications.success('Job Saved');
-                _this.router.navigateToRoute('jobs.list');
+                _this.router.navigateBack();
             })
                 .catch(function (err) {
                 notifications_1.Notifications.error(err);
@@ -1912,6 +1532,413 @@ define('resources/views/jobs/new',["require", "exports", "aurelia-framework", "a
         __metadata("design:paramtypes", [Element, aurelia_router_1.Router, job_service_1.JobService, customer_service_1.CustomerService])
     ], NewJob);
     exports.NewJob = NewJob;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/data/activities-service',["require", "exports", "aurelia-framework", "./db"], function (require, exports, aurelia_framework_1, db_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ActivitiesService = (function () {
+        function ActivitiesService(database) {
+            this.db = database.db;
+        }
+        ActivitiesService.prototype.getAll = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.get('activities')
+                    .then(function (result) {
+                    resolve(result.items);
+                })
+                    .catch(function (err) {
+                    if (err.status === 404) {
+                        var activities = {
+                            _id: 'activities',
+                            items: []
+                        };
+                        _this.db.put(activities)
+                            .then(function () { return resolve([]); })
+                            .catch(reject);
+                    }
+                    else {
+                        reject(err);
+                    }
+                });
+            });
+        };
+        ActivitiesService.prototype.create = function (activity) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.get('activities')
+                    .then(function (result) {
+                    result.items.push(activity);
+                    return _this.db.put(result);
+                })
+                    .catch(function (err) {
+                    if (err.status === 404) {
+                        var activities = {
+                            _id: 'activities',
+                            items: [activity]
+                        };
+                        return _this.db.put(activities);
+                    }
+                    else {
+                        reject(err);
+                    }
+                });
+            });
+        };
+        return ActivitiesService;
+    }());
+    ActivitiesService = __decorate([
+        aurelia_framework_1.autoinject(),
+        __metadata("design:paramtypes", [db_1.Database])
+    ], ActivitiesService);
+    exports.ActivitiesService = ActivitiesService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/data/customer-service',["require", "exports", "aurelia-framework", "./db", "../../models/customer"], function (require, exports, aurelia_framework_1, db_1, customer_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CustomerService = (function () {
+        function CustomerService(database) {
+            this.db = database.db;
+        }
+        CustomerService.prototype.getAll = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.find({ selector: { type: customer_1.CustomerDocument.DOCUMENT_TYPE }, sort: ['type', 'name'] })
+                    .then(function (items) {
+                    var customers = items.docs.map(function (item) {
+                        var customer = new customer_1.CustomerDocument(item);
+                        return customer;
+                    });
+                    resolve(customers);
+                })
+                    .catch(reject);
+            });
+        };
+        CustomerService.prototype.create = function (customer) {
+            var _this = this;
+            if (!customer._id) {
+                customer._id = customer_1.CustomerDocument.createId(customer.name);
+            }
+            return new Promise(function (resolve, reject) {
+                return _this.db.put(customer)
+                    .then(function (result) {
+                    _this.db.get(result.id)
+                        .then(function (custResult) {
+                        var saved = new customer_1.CustomerDocument(custResult);
+                        resolve(saved);
+                    })
+                        .catch(reject);
+                })
+                    .catch(reject);
+            });
+        };
+        CustomerService.prototype.save = function (customer) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (!customer._id) {
+                    return _this.create(customer);
+                }
+                else {
+                    return _this.db.put(customer)
+                        .then(resolve)
+                        .catch(reject);
+                }
+            });
+        };
+        CustomerService.prototype.delete = function (customer) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.remove(customer)
+                    .then(resolve)
+                    .catch(reject);
+            });
+        };
+        return CustomerService;
+    }());
+    CustomerService = __decorate([
+        aurelia_framework_1.autoinject(),
+        __metadata("design:paramtypes", [db_1.Database])
+    ], CustomerService);
+    exports.CustomerService = CustomerService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/data/db',["require", "exports", "aurelia-event-aggregator", "aurelia-framework", "../../models/job", "../config", "../log", "../auth"], function (require, exports, aurelia_event_aggregator_1, aurelia_framework_1, job_1, config_1, log_1, auth_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var localDB = null;
+    var remoteDB = null;
+    var Database = Database_1 = (function () {
+        function Database(auth, config, events) {
+            this.auth = auth;
+            this.config = config;
+            this.events = events;
+            this.init();
+            this.events.subscribe(auth_1.Authentication.AuthenticatedEvent, this.init.bind(this));
+        }
+        Database.prototype.init = function (localOps, remoteOps) {
+            var _this = this;
+            if (localDB === null) {
+                if (localOps) {
+                    localDB = new PouchDB(this.config.app_database_name, localOps);
+                }
+                else {
+                    localDB = new PouchDB(this.config.app_database_name);
+                }
+                localDB.getIndexes()
+                    .then(function (indexes) {
+                    var names = _.pluck(indexes.indexes, 'name');
+                    if (names.indexOf('by_type_name') === -1) {
+                        localDB.createIndex({
+                            name: 'by_type_name',
+                            index: {
+                                fields: ['type', 'name'],
+                                sort: ['name']
+                            }
+                        }).then(function (result) {
+                            log_1.log.debug(result);
+                        }).catch(function (error) {
+                            log_1.log.error(error);
+                        });
+                    }
+                    if (names.indexOf('by_type_deleted') === -1) {
+                        localDB.createIndex({
+                            name: 'by_type_deleted',
+                            index: {
+                                fields: ['type', 'deleted']
+                            }
+                        }).then(function (result) {
+                            log_1.log.debug(result);
+                        }).catch(function (error) {
+                            log_1.log.error(error);
+                        });
+                    }
+                });
+            }
+            if (this.auth.isAuthenticated()) {
+                var userInfo = this.auth.userInfo(), headers = { Authorization: userInfo.basicAuth }, opts = {
+                    skip_setup: true,
+                    auth: { username: userInfo.name, password: userInfo.password }
+                };
+                if (remoteOps) {
+                    _.extend(opts, remoteOps);
+                }
+                var remoteDB_1 = new PouchDB(this.config.remote_database_name, opts);
+                var sync_1 = localDB.sync(remoteDB_1, { live: true })
+                    .on('complete', function () {
+                    log_1.log.debug('Sync complete');
+                })
+                    .on('error', function (err) {
+                    log_1.log.error('Sync error');
+                    log_1.log.error(err);
+                    var values = _.values(err);
+                    if (values.indexOf('web_sql_went_bad') !== -1) {
+                        try {
+                            sync_1.cancel();
+                        }
+                        catch (e) { }
+                        localDB = null;
+                        var options = { adapter: 'localstorage' };
+                        _this.init(options);
+                    }
+                    else if (values.indexOf('_reader access is required for this request') !== -1) {
+                        try {
+                            sync_1.cancel();
+                        }
+                        catch (e) { }
+                        localDB = null;
+                        var options = {
+                            skip_setup: true,
+                            auth: { username: 'servaryinallyzeaccedicie', password: 'f2062820500e00f931c25f848928023cc1b427cc' }
+                        };
+                        _this.init(undefined, options);
+                    }
+                })
+                    .on('change', function (change) {
+                    log_1.log.info('Sync change');
+                    log_1.log.debug(change);
+                    if (change.direction === 'pull') {
+                        if (_.isArray(change.change.docs)) {
+                            change.change.docs.forEach(function (doc) {
+                                if (doc.type === job_1.JobDocument.DOCUMENT_TYPE) {
+                                    var job = new job_1.JobDocument(doc);
+                                    _this.events.publish(Database_1.SyncChangeEvent, job);
+                                }
+                            });
+                        }
+                    }
+                }).on('paused', function (info) {
+                    log_1.log.info('Sync pause');
+                    log_1.log.debug(info);
+                }).on('active', function (info) {
+                    log_1.log.info('Sync active');
+                    log_1.log.debug(info);
+                });
+            }
+        };
+        Database.prototype.destroy = function () {
+            return localDB.destroy()
+                .then(this.init.bind(this));
+        };
+        Database.prototype.nextJobNumber = function () {
+            return new Promise(function (resolve, reject) {
+                localDB.find({
+                    selector: { type: job_1.JobDocument.DOCUMENT_TYPE },
+                    fields: ['number']
+                })
+                    .then(function (rows) {
+                    log_1.log.debug(rows);
+                    var nextNumber = rows.docs.reduce(function (memo, job) {
+                        var number = parseInt(job.number);
+                        if (!isNaN(number) && number > memo)
+                            memo = number;
+                        return memo;
+                    }, 0) + 1;
+                    var formattedNumber = nextNumber < 99999 ? ("0000" + nextNumber).slice(-5) : nextNumber.toString();
+                    resolve(formattedNumber);
+                })
+                    .catch(reject);
+            });
+        };
+        Object.defineProperty(Database.prototype, "db", {
+            get: function () {
+                return localDB;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Database;
+    }());
+    Database.SyncChangeEvent = 'SyncChangeEvent';
+    Database = Database_1 = __decorate([
+        aurelia_framework_1.autoinject(),
+        __metadata("design:paramtypes", [auth_1.Authentication, config_1.Configuration, aurelia_event_aggregator_1.EventAggregator])
+    ], Database);
+    exports.Database = Database;
+    var Database_1;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('resources/services/data/job-service',["require", "exports", "aurelia-framework", "../log", "./db", "../auth", "../../models/job"], function (require, exports, aurelia_framework_1, log_1, db_1, auth_1, job_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var JobService = (function () {
+        function JobService(auth, database) {
+            this.auth = auth;
+            this.database = database;
+            this.db = database.db;
+        }
+        JobService.prototype.getAll = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.find({ selector: { type: job_1.JobDocument.DOCUMENT_TYPE, deleted: { '$ne': true } } })
+                    .then(function (items) {
+                    var jobs = items.docs.map(function (item) {
+                        var job = new job_1.JobDocument(item);
+                        if (_.isString(item.startDate)) {
+                            job.startDate = moment(item.startDate).toDate();
+                        }
+                        if (_.isString(item.endDate)) {
+                            job.endDate = moment(item.endDate).toDate();
+                        }
+                        return job;
+                    });
+                    resolve(jobs);
+                })
+                    .catch(reject);
+            });
+        };
+        JobService.prototype.getOne = function (id) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.get(id)
+                    .then(function (doc) {
+                    log_1.log.info(doc);
+                    var job = new job_1.JobDocument(doc);
+                    if (_.isString(doc.startDate)) {
+                        job.startDate = moment(doc.startDate).toDate();
+                    }
+                    if (_.isString(doc.endDate)) {
+                        job.endDate = moment(doc.endDate).toDate();
+                    }
+                    resolve(job);
+                })
+                    .catch(reject);
+            });
+        };
+        JobService.prototype.save = function (job) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (!job._id) {
+                    _this.database.nextJobNumber()
+                        .then(function (number) {
+                        job._id = "job:" + number;
+                        job.number = number;
+                        if (_this.auth.isInRole(auth_1.Roles.Foreman)) {
+                            job.foreman = _this.auth.userInfo().name;
+                        }
+                        return _this.db.put(job)
+                            .then(resolve)
+                            .catch(reject);
+                    });
+                }
+                else {
+                    return _this.db.put(job)
+                        .then(resolve)
+                        .catch(reject);
+                }
+            });
+        };
+        JobService.prototype.delete = function (job) {
+            job.deleted = true;
+            return this.db.put(job);
+        };
+        JobService.prototype.destroy = function () {
+            return this.database.destroy();
+        };
+        return JobService;
+    }());
+    JobService = __decorate([
+        aurelia_framework_1.autoinject(),
+        __metadata("design:paramtypes", [auth_1.Authentication, db_1.Database])
+    ], JobService);
+    exports.JobService = JobService;
 });
 
 define('aurelia-dialog/ai-dialog',['exports', 'aurelia-templating'], function (exports, _aureliaTemplating) {
@@ -2631,7 +2658,7 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
   }
 });
 define('text!resources/views/app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"styles/styles.css\"></require>\n  <require from=\"./controls/nav-bar\"></require>\n\n  <nav-bar router.bind=\"router\"></nav-bar>\n\n  <div class=\"ui main container\">\n    <router-view></router-view>\n  </div>\n</template>\n"; });
-define('text!styles/calendar.css', ['module'], function(module) { module.exports = "#calendar-menu .inline.fields {\n  margin: 1em;\n}\n#calendar-menu .inline.fields label {\n  cursor: pointer;\n}\n#calendar .fc-bg .fc-day {\n  cursor: pointer;\n}\n#calendar .fc-bg .fc-day:hover {\n  background-color: #21ba45;\n  opacity: 0.5;\n}\n"; });
+define('text!styles/calendar.css', ['module'], function(module) { module.exports = "#calendar-menu .inline.fields {\n  margin: 1em;\n}\n#calendar-menu .inline.fields label {\n  cursor: pointer;\n}\n#calendar {\n  /*Allow pointer-events through*/\n  /*Turn pointer events back on*/\n}\n#calendar .fc-day-grid-event:hover {\n  border-color: #000;\n}\n#calendar .fc-bg .fc-day,\n#calendar .fc-content-skeleton {\n  cursor: pointer;\n}\n#calendar .fc-day:hover {\n  background: #39ba32;\n}\n#calendar .fc-slats,\n#calendar .fc-content-skeleton,\n#calendar .fc-bgevent-skeleton {\n  pointer-events: none;\n}\n#calendar .fc-bgevent,\n#calendar .fc-event-container {\n  pointer-events: auto;\n  /*events*/\n}\n"; });
 define('text!resources/views/login.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"styles/login.css\"></require>\n  <div class=\"login-form ui middle aligned center aligned grid\">\n    <div class=\"column\">\n      <h2 class=\"ui blue image header\">\n        <img src=\"/images/logo.png\" class=\"image\">\n        Langendoen Mechanical Job Management Site\n      </h2>\n      <form class=\"ui large form ${errorMessage ? 'error' : ''}\" submit.trigger=\"login($event)\" method=\"post\"\n            novalidate>\n        <div class=\"ui stacked segment\">\n          <div class=\"field\">\n            <div class=\"ui left icon input\">\n              <i class=\"user icon\"></i>\n              <input id=\"username\" name=\"username\" type=\"text\" value.bind=\"username\" placeholder=\"User Name\" required>\n            </div>\n          </div>\n          <div class=\"field\">\n            <div class=\"ui left icon input\">\n              <i class=\"lock icon\"></i>\n              <input id=\"password\" name=\"password\" type=\"password\" value.bind=\"password\" placeholder=\"Password\"\n                     required>\n            </div>\n          </div>\n          <input class=\"ui fluid large blue submit button\" type=\"submit\" value=\"Login\" submit.trigger=\"cancel($event)\">\n          <div class=\"ui error message\" show.bind=\"errorMessage\">\n            <ul class=\"list\">\n              <li>\n                ${errorMessage}\n              </li>\n            </ul>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</template>\n"; });
 define('text!styles/customer-list.css', ['module'], function(module) { module.exports = "#customer-list .ui.header {\n  margin-bottom: 0;\n}\n"; });
 define('text!resources/views/calendar/calendar.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"styles/calendar.css\"></require>\r\n\r\n    <div id=\"calendar-menu\" class=\"ui menu button-bar\">\r\n        <div class=\"ui container form\">\r\n            <div class=\"inline fields\">\r\n                <label>View:</label>\r\n                <div class=\"field\">\r\n                    <div class=\"ui radio checkbox\">\r\n                        <input type=\"radio\" id=\"calendar-view-month\" name=\"calendar-view\" value=\"month\" checked.bind=\"currentView\">\r\n                        <label for=\"calendar-view-month\">Month</label>\r\n                    </div>\r\n                </div>\r\n                <div class=\"field\">\r\n                    <div class=\"ui radio checkbox\">\r\n                        <input type=\"radio\" id=\"calendar-view-week\" name=\"calendar-view\" value=\"basicWeek\" checked.bind=\"currentView\">\r\n                        <label for=\"calendar-view-week\">Week</label>\r\n                    </div>\r\n                </div>\r\n                <div class=\"field\">\r\n                    <div class=\"ui radio checkbox\">\r\n                        <input type=\"radio\" id=\"calendar-view-day\" name=\"calendar-view\" value=\"basicDay\" checked.bind=\"currentView\">\r\n                        <label for=\"calendar-view-day\">Day</label>\r\n                    </div>\r\n                </div>\r\n                <div class=\"field\">|</div>\r\n                <div class=\"field\">\r\n                    <div class=\"ui checkbox\">\r\n                        <input type=\"checkbox\" id=\"calendar-show-weekends\" checked.bind=\"showWeekends\">\r\n                        <label for=\"calendar-show-weekends\">Show Weekends</label>\r\n                    </div>\r\n                </div>\r\n                <div class=\"field\">|</div>\r\n                <div class=\"field\">\r\n                    <div class=\"ui checkbox\">\r\n                        <input type=\"checkbox\" id=\"calendar-show-weeknumbers\" checked.bind=\"showWeekNumbers\">\r\n                        <label for=\"calendar-show-weeknumbers\">Show Week Numbers</label>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"ui segment\">\r\n        <div id=\"calendar\"></div>\r\n    </div>\r\n</template>"; });

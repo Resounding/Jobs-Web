@@ -1,3 +1,4 @@
+import { JobType } from '../../models/job-type';
 import {ViewObject, EventObject} from 'fullcalendar';
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
@@ -10,7 +11,6 @@ export class Calendar {
     _currentView:string = 'month';
     _showWeekends:boolean = true;
     _showWeekNumbers:boolean = true;
-    _events:EventObject[];
 
     constructor(private jobService: JobService, private router:Router, private element:Element) { }
 
@@ -26,12 +26,18 @@ export class Calendar {
         this.jobService
             .getAll()
             .then(items => {
-                const filtered = items
-                    .filter(i => i.startDate);
-                
-                const mapped = filtered
+                const events = items
+                    .filter(i => i.startDate)
                     .map(i => {
-                        return {title: i.number, start: i.startDate}
+                        const event:EventObject = _.extend(i, {
+                            title: i.number,
+                            start: i.startDate,
+                            allDay: true,
+                            backgroundColor: (i.job_type === JobType.SERVICE_CALL ? '#ba3237' : '#3343bd'),
+                            url: this.router.generate('jobs.edit', { id: i._id }),
+                            end: i.endDate || i.startDate
+                        });
+                        return event;
                     });
 
                 this.cal = $('#calendar', this.element).fullCalendar({
@@ -42,7 +48,30 @@ export class Calendar {
                     defaultDate: this.date,
                     dayClick: this.onDayClick.bind(this),
                     viewRender: this.onViewRender.bind(this),
-                    events: mapped
+                    events: events,
+                    eventRender: (ev:EventObject, el:Element)  => {
+                        const $el = $(el),
+                            $title = $el.find('.fc-title'),
+                            className = (ev.job_type === JobType.SERVICE_CALL) ? 'wrench' : 'building',
+                            icon = `<i class="icon ${className}"></i>&nbsp;`,
+                            description = `${icon}<strong>${getTitle(ev)}</strong><br><em>${ev.customer.name}</em>`;
+
+                        if(ev.description) {
+                            description += `<br>${ev.description}`;
+                        }
+                        
+                        $title
+                            .html(getTitle(ev))
+                            .before(icon);
+
+                        $el.popup({
+                            title: `${getTitle(ev)}: ${ev.name}`,
+                            html: description
+                        });
+                    },
+                    eventDestroy: (ev, el) {
+                        $(el).popup('destroy');
+                    }
                 });
             });
     }
@@ -82,4 +111,9 @@ export class Calendar {
     private setOption(name:string, value:any) {
         this.cal.fullCalendar('option', name, value);
     }
+}
+
+function getTitle(job:Job):string {
+    const prefix = job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
+    return `${prefix}-${job.number}: ${job.name}`;
 }

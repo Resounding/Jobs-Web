@@ -9,12 +9,29 @@
 }
 
 #calendar {
-    .fc-bg .fc-day {
-        cursor: pointer;
-
-        &:hover {
-            background-color: #21ba45;
-            opacity: 0.5;
-        }
+    // highlight the event a bit when hovered
+    .fc-day-grid-event:hover {
+        border-color: #000;
     }
+
+    .fc-bg .fc-day,.fc-content-skeleton {
+        cursor: pointer;
+    }
+
+    .fc-day:hover{
+        background: #39ba32;
+    }
+
+    /*Allow pointer-events through*/
+    .fc-slats, /*horizontals*/
+    .fc-content-skeleton, /*day numbers*/
+    .fc-bgevent-skeleton /*events container*/{
+        pointer-events:none
+    }
+
+    /*Turn pointer events back on*/
+    .fc-bgevent,
+    .fc-event-container{
+        pointer-events:auto; /*events*/
+    }    
 }

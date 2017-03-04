@@ -187,7 +187,7 @@ export class EditJob {
         this.jobService.delete(this.job.toJSON())
           .then(() => {
             Notifications.success('Job Deleted');
-            this.router.navigateToRoute('jobs.list');
+            this.router.navigateBack();
           })
           .catch(Notifications.error);
       });
@@ -197,7 +197,7 @@ export class EditJob {
     return this.jobService.save(this.job.toJSON())
       .then(() => {
         Notifications.success('Job Saved');
-        this.router.navigateToRoute('jobs.list');
+        this.router.navigateBack();
       })
       .catch((err) => {
         Notifications.error(err);
