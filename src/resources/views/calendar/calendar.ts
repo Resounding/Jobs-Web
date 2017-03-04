@@ -3,6 +3,7 @@ import {ViewObject, EventObject} from 'fullcalendar';
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
 import {JobService} from '../../services/data/job-service';
+import {Notifications} from '../../services/notifications';
 
 @autoinject
 export class Calendar {
@@ -31,47 +32,31 @@ export class Calendar {
                     .map(i => {
                         const event:EventObject = _.extend(i, {
                             title: i.number,
-                            start: i.startDate,
+                            start: moment(i.startDate).format('YYYY-MM-DD'),
                             allDay: true,
                             backgroundColor: (i.job_type === JobType.SERVICE_CALL ? '#ba3237' : '#3343bd'),
                             url: this.router.generate('jobs.edit', { id: i._id }),
-                            end: i.endDate || i.startDate
+                            end: i.endDate ? moment(i.endDate).add(1, 'day').format('YYYY-MM-DD') : null
                         });
                         return event;
                     });
 
                 this.cal = $('#calendar', this.element).fullCalendar({
                     weekNumberCalculation: 'ISO',
+                    editable: true,
+                    eventStartEditable: true,
+                    eventDurationEditable: true,
                     weekNumbers: this._showWeekNumbers,
                     weekends: this._showWeekends,
                     defaultView: this.currentView,
                     defaultDate: this.date,
                     dayClick: this.onDayClick.bind(this),
                     viewRender: this.onViewRender.bind(this),
-                    events: events,
-                    eventRender: (ev:EventObject, el:Element)  => {
-                        const $el = $(el),
-                            $title = $el.find('.fc-title'),
-                            className = (ev.job_type === JobType.SERVICE_CALL) ? 'wrench' : 'building',
-                            icon = `<i class="icon ${className}"></i>&nbsp;`,
-                            description = `${icon}<strong>${getTitle(ev)}</strong><br><em>${ev.customer.name}</em>`;
-
-                        if(ev.description) {
-                            description += `<br>${ev.description}`;
-                        }
-                        
-                        $title
-                            .html(getTitle(ev))
-                            .before(icon);
-
-                        $el.popup({
-                            title: `${getTitle(ev)}: ${ev.name}`,
-                            html: description
-                        });
-                    },
-                    eventDestroy: (ev, el) {
-                        $(el).popup('destroy');
-                    }
+                    eventRender: this.onEventRender.bind(this),
+                    eventDrop: this.onEventDrop.bind(this),
+                    eventResize: this.onEventResize.bind(this),
+                    eventDestroy: this.onEventDestroy.bind(this),
+                    events: events                    
                 });
             });
     }
@@ -82,6 +67,47 @@ export class Calendar {
 
     onViewRender(view:ViewObject) {
         this.router.navigateToRoute('calendar', { date: view.intervalStart.format('YYYY-MM-DD')});
+    }
+
+    onEventRender(ev:EventObject, el:Element) {
+        const $el = $(el),
+            $title = $el.find('.fc-title'),
+            className = (ev.job_type === JobType.SERVICE_CALL) ? 'wrench' : 'building',
+            icon = `<i class="icon ${className}"></i>&nbsp;`,
+            description = `${icon}<strong>${getTitle(ev)}</strong><br><em>${ev.customer.name}</em>`;
+
+        if(ev.description) {
+            description += `<br>${ev.description}`;
+        }
+        
+        $title
+            .html(getTitle(ev))
+            .before(icon);
+
+        $el.popup({
+            title: `${getTitle(ev)}: ${ev.name}`,
+            html: description
+        });
+    }
+
+    onEventDrop(ev:EventObject) {
+        const start = ev.start.format('YYYY-MM-DD'),
+            end = ev.endDate ? ev.end.format('YYYY-MM-DD') : null;
+        this.jobService.move(ev._id, start, end)
+            .then(() => Notifications.success('Job moved successfully.'))
+            .catch(Notifications.error);
+    }
+
+    onEventResize(ev:EventObject) {
+        const start = ev.start.format('YYYY-MM-DD'),
+            end = ev.end.clone().subtract(1, 'day').format('YYYY-MM-DD');
+        this.jobService.move(ev._id, start, end)
+            .then(() => Notifications.success('Job moved successfully.'))
+            .catch(Notifications.error);
+    }
+
+    onEventDestroy(ev, el) {
+        $(el).popup('destroy');
     }
 
     get currentView():string {

@@ -528,7 +528,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('resources/views/calendar/calendar',["require", "exports", "../../models/job-type", "aurelia-router", "aurelia-framework", "../../services/data/job-service"], function (require, exports, job_type_1, aurelia_router_1, aurelia_framework_1, job_service_1) {
+define('resources/views/calendar/calendar',["require", "exports", "../../models/job-type", "aurelia-router", "aurelia-framework", "../../services/data/job-service", "../../services/notifications"], function (require, exports, job_type_1, aurelia_router_1, aurelia_framework_1, job_service_1, notifications_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Calendar = (function () {
@@ -557,39 +557,30 @@ define('resources/views/calendar/calendar',["require", "exports", "../../models/
                     .map(function (i) {
                     var event = _.extend(i, {
                         title: i.number,
-                        start: i.startDate,
+                        start: moment(i.startDate).format('YYYY-MM-DD'),
                         allDay: true,
                         backgroundColor: (i.job_type === job_type_1.JobType.SERVICE_CALL ? '#ba3237' : '#3343bd'),
                         url: _this.router.generate('jobs.edit', { id: i._id }),
-                        end: i.endDate || i.startDate
+                        end: i.endDate ? moment(i.endDate).add(1, 'day').format('YYYY-MM-DD') : null
                     });
                     return event;
                 });
                 _this.cal = $('#calendar', _this.element).fullCalendar({
                     weekNumberCalculation: 'ISO',
+                    editable: true,
+                    eventStartEditable: true,
+                    eventDurationEditable: true,
                     weekNumbers: _this._showWeekNumbers,
                     weekends: _this._showWeekends,
                     defaultView: _this.currentView,
                     defaultDate: _this.date,
                     dayClick: _this.onDayClick.bind(_this),
                     viewRender: _this.onViewRender.bind(_this),
-                    events: events,
-                    eventRender: function (ev, el) {
-                        var $el = $(el), $title = $el.find('.fc-title'), className = (ev.job_type === job_type_1.JobType.SERVICE_CALL) ? 'wrench' : 'building', icon = "<i class=\"icon " + className + "\"></i>&nbsp;", description = icon + "<strong>" + getTitle(ev) + "</strong><br><em>" + ev.customer.name + "</em>";
-                        if (ev.description) {
-                            description += "<br>" + ev.description;
-                        }
-                        $title
-                            .html(getTitle(ev))
-                            .before(icon);
-                        $el.popup({
-                            title: getTitle(ev) + ": " + ev.name,
-                            html: description
-                        });
-                    },
-                    eventDestroy: function (ev, el) {
-                        $(el).popup('destroy');
-                    }
+                    eventRender: _this.onEventRender.bind(_this),
+                    eventDrop: _this.onEventDrop.bind(_this),
+                    eventResize: _this.onEventResize.bind(_this),
+                    eventDestroy: _this.onEventDestroy.bind(_this),
+                    events: events
                 });
             });
         };
@@ -598,6 +589,34 @@ define('resources/views/calendar/calendar',["require", "exports", "../../models/
         };
         Calendar.prototype.onViewRender = function (view) {
             this.router.navigateToRoute('calendar', { date: view.intervalStart.format('YYYY-MM-DD') });
+        };
+        Calendar.prototype.onEventRender = function (ev, el) {
+            var $el = $(el), $title = $el.find('.fc-title'), className = (ev.job_type === job_type_1.JobType.SERVICE_CALL) ? 'wrench' : 'building', icon = "<i class=\"icon " + className + "\"></i>&nbsp;", description = icon + "<strong>" + getTitle(ev) + "</strong><br><em>" + ev.customer.name + "</em>";
+            if (ev.description) {
+                description += "<br>" + ev.description;
+            }
+            $title
+                .html(getTitle(ev))
+                .before(icon);
+            $el.popup({
+                title: getTitle(ev) + ": " + ev.name,
+                html: description
+            });
+        };
+        Calendar.prototype.onEventDrop = function (ev) {
+            var start = ev.start.format('YYYY-MM-DD'), end = ev.endDate ? ev.end.format('YYYY-MM-DD') : null;
+            this.jobService.move(ev._id, start, end)
+                .then(function () { return notifications_1.Notifications.success('Job moved successfully.'); })
+                .catch(notifications_1.Notifications.error);
+        };
+        Calendar.prototype.onEventResize = function (ev) {
+            var start = ev.start.format('YYYY-MM-DD'), end = ev.end.clone().subtract(1, 'day').format('YYYY-MM-DD');
+            this.jobService.move(ev._id, start, end)
+                .then(function () { return notifications_1.Notifications.success('Job moved successfully.'); })
+                .catch(notifications_1.Notifications.error);
+        };
+        Calendar.prototype.onEventDestroy = function (ev, el) {
+            $(el).popup('destroy');
         };
         Object.defineProperty(Calendar.prototype, "currentView", {
             get: function () {
@@ -1905,6 +1924,12 @@ define('resources/services/data/job-service',["require", "exports", "aurelia-fra
         JobService.prototype.save = function (job) {
             var _this = this;
             return new Promise(function (resolve, reject) {
+                if (_.isString(job.startDate) || _.isDate(job.startDate)) {
+                    job.startDate = moment(job.startDate).format('YYYY-MM-DD');
+                }
+                if (_.isString(job.endDate) || _.isDate(job.endDate)) {
+                    job.endDate = moment(job.endDate).format('YYYY-MM-DD');
+                }
                 if (!job._id) {
                     _this.database.nextJobNumber()
                         .then(function (number) {
@@ -1931,6 +1956,20 @@ define('resources/services/data/job-service',["require", "exports", "aurelia-fra
         };
         JobService.prototype.destroy = function () {
             return this.database.destroy();
+        };
+        JobService.prototype.move = function (id, start, end) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.db.get(id)
+                    .then(function (job) {
+                    job.startDate = start;
+                    job.endDate = end;
+                    _this.db.put(job)
+                        .then(resolve)
+                        .catch(reject);
+                })
+                    .catch(reject);
+            });
         };
         return JobService;
     }());
