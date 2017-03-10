@@ -10,9 +10,6 @@ import {Notifications} from '../../services/notifications';
 export class Calendar {
     cal:JQuery;
     date:Date;
-    _currentView:string = 'month';
-    _showWeekends:boolean = true;
-    _showWeekNumbers:boolean = true;
 
     constructor(private jobService: JobService, private router:Router, private element:Element) { }
 
@@ -49,8 +46,8 @@ export class Calendar {
                     editable: true,
                     eventStartEditable: true,
                     eventDurationEditable: true,
-                    weekNumbers: this._showWeekNumbers,
-                    weekends: this._showWeekends,
+                    weekNumbers: this.showWeekNumbers,
+                    weekends: this.showWeekends,
                     defaultView: this.currentView,
                     defaultDate: this.date,
                     dayClick: this.onDayClick.bind(this),
@@ -114,31 +111,34 @@ export class Calendar {
     }
 
     get currentView():string {
-        return this._currentView;
+        return localStorage.getItem(`calendar:currentView`) || 'month';
     }
     set currentView(view:string) {
-        this._currentView = view;
+        localStorage.setItem(`calendar:currentView`, view);
         this.cal.fullCalendar('changeView', view);
     }
 
     get showWeekends():boolean {
-        return this._showWeekends;
+        return this.getOption('weekends') === 'true';
     }
     set showWeekends(show:boolean) {
-        this._showWeekends = show;
         this.setOption('weekends', show);
     }
 
     get showWeekNumbers():boolean {
-        return this._showWeekNumbers;
+        return this.getOption('weekNumbers') === 'true';
     }
     set showWeekNumbers(show:boolean) {
-        this._showWeekNumbers = show;
         this.setOption('weekNumbers', show);
     }
 
     private setOption(name:string, value:any) {
         this.cal.fullCalendar('option', name, value);
+        localStorage.setItem(`calendar:${name}`, value);
+    }
+
+    private getOption(name:string):string {
+        return localStorage.getItem(`calendar:${name}`);
     }
 }
 
