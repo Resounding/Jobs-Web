@@ -1,3 +1,4 @@
+import { Foreman } from '../../models/foreman';
 import { JobType } from '../../models/job-type';
 import {ViewObject, EventObject} from 'fullcalendar';
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
@@ -30,11 +31,13 @@ export class Calendar {
                 const events = items
                     .filter(i => i.startDate)
                     .map(i => {
+                        const backgroundColor = Foreman.BackgroundColours[i.foreman] || 'white';
                         const event:EventObject = _.extend(i, {
                             title: i.number,
                             start: moment(i.startDate).format('YYYY-MM-DD'),
                             allDay: true,
-                            backgroundColor: (i.job_type === JobType.SERVICE_CALL ? '#ba3237' : '#3343bd'),
+                            backgroundColor: backgroundColor,
+                            textColor: '#000',
                             url: this.router.generate('jobs.edit', { id: i._id }),
                             end: i.endDate ? moment(i.endDate).add(1, 'day').format('YYYY-MM-DD') : null
                         });
