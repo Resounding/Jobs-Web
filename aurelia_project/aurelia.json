@@ -45,6 +45,15 @@
     }
   },
   "build": {
+    "copyFiles": {
+      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.eot": "themes/default/assets/fonts/",
+      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.otf": "themes/default/assets/fonts/",
+      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.svg": "themes/default/assets/fonts/",
+      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.ttf": "themes/default/assets/fonts/",
+      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.woff": "themes/default/assets/fonts/",
+      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.woff2": "themes/default/assets/fonts/",
+      "node_modules/semantic-ui-css/themes/default/assets/images/flags.png": "themes/default/assets/images/"
+    },
     "targets": [
       {
         "id": "web",
@@ -98,7 +107,7 @@
           "node_modules/semantic-ui-css/semantic.js",
           "node_modules/semantic-ui-calendar/dist/calendar.js",
           "node_modules/fullcalendar/dist/fullcalendar.js",
-          "scripts/require.js"
+          "node_modules/requirejs/require.js"
         ],
         "dependencies": [
           "aurelia-binding",
@@ -128,10 +137,7 @@
           "aurelia-task-queue",
           "aurelia-templating",
           "aurelia-templating-binding",
-          {
-            "name": "text",
-            "path": "../scripts/text"
-          },
+          "text",
           {
             "name": "aurelia-templating-resources",
             "path": "../node_modules/aurelia-templating-resources/dist/amd",

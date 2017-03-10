@@ -2,6 +2,7 @@ import * as gulp from 'gulp';
 import transpile from './transpile';
 import processMarkup from './process-markup';
 import processCSS from './process-css';
+import copyFiles from './copy-files';
 import {build, CLIOptions} from 'aurelia-cli';
 import * as project from '../aurelia.json';
 
@@ -12,11 +13,9 @@ export default gulp.series(
   gulp.parallel(
     transpile,
     processMarkup,
-    processCSS
+    processCSS,
+    copyFiles
   ),
-  copyImages,
-  copyTheme,
-  copyMisc,
   writeBundles
 );
 
@@ -26,19 +25,4 @@ function readProjectConfiguration() {
 
 function writeBundles() {
   return build.dest();
-}
-
-function copyImages() {
-  return gulp.src(project.paths.assets.images)
-    .pipe(gulp.dest('images/'));
-}
-
-function copyTheme() {
-  return gulp.src(project.paths.assets.theme)
-    .pipe(gulp.dest('themes/'));
-}
-
-function copyMisc() {
-  return gulp.src(project.paths.assets.misc)
-    .pipe(gulp.dest('/'))
 }
