@@ -1,6 +1,6 @@
 export class Configuration {
     constructor() {
-        this.remote_database_name = Configuration.isDebug() ? `${this.remote_server}/langendoen-test` : `${this.remote_server}/langendoen`;
+        this.remote_database_name = Configuration.isDebug() ? `${this.remote_server}/langendoen-test` : `${this.remote_server}/langendoen-test`;
     }
 
     app_database_name:string = 'LangendoenJobs';

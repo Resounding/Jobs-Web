@@ -1,39 +1,43 @@
 <template>
-    <div class="content">
-        <div class="right floated meta" style="max-width: 40%;">
-            <span>${startDateDisplay}</span>
-            <span show.bind="job.endDate">&nbsp;&ndash;&nbsp;</span>
-            <br show.bind="job.endDate">
-            <span show.bind="job.endDate">${endDateDisplay}</span>
-        </div>
-        <div class="header">
-            <i class="icon building" show.bind="isProject"></i>
-            <i class="icon wrench" show.bind="isServiceCall"></i>
-            &nbsp;${jobNumberDisplay}
-        </div>
-        <div class="ui header">${job.customer.name}</div>
-    </div>
-    <div class="content">
-        <div class="ui sub header">
-            ${job.name}
-        </div>
-        <p class="ui">${job.description}</p>
-        <div class="ui sub header" show.bind="job.manHours">Man hours: ${job.manHours}</div>
-    </div>
-    <div class="ui extra content">
-        <div class="right floated author" style.bind="foremanColour">
-            <div class="ui foreman">
-                <div class="text">
-                    <i class="icon user" show.bind="job.foreman"></i>
-                    &nbsp;${foremanDisplay}
+    <div class="ui cards">
+        <list-item class="card">
+            <div class="content">
+                <div class="right floated meta" style="max-width: 40%;">
+                    <span>${startDateDisplay}</span>
+                    <span show.bind="job.endDate">&nbsp;&ndash;&nbsp;</span>
+                    <br show.bind="job.endDate">
+                    <span show.bind="job.endDate">${endDateDisplay}</span>
+                </div>
+                <div class="header">
+                    <i class="icon building" show.bind="isProject"></i>
+                    <i class="icon wrench" show.bind="isServiceCall"></i>
+                    &nbsp;${jobNumberDisplay}
+                </div>
+                <div class="ui header">${job.customer.name}</div>
+            </div>
+            <div class="content">
+                <div class="ui sub header">
+                    ${job.name}
+                </div>
+                <p class="ui">${job.description}</p>
+                <div class="ui sub header" show.bind="job.manHours">Man hours: ${job.manHours}</div>
+            </div>
+            <div class="ui extra content">
+                <div class="right floated author" style.bind="foremanColour">
+                    <div class="ui foreman">
+                        <div class="text">
+                            <i class="icon user" show.bind="job.foreman"></i>
+                            &nbsp;${foremanDisplay}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui status">
+                    <div class="text">
+                        <i class="icon circular ${jobStatus.cssClass}"></i>
+                        <span>&nbsp;${jobStatus.name}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="ui status">
-            <div class="text">
-                <i class="icon circular ${jobStatus.cssClass}"></i>
-                <span>&nbsp;${jobStatus.name}</span>
-            </div>
-        </div>
+        </list-item>
     </div>
 </template>

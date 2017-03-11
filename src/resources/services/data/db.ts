@@ -1,3 +1,4 @@
+import { Parent } from 'aurelia-dependency-injection';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
 import {Job, JobDocument} from '../../models/job';
@@ -107,6 +108,14 @@ export class Database {
                 if(doc.type === JobDocument.DOCUMENT_TYPE) {
                   const job = new JobDocument(doc);
                   this.events.publish(Database.SyncChangeEvent, job);
+                  if(job._rev.substring(0, 2) === '1-') {
+                    this.events.publish(Database.DocumentCreatedEvent, job);
+                  } else {
+                    this.events.publish(Database.DocumentUpdatedEvent, job);
+                  }
+                } else if(doc._deleted) {
+                  this.events.publish(Database.SyncChangeEvent, job);
+                  this.events.publish(Database.DocumentDeletedEvent, doc._id);
                 }
               })
             }
@@ -154,4 +163,7 @@ export class Database {
   }
 
   static SyncChangeEvent:string = 'SyncChangeEvent';
+  static DocumentCreatedEvent:string = 'DocumentCreatedEvent';
+  static DocumentUpdatedEvent:string = 'DocumentUpdatedEvent';
+  static DocumentDeletedEvent:string = 'DocumentDeletedEvent';
 }

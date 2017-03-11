@@ -1,11 +1,14 @@
+import { Database } from '../../services/data/db';
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
-import {ViewLocator,ViewSlot,ViewEngine,ViewCompileInstruction} from 'aurelia-templating';
+import {ViewLocator, ViewSlot, ViewEngine, ViewCompileInstruction, ViewFactory} from 'aurelia-templating';
 import {inject, Container} from 'aurelia-dependency-injection';
+import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {ViewObject, EventObject} from 'fullcalendar';
-import { Foreman } from '../../models/foreman';
-import { JobType } from '../../models/job-type';
-import { JobDocument } from '../../models/job';
+import {Foreman} from '../../models/foreman';
+import {JobType} from '../../models/job-type';
+import {JobDocument} from '../../models/job';
+import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
 import {EventPopup} from './event-popup';
@@ -14,10 +17,20 @@ import {EventPopup} from './event-popup';
 export class Calendar {
     cal:JQuery;
     date:Date;
+    createdSubscription:Subscription;
+    updatedSubscription:Subscription;
+    deletedSubscription:Subscription;
+    viewFactory:ViewFactory;
 
-    constructor(private jobService: JobService, private router:Router, private element:Element, private viewLocator:ViewLocator, private viewEngine:ViewEngine, private container:Container) { }
+    constructor(private jobService: JobService, private router:Router, private element:Element, private events:EventAggregator,
+        private viewLocator:ViewLocator, private viewEngine:ViewEngine, private container:Container) { }
 
     activate(params:any, routeConfig: RouteConfig, navigationInstruction:NavigationInstruction) {
+
+        this.createdSubscription = this.events.subscribe(Database.DocumentCreatedEvent, this.onDocumentCreated.bind(this));
+        this.updatedSubscription = this.events.subscribe(Database.DocumentUpdatedEvent, this.onDocumentUpdated.bind(this));
+        this.deletedSubscription = this.events.subscribe(Database.DocumentDeletedEvent, this.onDocumentDeleted.bind(this));
+
         let d = moment(navigationInstruction.params.date, 'YYYY-MM-DD');
         if(!d.isValid()) {
             d = moment();
@@ -25,39 +38,24 @@ export class Calendar {
         this.date = d.toDate();
     }
 
+    deactivate() {
+        this.createdSubscription.dispose();
+        this.updatedSubscription.dispose();
+        this.deletedSubscription.dispose();
+    }
+
     attached() {
         // to get the HTML from a data-bound template, we do this: http://stackoverflow.com/a/37869319
-        const view = this.viewLocator.getViewStrategy('resources/views/calendar/event-popup.html');
-        const c = this.container;
-        view.loadViewFactory(this.viewEngine, new ViewCompileInstruction())
+        const strategy = this.viewLocator.getViewStrategy('resources/views/calendar/event-popup.html');
+        strategy.loadViewFactory(this.viewEngine, new ViewCompileInstruction())
             .then(vf => {
+                this.viewFactory = vf;
                 this.jobService
                     .getAll()
                     .then(items => {
                         const events = items
                             .filter(i => i.startDate)
-                            .map(i => {
-                                const result = vf.create(this.container);
-                                result.bind(new EventPopup(i));
-                                const fragment = result.fragment,
-                                    div = $('<div><div class="ui cards"><list-item class="card"></list-item></div></div>'),
-                                    foreman = (i.foreman || '').toLowerCase(),
-                                    backgroundColor = Foreman.BackgroundColours[foreman] || 'white';
-
-                                div.find('list-item').append(fragment);
-
-                                const event:EventObject = _.extend(i, {
-                                        title: i.number,
-                                        start: moment(i.startDate).format('YYYY-MM-DD'),
-                                        allDay: true,
-                                        backgroundColor: backgroundColor,
-                                        textColor: '#000',
-                                        url: this.router.generate('jobs.edit', { id: i._id }),
-                                        end: i.endDate ? moment(i.endDate).add(1, 'day').format('YYYY-MM-DD') : null,
-                                        popup: div.html()
-                                    });                                
-                                return event;
-                            });
+                            .map(this.createEvent, this);
 
                         this.cal = $('#calendar', this.element).fullCalendar({
                             weekNumberCalculation: 'ISO',
@@ -129,6 +127,31 @@ export class Calendar {
         $(el).popup('destroy');
     }
 
+    onDocumentCreated(doc:JobDocument) {
+        console.log(`document created:`);
+        console.log(doc);
+        const event = this.createEvent(doc);
+
+        this.cal.fullCalendar('addEventSource', [event]);
+    }
+
+    onDocumentUpdated(doc:JobDocument) {
+        console.log(`document updated:`);
+        console.log(doc);
+
+        const events = this.getCalendarEvents(doc._id);
+        if(_.isArray(events) && events.length) {
+            const event = events[0];
+            this.createEvent(doc, event);
+            this.cal.fullCalendar('updateEvent', event);
+        }
+    }
+    
+    onDocumentDeleted(id:string) {
+        console.log(`document deleted: ${id}`);
+        this.cal.fullCalendar('removeEvents', id);
+    }
+
     get currentView():string {
         return localStorage.getItem(`calendar:currentView`) || 'month';
     }
@@ -158,6 +181,41 @@ export class Calendar {
 
     private getOption(name:string):string {
         return localStorage.getItem(`calendar:${name}`);
+    }
+
+    private getCalendarEvents(id):EventObject[] {
+        return this.cal.fullCalendar('clientEvents', id);
+    }
+
+    private createEvent(job:Job, originalEvent:EventObject):EventObject {
+        
+        const foreman = (job.foreman || '').toLowerCase(),
+            backgroundColor = Foreman.BackgroundColours[foreman] || 'white',
+            popup = this.getViewHtml(job);
+
+        const baseObject = (_.isObject(originalEvent) && originalEvent.id) ? originalEvent : { },
+            event:EventObject = _.extend(baseObject, job, {
+                id: job._id,
+                title: job.number,
+                start: moment(job.startDate).format('YYYY-MM-DD'),
+                allDay: true,
+                backgroundColor: backgroundColor,
+                textColor: '#000',
+                url: this.router.generate('jobs.edit', { id: job._id }),
+                end: job.endDate ? moment(job.endDate).add(1, 'day').format('YYYY-MM-DD') : null,
+                popup: popup
+            });                                
+        return event;
+    }
+
+    getViewHtml(job:Job) {
+        const view = this.viewFactory.create(this.container);
+        view.bind(new EventPopup(job));
+        const fragment = view.fragment,
+            div = document.createElement('div');
+
+        div.appendChild(fragment);
+        return div.innerHTML;
     }
 }
 
