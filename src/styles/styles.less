@@ -4,7 +4,19 @@
 @import (css) '../../node_modules/fullcalendar/dist/fullcalendar.css';
 
 .ui.secondary.pointing.menu .item.logo-item {
-  padding: 0 20px;
+  padding: 0 20px;  
+}
+
+// tighten up the logo in the header on mobile
+@media only screen and (max-width: 767px) {
+  .ui.secondary.pointing.menu .item {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+
+    &.logo-item {
+      padding: 0 0.5em 0 0;
+    }
+  }
 }
 
 .ui.fixed.menu.button-bar.top {
@@ -16,9 +28,13 @@
 }
 
 @media only screen and (max-width: 767px) {
-  // on mobile, eliminate margin on main menu
-  #main-menu > .ui.container {
-    margin: 0px !important;
+  // on mobile, eliminate margin & reduce padding on main menu
+  #main-menu {
+      padding: 0.5em;
+
+      & > .ui.container {
+        margin: 0px !important;
+    }
   }
 
   list-item {
