@@ -1,8 +1,15 @@
 import {Router, RouterConfiguration} from 'aurelia-router';
 import {AuthorizeStep} from '../services/auth';
+import * as data from 'text!/package.json';
 
 export class App {
     router:Router;
+    footerText:string;
+
+    activate() {
+        const pkg = JSON.parse(data);
+        this.footerText = `&copy; ${new Date().getFullYear()} ${pkg.publisher} v${pkg.version}`;
+    }
 
     configureRouter(config:RouterConfiguration, router:Router) {
         config.addPipelineStep('authorize', AuthorizeStep);
