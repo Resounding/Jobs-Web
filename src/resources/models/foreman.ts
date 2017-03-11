@@ -5,6 +5,7 @@ interface ForemanColours {
 export class Foreman {
 
     static OPTIONS:string[] = [
+        'Andy',
         'Barry',
         'Bruce',
         'Dan',
@@ -13,10 +14,11 @@ export class Foreman {
     ];
 
     static BackgroundColours:ForemanColours = {
-        Barry: 'red',
-        Bruce: 'cornflower',
-        Dan: 'lightblue',
-        Kurt: 'lightgreen',
-        Phil: 'yellow'
+        andy: '#d43f3a',
+        barry: '#474747',
+        bruce: '#b9c7d2',
+        dan: '#73d3e7',
+        kurt: '#ffbc70',
+        phil: '#7ee54f'        
     }
 }

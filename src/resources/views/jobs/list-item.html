@@ -24,7 +24,7 @@
           <div class="ui sub header ${expanded ? '' : 'hide-mobile'}" show.bind="job.manHours">Man hours: ${job.manHours}</div>
       </div>
       <div class="ui extra content ${expanded ? '' : 'hide-mobile'}">
-          <div class="right floated author">
+          <div class="right floated author" style.bind="foremanColour">
               <div class="ui dropdown foreman">
                   <div class="text">
                       <i class="icon user" show.bind="job.foreman"></i>

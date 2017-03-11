@@ -86,6 +86,14 @@ export class ListItem {
     return this.job.foreman || 'Unassigned';
   }
 
+  get foremanColour(): any {
+    const foreman = (this.job.foreman || '').toLowerCase(),
+      bg = Foreman.BackgroundColours[foreman] || 'white',
+      color = bg === 'white' ? 'black' : 'white',
+      margin = '1px';
+    return {'background-color': bg, color, margin};
+  }
+
   get isPending() {
     return this.job.status === 'pending';
   }
