@@ -12,4 +12,8 @@ export class Configuration {
     static isDebug():boolean {
         return window.location.hostname === 'localhost';
     }
+
+    static isMobile():boolean {
+        return typeof window.orientation !== 'undefined';
+    }
 }

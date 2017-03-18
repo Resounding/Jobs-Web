@@ -19,8 +19,7 @@ export class App {
             {route: 'jobs/new', name: 'jobs.new', moduleId: 'resources/views/jobs/detail', title: 'New Job', nav: true, auth: true, settings: { icon: 'plus', mobileTitle: 'New' }},
             {route: 'jobs/:id', name: 'jobs.edit', moduleId: 'resources/views/jobs/detail', title: 'Edit Job', auth: true},
             {route: 'customers', name: 'customers.list', moduleId: 'resources/views/customers/list', title: 'Customer List', nav: true, auth: true, settings: { icon: 'building outline', hideMobile: true }},
-            {route: 'calendar/:date?', href: '#calendar', name: 'calendar', moduleId: 'resources/views/calendar/calendar', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', hideMobile: true }},
-            {route: 'calendar/mobile/:date?', href: '#calendar/mobile', name: 'calendar.mobile', moduleId: 'resources/views/calendar/mobile', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', hideDesktop: true, mobileTitle: 'Cal' }}
+            {route: 'calendar/:date?', href: '#calendar', name: 'calendar', moduleId: 'resources/views/calendar/calendar', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', mobileTitle: 'Cal' }}
         ]);
 
         this.router = router;

@@ -1,3 +1,4 @@
+import {Router} from 'aurelia-router';
 import {Foreman} from '../../models/foreman';
 import {Job} from '../../models/job';
 import {JobType} from '../../models/job-type';
@@ -7,7 +8,7 @@ export class EventPopup {
 
     jobStatuses: JobStatus[] = JobStatus.OPTIONS;
     
-    constructor(public job:Job) { }
+    constructor(public job:Job, private router:Router) { }
 
     get startDateDisplay(): string {
 
@@ -46,16 +47,21 @@ export class EventPopup {
         return {'background-color': bg, color, margin};
     }
 
-    get isProject() {
+    get isProject(): boolean {
         return this.job.job_type === JobType.PROJECT;
     }
 
-    get isServiceCall() {
+    get isServiceCall(): boolean {
         return this.job.job_type === JobType.SERVICE_CALL;
     }
 
-    get jobNumberDisplay() {
+    get jobNumberDisplay(): string {
         const prefix = this.job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
         return `${prefix}-${this.job.number}`;
+    }
+
+    get routeHref(): string {
+        const href = this.router.generate('jobs.edit', { id: this.job._id});
+        return href;
     }
 }

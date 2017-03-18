@@ -1,4 +1,4 @@
-import { Database } from '../../services/data/db';
+import { Configuration } from '../../services/config';
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
 import {ViewLocator, ViewSlot, ViewEngine, ViewCompileInstruction, ViewFactory} from 'aurelia-templating';
@@ -8,6 +8,7 @@ import {ViewObject, EventObject} from 'fullcalendar';
 import {Foreman} from '../../models/foreman';
 import {JobType} from '../../models/job-type';
 import {JobDocument} from '../../models/job';
+import {Database} from '../../services/data/db';
 import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
@@ -21,6 +22,7 @@ export class Calendar {
     updatedSubscription:Subscription;
     deletedSubscription:Subscription;
     viewFactory:ViewFactory;
+    optionsExpanded:boolean = false;
 
     constructor(private jobService: JobService, private router:Router, private element:Element, private events:EventAggregator,
         private viewLocator:ViewLocator, private viewEngine:ViewEngine, private container:Container) { }
@@ -57,7 +59,7 @@ export class Calendar {
                             .filter(i => i.startDate)
                             .map(this.createEvent, this);
 
-                        this.cal = $('#calendar', this.element).fullCalendar({
+                        const options = {
                             weekNumberCalculation: 'ISO',
                             editable: true,
                             eventStartEditable: true,
@@ -73,13 +75,32 @@ export class Calendar {
                             eventResize: this.onEventResize.bind(this),
                             eventDestroy: this.onEventDestroy.bind(this),
                             events: events                    
-                        });                        
+                        };
+                        if(Configuration.isMobile()) {
+                            _.extend(options, {
+                                height: 'auto',
+                                selectable: true,
+                                select: this.onSelect.bind(this)
+                            });
+                        }
+
+                        this.cal = $('#calendar', this.element).fullCalendar(options);
                     });
             });
     }
 
+    toggleOptionsExpanded() {
+        this.optionsExpanded = !this.optionsExpanded;
+    }
+
     onDayClick(date:moment) {
-        this.router.navigateToRoute('jobs.new', { date: date.format('YYYY-MM-DD')});
+        if(!Configuration.isMobile()) {
+            this.router.navigateToRoute('jobs.new', { date: date.format('YYYY-MM-DD')});
+        }
+    }
+
+    onSelect(start:moment) {
+        this.router.navigateToRoute('jobs.new', { date: start.format('YYYY-MM-DD')});
     }
 
     onViewRender(view:ViewObject) {
@@ -101,9 +122,36 @@ export class Calendar {
             .html(getTitle(ev))
             .before(icon);
 
-        $el.popup({
+        const options = {
             title: `${getTitle(ev)}: ${ev.name}`,
-            html: ev.popup
+            html: ev.popup,
+            hoverable: true
+        };
+
+        if(Configuration.isMobile()) {
+            _.extend(options, {
+                position: 'top center',
+                variation: 'fluid',
+                lastResort: true,
+                on: 'click',
+                onVisible: function($module) {
+                    this
+                        .css({left: 'auto', right: 'auto', top: '10px', bottom: 'auto'})
+                        .on('click', 'button.close', (e) => {
+                            $el.popup('hide');
+                        });
+                },
+                onHide: function() {
+                    this.off('click');
+                }
+            })
+        }
+
+        $el.popup(options);
+
+        // need this to stop click event on the event or underlying calendar day
+        $el.on('touchstart', function(e) {
+            //e.preventDefault();
         });
     }
 
@@ -201,7 +249,8 @@ export class Calendar {
                 allDay: true,
                 backgroundColor: backgroundColor,
                 textColor: '#000',
-                url: this.router.generate('jobs.edit', { id: job._id }),
+                // don't link to the job on mobile
+                url: Configuration.isMobile() ? null : this.router.generate('jobs.edit', { id: job._id }),
                 end: job.endDate ? moment(job.endDate).add(1, 'day').format('YYYY-MM-DD') : null,
                 popup: popup
             });                                
@@ -210,7 +259,7 @@ export class Calendar {
 
     getViewHtml(job:Job) {
         const view = this.viewFactory.create(this.container);
-        view.bind(new EventPopup(job));
+        view.bind(new EventPopup(job, this.router));
         const fragment = view.fragment,
             div = document.createElement('div');
 

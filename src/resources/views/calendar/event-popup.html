@@ -2,17 +2,22 @@
     <div class="ui cards">
         <list-item class="card">
             <div class="content">
+                <div class="close-button-wrapper">
+                    <button class="ui basic icon button mini close">
+                        <i class="close icon"></i>
+                    </button>
+                </div>
                 <div class="right floated meta" style="max-width: 40%;">
                     <span>${startDateDisplay}</span>
                     <span show.bind="job.endDate">&nbsp;&ndash;&nbsp;</span>
                     <br show.bind="job.endDate">
                     <span show.bind="job.endDate">${endDateDisplay}</span>
                 </div>
-                <div class="header">
+                <a class="header" href.bind="routeHref">
                     <i class="icon building" show.bind="isProject"></i>
                     <i class="icon wrench" show.bind="isServiceCall"></i>
                     &nbsp;${jobNumberDisplay}
-                </div>
+                </a>
                 <div class="ui header">${job.customer.name}</div>
             </div>
             <div class="content">

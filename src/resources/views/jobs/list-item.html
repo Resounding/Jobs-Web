@@ -6,7 +6,7 @@
               <br show.bind="job.endDate">
               <span show.bind="job.endDate">${endDateDisplay}</span>
           </div>
-          <a class="header" route-href="route:jobs.edit; params.bind: {id: job._id}">
+          <a class="header" route-href="route:jobs.edit;params.bind:{id: job._id}">
               <i class="icon building" show.bind="isProject"></i>
               <i class="icon wrench" show.bind="isServiceCall"></i>
               &nbsp;${jobNumberDisplay}
