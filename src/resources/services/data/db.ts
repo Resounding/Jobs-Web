@@ -110,6 +110,8 @@ export class Database {
                   this.events.publish(Database.SyncChangeEvent, job);
                   if(job._rev.substring(0, 2) === '1-') {
                     this.events.publish(Database.DocumentCreatedEvent, job);
+                  } else if(job.deleted === true) {
+                    this.events.publish(Database.DocumentDeletedEvent, doc._id);
                   } else {
                     this.events.publish(Database.DocumentUpdatedEvent, job);
                   }
