@@ -64,19 +64,28 @@ export class JobService {
       }
 
       if (!job._id) {
-        this.database.nextJobNumber()
-          .then(number => {
-            job._id = `job:${number}`;
-            job.number = number;
+        if (this.auth.isInRole(Roles.Foreman)) {
+          job.foreman = this.auth.userInfo().name;
+        }
+        this.db.post(job)
+          .then(created => {
+            if(created.ok) {
+              job._id = created.id;
+              job._rev = created.rev;
+              
+              this.database.nextJobNumber()
+                .then(number => {
+                  job.number = number;            
 
-            if (this.auth.isInRole(Roles.Foreman)) {
-              job.foreman = this.auth.userInfo().name;
+                  return this.db.put(job)
+                    .then(resolve)
+                    .catch(reject);
+                });
+            } else {
+              reject(Error(created.message));
             }
-
-            return this.db.put(job)
-              .then(resolve)
-              .catch(reject);
-          });
+          })
+          .catch(reject);        
       } else {
         return this.db.put(job)
           .then(resolve)
@@ -87,7 +96,13 @@ export class JobService {
 
   delete(job: Job) {
     job.deleted = true;
-    return this.db.put(job);
+    return this.db.put(job)
+      .then(result => {
+        log.info(result);
+      })
+      .catch(err => {
+        log.info(err);
+      });
   }
 
   destroy(): Promise<any> {
