@@ -1,4 +1,6 @@
 import {autoinject} from 'aurelia-framework';
+import * as moment from 'moment';
+import * as _ from 'underscore';
 import {log} from '../log';
 import {Database} from './db';
 import {Authentication, Roles} from '../auth';
@@ -6,7 +8,7 @@ import {Job, JobDocument} from "../../models/job";
 
 @autoinject()
 export class JobService {
-  db: PouchDB;
+  db: PouchDB.Database;
 
   constructor(private auth: Authentication, private database: Database) {
     this.db = database.db;
@@ -15,7 +17,7 @@ export class JobService {
   getAll(): Promise<Job[]> {
     //db().allDocs({ include_docs: true}).then(r => console.log(r));
     return new Promise((resolve, reject) => {
-      this.db.find<JobDocument>({selector: {type: JobDocument.DOCUMENT_TYPE, deleted: { '$ne': true }}})
+      (<PouchDB.Database<Job>>this.db).find({selector: {type: JobDocument.DOCUMENT_TYPE, deleted: { '$ne': true }}})
         .then(items => {
           const jobs = items.docs.map(item => {
             var job = new JobDocument(item);
@@ -38,7 +40,7 @@ export class JobService {
 
   getOne(id: string): Promise<JobDocument> {
     return new Promise((resolve, reject) => {
-      this.db.get(id)
+      this.db.get<Job>(id)
         .then(doc => {
           log.info(doc);
           var job = new JobDocument(doc);
@@ -54,7 +56,7 @@ export class JobService {
     });
   }
 
-  save(job: Job): Promise<PouchUpdateResponse> {
+  save(job: Job): Promise<PouchDB.Core.Response> {
     return new Promise((resolve, reject) => {
       if (_.isString(job.startDate) || _.isDate(job.startDate)) {
         job.startDate = moment(job.startDate).format('YYYY-MM-DD');
@@ -82,7 +84,7 @@ export class JobService {
                     .catch(reject);
                 });
             } else {
-              reject(Error(created.message));
+              reject(Error((<any>created).message));
             }
           })
           .catch(reject);        
@@ -111,7 +113,7 @@ export class JobService {
 
   move(id:string, start:Date, end:Date):Promise<any> {
     return new Promise((resolve, reject) => {
-      this.db.get(id)
+      this.db.get<Job>(id)
         .then(job => {
           job.startDate = start;
           job.endDate = end;

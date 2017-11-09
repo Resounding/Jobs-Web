@@ -3,7 +3,7 @@ import {Database} from './db';
 
 @autoinject()
 export class ActivitiesService {
-    db: PouchDB;
+    db: PouchDB.Database;
 
     constructor(database:Database){
         this.db = database.db;
@@ -11,9 +11,9 @@ export class ActivitiesService {
 
     getAll():Promise<string[]> {
         return new Promise((resolve, reject) => {
-            this.db.get('activities')
+            this.db.get<{items: string[]}>('activities')
                 .then(result => {
-                    resolve(result.items);
+                    return resolve(result.items);
                 })
                 .catch(err => {
                     if(err.status === 404) {
@@ -33,7 +33,7 @@ export class ActivitiesService {
 
     create(activity:string):Promise<any> {
         return new Promise((resolve, reject) => {
-            this.db.get('activities')
+            this.db.get<{items: string[]}>('activities')
                 .then(result => {
                     result.items.push(activity);
                     return this.db.put(result);

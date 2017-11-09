@@ -1,5 +1,6 @@
 import {autoinject} from 'aurelia-framework';
-import {DialogController} from "aurelia-dialog";
+import {DialogController} from 'aurelia-dialog';
+import * as _ from 'underscore';
 import {Customer} from "../../models/customer";
 
 @autoinject()

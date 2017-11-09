@@ -1,5 +1,6 @@
 import {Router, RouterConfiguration} from 'aurelia-router';
 import {AuthorizeStep} from '../services/auth';
+//@ts-ignore
 import * as data from 'text!../../../package.json';
 
 export class App {

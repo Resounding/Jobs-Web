@@ -45,7 +45,3 @@ declare global {
     debug:PouchDebug;
   }
 }
-
-declare module 'pouchdb-find' {
-  export = PouchDB;
-}

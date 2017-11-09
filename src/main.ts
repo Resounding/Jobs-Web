@@ -2,7 +2,7 @@ import {Aurelia} from 'aurelia-framework'
 import {Authentication} from './resources/services/auth';
 import {Configuration} from './resources/services/config';
 
-Promise.config({
+(<any>Promise).config({
   warnings: {
     wForgottenReturn: false
   }

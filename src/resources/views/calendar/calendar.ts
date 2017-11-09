@@ -1,18 +1,19 @@
-import { Configuration } from '../../services/config';
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
 import {ViewLocator, ViewSlot, ViewEngine, ViewCompileInstruction, ViewFactory} from 'aurelia-templating';
 import {inject, Container} from 'aurelia-dependency-injection';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {ViewObject, EventObject} from 'fullcalendar';
+import {ViewObject, EventObject, Options} from 'fullcalendar';
+import * as moment from 'moment';
+import * as _ from 'underscore';
+import {EventPopup} from './event-popup';
 import {Foreman} from '../../models/foreman';
 import {JobType} from '../../models/job-type';
-import {JobDocument} from '../../models/job';
-import {Database} from '../../services/data/db';
+import {Job, JobDocument} from '../../models/job';
+import {Configuration} from '../../services/config';
 import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
-import {EventPopup} from './event-popup';
 
 @autoinject
 export class Calendar {
@@ -59,7 +60,7 @@ export class Calendar {
                             .filter(i => i.startDate)
                             .map(this.createEvent, this);
 
-                        const options = {
+                        const options:Options = {
                             weekNumberCalculation: 'ISO',
                             editable: true,
                             eventStartEditable: true,
@@ -93,13 +94,13 @@ export class Calendar {
         this.optionsExpanded = !this.optionsExpanded;
     }
 
-    onDayClick(date:moment) {
+    onDayClick(date:moment.Moment) {
         if(!Configuration.isMobile()) {
             this.router.navigateToRoute('jobs.new', { date: date.format('YYYY-MM-DD')});
         }
     }
 
-    onSelect(start:moment) {
+    onSelect(start:moment.Moment) {
         this.router.navigateToRoute('jobs.new', { date: start.format('YYYY-MM-DD')});
     }
 
@@ -107,12 +108,13 @@ export class Calendar {
         this.router.navigateToRoute('calendar', { date: view.intervalStart.format('YYYY-MM-DD')});
     }
 
-    onEventRender(ev:EventObject, el:Element) {
+    onEventRender(ev:EventObject & Job, el:Element) {
         const $el = $(el),
             $title = $el.find('.fc-title'),
             className = (ev.job_type === JobType.SERVICE_CALL) ? 'wrench' : 'building',
-            icon = `<i class="icon ${className}"></i>&nbsp;`,
-            description = `${icon}<strong>${getTitle(ev)}</strong><br><em>${ev.customer.name}</em>`;
+            icon = `<i class="icon ${className}"></i>&nbsp;`;
+            
+        let description = `${icon}<strong>${getTitle(ev)}</strong><br><em>${ev.customer.name}</em>`;
 
         if(ev.description) {
             description += `<br>${ev.description}`;
@@ -155,17 +157,17 @@ export class Calendar {
         });
     }
 
-    onEventDrop(ev:EventObject) {
-        const start = ev.start.format('YYYY-MM-DD'),
-            end = ev.endDate ? ev.end.format('YYYY-MM-DD') : null;
+    onEventDrop(ev:EventObject & {start:moment.Moment,end:moment.Moment}) {
+        const start = ev.start.toDate(),
+            end = ev.endDate ? ev.end.toDate() : null;
         this.jobService.move(ev._id, start, end)
             .then(() => Notifications.success('Job moved successfully.'))
             .catch(Notifications.error);
     }
 
-    onEventResize(ev:EventObject) {
-        const start = ev.start.format('YYYY-MM-DD'),
-            end = ev.end.clone().subtract(1, 'day').format('YYYY-MM-DD');
+    onEventResize(ev:EventObject & {start:moment.Moment,end:moment.Moment}) {
+        const start = ev.start.toDate(),
+            end = ev.end.clone().subtract(1, 'day').toDate();
         this.jobService.move(ev._id, start, end)
             .then(() => Notifications.success('Job moved successfully.'))
             .catch(Notifications.error);
@@ -235,13 +237,13 @@ export class Calendar {
         return this.cal.fullCalendar('clientEvents', id);
     }
 
-    private createEvent(job:Job, originalEvent:EventObject):EventObject {
+    private createEvent(job:Job, originalEvent?:EventObject | number):EventObject {
         
         const foreman = (job.foreman || '').toLowerCase(),
             backgroundColor = Foreman.BackgroundColours[foreman] || 'white',
             popup = this.getViewHtml(job);
 
-        const baseObject = (_.isObject(originalEvent) && originalEvent.id) ? originalEvent : { },
+        const baseObject = (_.isObject(originalEvent) && (<any>originalEvent).id) ? originalEvent : { },
             event:EventObject = _.extend(baseObject, job, {
                 id: job._id,
                 title: job.number,

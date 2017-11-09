@@ -1,3 +1,5 @@
+import * as _ from 'underscore';
+
 export class IntegerValueConverter {
   fromView(value: string): number {
     let numeric: number = parseInt(value);

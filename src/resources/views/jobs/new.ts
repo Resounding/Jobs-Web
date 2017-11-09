@@ -1,5 +1,7 @@
-import {autoinject} from "aurelia-framework";
-import {Router} from "aurelia-router";
+import {autoinject} from 'aurelia-framework';
+import {Router, RouteConfig} from 'aurelia-router';
+import * as moment from 'moment';
+import * as _ from 'underscore';
 import {JobService} from '../../services/data/job-service';
 import {CustomerService} from '../../services/data/customer-service';
 import {ActivitiesService} from '../../services/data/activities-service';
@@ -10,7 +12,6 @@ import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
-import {RouteConfig} from "aurelia-router";
 
 @autoinject()
 export class NewJob {
@@ -120,7 +121,7 @@ export class NewJob {
     }
   }
 
-  saveJob(): Promise<Job> {
+  saveJob(): Promise<Job | void> {
     return this.jobService.save(this.job.toJSON())
       .then(() => {
         Notifications.success('Job Saved');

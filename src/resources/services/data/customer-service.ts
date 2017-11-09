@@ -4,7 +4,7 @@ import {Customer, CustomerDocument} from "../../models/customer";
 
 @autoinject()
 export class CustomerService {
-    db: PouchDB;
+    db: PouchDB.Database;
 
     constructor(database:Database) {
         this.db = database.db;
@@ -43,7 +43,7 @@ export class CustomerService {
         });
     }
 
-  save(customer:Customer): Promise<PouchUpdateResponse> {
+  save(customer:Customer): Promise<PouchDB.Core.Response> {
     return new Promise((resolve, reject) => {
       if (!customer._id) {
         return this.create(customer);
@@ -58,7 +58,7 @@ export class CustomerService {
     delete(customer:Customer):Promise<Customer> {
       return new Promise((resolve, reject) => {
         this.db.remove(customer)
-          .then(resolve)
+          .then(() => Promise.resolve(customer))
           .catch(reject);
       });
     }

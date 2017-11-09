@@ -1,9 +1,15 @@
 {
   "name": "Jobs-Web-Au",
   "type": "project:application",
+  "bundler": {
+    "id": "cli",
+    "displayName": "Aurelia-CLI"
+  },
   "platform": {
     "id": "web",
     "displayName": "Web",
+    "index": "index.html",
+    "baseDir": ".",
     "output": "scripts"
   },
   "transpiler": {
@@ -11,7 +17,6 @@
     "displayName": "TypeScript",
     "fileExtension": ".ts",
     "dtsSource": [
-      "./typings/**/*.d.ts",
       "./custom_typings/**/*.d.ts"
     ],
     "source": "src/**/*.ts"
@@ -29,30 +34,19 @@
     "source": "src/styles/*.less"
   },
   "editor": {
-    "id": "webstorm",
-    "displayName": "WebStorm"
+    "id": "vscode",
+    "displayName": "Visual Studio Code"
   },
   "unitTestRunner": {
     "id": "none",
     "displayName": "None"
   },
   "paths": {
-    "root": "src",
-    "assets": {
-      "images": "./images/*.png",
-      "theme": "node_modules/semantic-ui-css/themes/**/*.*",
-      "misc": ["./manifest.json", "browserconfig.xml", "favicon.ico"]
-    }
+    "root": "src"
   },
   "build": {
     "copyFiles": {
-      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.eot": "themes/default/assets/fonts/",
-      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.otf": "themes/default/assets/fonts/",
-      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.svg": "themes/default/assets/fonts/",
-      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.ttf": "themes/default/assets/fonts/",
-      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.woff": "themes/default/assets/fonts/",
-      "node_modules/semantic-ui-css/themes/default/assets/fonts/icons.woff2": "themes/default/assets/fonts/",
-      "node_modules/semantic-ui-css/themes/default/assets/images/flags.png": "themes/default/assets/images/"
+      "node_modules/semantic-ui-css/themes/**/*.*": "styles/themes"
     },
     "targets": [
       {
@@ -97,16 +91,9 @@
         "prepend": [
           "node_modules/bluebird/js/browser/bluebird.js",
           "node_modules/whatwg-fetch/fetch.js",
-          "node_modules/jquery/dist/jquery.js",
-          "node_modules/moment/moment.js",
-          "node_modules/underscore/underscore.js",
-          "node_modules/toastr/toastr.js",
           "node_modules/pouchdb/dist/pouchdb.js",
-          "node_modules/pouchdb-find/dist/pouchdb.find.js",
-          "node_modules/pouchdb/dist/pouchdb.localstorage.js",
-          "node_modules/semantic-ui-css/semantic.js",
-          "node_modules/semantic-ui-calendar/dist/calendar.js",
-          "node_modules/fullcalendar/dist/fullcalendar.js",
+          "node_modules/pouchdb/dist/pouchdb.find.js",
+          "node_modules/pouchdb/dist/pouchdb.localstorage.js",          
           "node_modules/requirejs/require.js"
         ],
         "dependencies": [
@@ -154,7 +141,59 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
-          "papaparse"
+          "papaparse",
+          {
+            "name": "jquery",
+            "path": "../node_modules/jquery/dist",
+            "main": "jquery.min",
+            "exports": "$"
+          },
+          {
+            "name": "semantic-ui",
+            "path": "../node_modules/semantic-ui-css",
+            "main": "semantic",
+            "deps": [
+              "jquery"
+            ],
+            "exports": "$"
+          },
+          {
+            "name": "semantic-ui-calendar",
+            "path": "../node_modules/semantic-ui-calendar/dist",
+            "main": "calendar",
+            "deps": [
+              "jquery"
+            ],
+            "exports": "$"
+          },
+          {
+            "name": "fullcalendar",
+            "path": "node_modules/fullcalendar/dist",
+            "main": "fullcalendar",
+            "deps": [
+              "jquery"
+            ],
+            "exports": "$"
+          },
+          {
+            "name": "moment",
+            "path": "../node_modules/moment/min/",
+            "main": "moment.min",
+            "exports": "moment"
+          },
+          {
+            "name": "numeral",
+            "path": "../node_modules/numeral/min",
+            "main": "numeral.min",
+            "exports": "numeral"
+          },
+          "toastr",
+          {
+            "name": "underscore",
+            "path": "../node_modules/underscore",
+            "main": "underscore",
+            "exports": "_"
+          }
         ]
       }
     ]

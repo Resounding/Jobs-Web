@@ -1,6 +1,7 @@
-import { Parent } from 'aurelia-dependency-injection';
+import {Parent} from 'aurelia-dependency-injection';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
+import * as _ from 'underscore';
 import {Job, JobDocument} from '../../models/job';
 import {Configuration} from '../config';
 import {log} from '../log';
@@ -8,8 +9,8 @@ import {Authentication} from '../auth';
 import {PouchSyncOptions} from "../../../../custom_typings/pouchdb-find";
 import DatabaseConfiguration = PouchDB.Configuration.DatabaseConfiguration;
 
-let localDB: PouchDB = null;
-let remoteDB: PouchDB = null;
+let localDB: PouchDB.Database = null;
+let remoteDB: PouchDB.Database = null;
 
 @autoinject()
 export class Database {
@@ -29,11 +30,10 @@ export class Database {
         .then(indexes => {
           const names = _.pluck(indexes.indexes, 'name');
           if(names.indexOf('by_type_name') === -1) {
-            localDB.createIndex({
-              name: 'by_type_name',
+            localDB.createIndex({              
               index: {
-                fields: ['type', 'name'],
-                sort: ['name']
+                name: 'by_type_name',
+                fields: ['type', 'name']
               }
             }).then(result => {
               log.debug(result);
@@ -43,9 +43,9 @@ export class Database {
           }
 
           if(names.indexOf('by_type_deleted') === -1) {
-            localDB.createIndex({
-              name: 'by_type_deleted',
+            localDB.createIndex({              
               index: {
+                name: 'by_type_deleted',
                 fields: ['type', 'deleted']
               }
             }).then(result => {
@@ -105,8 +105,9 @@ export class Database {
           if(change.direction === 'pull') {
             if(_.isArray(change.change.docs)){
               change.change.docs.forEach(doc => {
+                const job = new JobDocument(doc);
+
                 if(doc.type === JobDocument.DOCUMENT_TYPE) {
-                  const job = new JobDocument(doc);
                   this.events.publish(Database.SyncChangeEvent, job);
                   if(job._rev.substring(0, 2) === '1-') {
                     this.events.publish(Database.DocumentCreatedEvent, job);
@@ -140,7 +141,7 @@ export class Database {
 
   nextJobNumber(): Promise<string> {
     return new Promise((resolve, reject) => {
-      localDB.find<Job>({
+      (<PouchDB.Database<Job>>localDB).find({
         selector: {type: JobDocument.DOCUMENT_TYPE},
         fields: ['number']
       })

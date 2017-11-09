@@ -1,3 +1,5 @@
+import * as toastr from 'toastr';
+
 toastr.options.positionClass = "toast-bottom-left";
 
 export class Notifications {

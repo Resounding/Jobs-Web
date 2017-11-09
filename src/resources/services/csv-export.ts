@@ -1,4 +1,6 @@
 import {autoinject} from 'aurelia-framework';
+import * as moment from 'moment';
+import * as numeral from 'numeral';
 import * as PapaParse from 'papaparse';
 import {JobService} from "./data/job-service";
 import {JobType} from "../models/job-type";
@@ -24,7 +26,7 @@ export class CsvExport {
           json.data = jobs
             .map(job => {
               //http://stackoverflow.com/a/10073761
-              const formattedNumber: string = job.number < 99999 ? `0000${job.number}`.slice(-5) : job.number.toString(),
+              const formattedNumber: string = numeral(job.number).value() < 99999 ? `0000${job.number}`.slice(-5) : job.number.toString(),
                 prefix = job.job_type === JobType.SERVICE_CALL ? 'S' : 'P',
                 startMoment = moment(job.startDate),
                 endMoment = moment(job.endDate),

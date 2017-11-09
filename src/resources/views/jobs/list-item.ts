@@ -1,11 +1,13 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {Job} from "../../models/job";
-import {JobStatus} from "../../models/job-status";
-import {JobType} from "../../models/job-type";
-import {Foreman} from "../../models/foreman";
-import {JobService} from "../../services/data/job-service";
-import {Notifications} from "../../services/notifications";
+import * as moment from 'moment';
+import * as _ from 'underscore';
+import {Job} from '../../models/job';
+import {JobStatus} from '../../models/job-status';
+import {JobType} from '../../models/job-type';
+import {Foreman} from '../../models/foreman';
+import {JobService} from '../../services/data/job-service';
+import {Notifications} from '../../services/notifications';
 import {Authentication, Roles} from '../../services/auth';
 import {CloseJobArgs} from './close-job';
 

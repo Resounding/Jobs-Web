@@ -1,3 +1,5 @@
+import * as _ from 'underscore';
+import * as moment from 'moment';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
 import {Customer, CustomerDocument} from './customer';
@@ -14,8 +16,8 @@ export interface Job {
   work_type: string;
   isMultiDay: boolean;
   days: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | string;
+  endDate: Date | string;
   foreman: string;
   notes: string;
   manHours: number;

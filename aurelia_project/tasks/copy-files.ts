@@ -1,6 +1,8 @@
 import * as gulp from 'gulp';
 import * as path from 'path';
+import * as minimatch from 'minimatch';
 import * as changedInPlace from 'gulp-changed-in-place';
+//@ts-ignore
 import * as project from '../aurelia.json';
 
 export default function copyFiles(done) {
@@ -15,8 +17,8 @@ export default function copyFiles(done) {
   return gulp.src(files)
     .pipe(changedInPlace({ firstPass: true }))
     .pipe(gulp.dest(x => {
-      const filePath = prepareFilePath(x.path);
-      const key = files.find(f => f === filePath);
+      const filePath = prepareFilePath(x.path);      
+      const key = files.find(f => minimatch(filePath, f));
       return instruction[key];
     }));
 }
@@ -34,11 +36,9 @@ function getNormalizedInstruction() {
 
 function prepareFilePath(filePath) {
   let preparedPath = filePath.replace(process.cwd(), '').substring(1);
-
   //if we are running on windows we have to fix the path
   if (/^win/.test(process.platform)) {
     preparedPath = preparedPath.replace(/\\/g, '/');
   }
-
   return preparedPath;
 }

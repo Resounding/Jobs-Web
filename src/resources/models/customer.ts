@@ -1,3 +1,5 @@
+import * as _ from 'underscore';
+
 export interface Customer {
     _id:string;
     _rev:string;

@@ -1,6 +1,8 @@
-import {autoinject} from "aurelia-framework";
-import { NavigationInstruction, Router } from 'aurelia-router';
-import {DialogService} from 'aurelia-dialog';
+import {autoinject} from 'aurelia-framework';
+import {NavigationInstruction, Router, RouteConfig} from 'aurelia-router';
+import {DialogService, DialogResult} from 'aurelia-dialog';
+import * as moment from 'moment';
+import * as _ from 'underscore';
 import {Prompt} from '../controls/prompt';
 import {JobService} from '../../services/data/job-service';
 import {CustomerService} from '../../services/data/customer-service';
@@ -11,15 +13,13 @@ import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
-import {RouteConfig} from "aurelia-router";
 import {Authentication, Roles} from "../../services/auth";
-import {DialogResult} from "aurelia-dialog";
 
 @autoinject()
 export class EditJob {
   job: JobDocument;
   customers: CustomerDocument[];
-  customerServicePromise:Promise;
+  customerServicePromise:Promise<any>;
   activities: string[];
   jobTypes: JobType[] = JobType.OPTIONS;
   jobStatuses: JobStatus[] = JobStatus.OPTIONS;
@@ -37,7 +37,7 @@ export class EditJob {
       .catch(Notifications.error);
   }
 
-  activate(params: any, private routeConfig: RouteConfig, navigationInstruction:NavigationInstruction) {
+  activate(params: any, routeConfig:RouteConfig, navigationInstruction:NavigationInstruction) {
 
     this.customerServicePromise.then(() => {
       const id = params.id,
@@ -193,7 +193,7 @@ export class EditJob {
       });
   }
 
-  saveJob(): Promise<Job> {
+  saveJob(): Promise<Job | void> {
     return this.jobService.save(this.job.toJSON())
       .then(() => {
         Notifications.success('Job Saved');

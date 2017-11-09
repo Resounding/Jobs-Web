@@ -1,6 +1,7 @@
 import {autoinject} from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {Authentication, Roles} from '../../services/auth';
+import * as _ from 'underscore';
 import {log} from '../../services/log'
 import {Database} from '../../services/data/db'
 import {Job} from '../../models/job';
