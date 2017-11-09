@@ -1,7 +1,6 @@
 import {autoinject, computedFrom} from 'aurelia-framework';
 import {DialogResult, DialogService} from 'aurelia-dialog';
 import {EditJobPhase} from './edit';
-import {Prompt} from '../controls/prompt';
 import {JobPhase} from '../../models/job-phase';
 import {JobPhaseService} from '../../services/data/job-phase-service';
 import {Notifications} from '../../services/notifications';
@@ -43,7 +42,9 @@ export class JobPhaseList {
             .then(result => {
                 if(result.wasCancelled) return;
 
-                Notifications.success('Job Phase saved successfully');
+                const message = result.output ? 'Phase saved successfully' : 'Phase deleted successfully';
+                Notifications.success(message);
+                
                 this.refresh();
             })
             .catch(Notifications.error);

@@ -29,8 +29,15 @@
     </ai-dialog-body>
 
     <ai-dialog-footer>
-      <button click.trigger="controller.cancel()" class="ui button basic">Cancel</button>
-      <button click.trigger="save()" class="ui button primary">Save</button>
+      <button click.delegate="delete()" class="ui icon basic button negative left floated" show.bind="phase._id">
+        <i class="icon trash outline"></i>
+        Delete
+      </button>
+      <button click.delegate="controller.cancel()" class="ui button basic">Cancel</button>
+      <button click.delegate="save()" class="ui icon button primary">
+        <i class="icon save"></i>
+        Save
+      </button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

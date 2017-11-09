@@ -1,7 +1,7 @@
 import {autoinject, computedFrom} from 'aurelia-framework';
 import {DialogResult, DialogService} from 'aurelia-dialog';
-import {Prompt} from '../controls/prompt';
 import {EditCustomer} from './edit';
+import {Prompt} from '../controls/prompt';
 import {CustomerService} from "../../services/data/customer-service";
 import {Customer} from "../../models/customer";
 import {Notifications} from "../../services/notifications";
