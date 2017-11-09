@@ -1,0 +1,36 @@
+<template>
+  <ai-dialog element.ref="el">
+    <ai-dialog-body>
+      <form class="ui form">
+        <div class="field">
+          <label for="name">Name:</label>
+          <input type="text" id="name" placeholder="Phase Name" value.bind="phase.name" attach-focus="true" required>
+        </div>
+          <div class="field">
+            <label for="icon">Icon:</label>
+            <div class="ui fluid search normal selection dropdown">
+                <input type="hidden" id="icon" value.bind="phase.cssClass">
+                <i class="dropdown icon"></i>
+                <div class="default text">Choose Icon</div>
+                <div class="menu">
+                  <div class="item" repeat.for="i of icons" data-value="${i}">
+                    <i class="icon ${i}"></i>
+                    ${i}
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="ui error message">
+          <p repeat.for="error of errors">${error}</p>
+        </div>
+      </form>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button click.trigger="controller.cancel()" class="ui button basic">Cancel</button>
+      <button click.trigger="save()" class="ui button primary">Save</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

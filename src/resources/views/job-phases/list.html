@@ -1,0 +1,28 @@
+<template>
+    <div class="ui segment">
+      <div class="ui grid">
+        <h2 class="ui header six wide column">
+          <i class="circular tasks outline icon"></i>
+          <div class="content">
+            Job Phases
+          </div>
+        </h2>
+        <div class="ten wide column">
+            <button type="button" class="ui positive basic button right floated" click.delegate="new()">
+                <i class="icon plus"></i>
+                New Phase
+            </button>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui relaxed divided list">
+            <div class="item" repeat.for="phase of phases | sort:'sortOrder'">
+                <i class="large middle aligned icon ${phase.cssClass}" show.bind="phase.cssClass"></i>
+                <div class="content">
+                    <a class="header" click.delegate="edit(phase)">${phase.name}</a>
+                </div>
+            </tr>
+        </div>
+    </div>
+  </template>
+  

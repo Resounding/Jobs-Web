@@ -1,5 +1,4 @@
-import {autoinject} from 'aurelia-framework';
-import {computedFrom} from 'aurelia-binding'
+import {autoinject, computedFrom} from 'aurelia-framework';
 import {DialogResult, DialogService} from 'aurelia-dialog';
 import {Prompt} from '../controls/prompt';
 import {EditCustomer} from './edit';
