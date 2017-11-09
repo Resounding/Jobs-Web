@@ -1,5 +1,5 @@
 <template>
-    <div class="ui segment">
+    <div class="ui segment" element.ref="el">
       <div class="ui grid">
         <h2 class="ui header six wide column">
           <i class="circular tasks outline icon"></i>
@@ -15,10 +15,11 @@
         </div>
       </div>
       <div class="ui divider"></div>
-      <div class="ui relaxed divided list">
-            <div class="item" repeat.for="phase of phases | sort:'sortOrder'">
-                <i class="large middle aligned icon ${phase.cssClass}" show.bind="phase.cssClass"></i>
+      <div class="ui huge relaxed divided list">
+            <div class="item" repeat.for="phase of phases | sort:'sortOrder'" data-id.bind="phase._id">
+                <i class="circular icon move link"></i>
                 <div class="content">
+                    <i class="icon ${phase.cssClass}" show.bind="phase.cssClass"></i>
                     <a class="header" click.delegate="edit(phase)">${phase.name}</a>
                 </div>
             </tr>

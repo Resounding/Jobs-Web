@@ -194,6 +194,12 @@
             "path": "../node_modules/underscore",
             "main": "underscore",
             "exports": "_"
+          },
+          {
+            "name": "sortablejs",
+            "path": "../node_modules/sortablejs",
+            "main": "sortable",
+            "exports": "Sortable"
           }
         ]
       }

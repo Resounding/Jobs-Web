@@ -9,6 +9,7 @@ import {Authentication} from '../auth';
 import {Notifications} from '../notifications';
 import {PouchSyncOptions} from "../../../../custom_typings/pouchdb-find";
 import DatabaseConfiguration = PouchDB.Configuration.DatabaseConfiguration;
+import { JobPhaseDoc } from '../../models/job-phase';
 
 let localDB: PouchDB.Database = null;
 let remoteDB: PouchDB.Database = null;
@@ -115,7 +116,7 @@ export class Database {
               change.change.docs.forEach(doc => {
                 const job = new JobDocument(doc);
 
-                if(doc.type === JobDocument.DOCUMENT_TYPE) {
+                if(doc.type === JobDocument.DOCUMENT_TYPE || doc.type === JobPhaseDoc.JobPhaseType) {
                   this.events.publish(Database.SyncChangeEvent, job);
                   if(job._rev.substring(0, 2) === '1-') {
                     this.events.publish(Database.DocumentCreatedEvent, job);

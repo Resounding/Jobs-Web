@@ -25,6 +25,7 @@
     "requirejs": "^2.3.2",
     "semantic-ui-calendar": "^0.0.6",
     "semantic-ui-css": "^2.2.4",
+    "sortablejs": "^1.7.0",
     "text": "github:requirejs/text#latest",
     "toastr": "^2.1.2",
     "underscore": "^1.8.3",
