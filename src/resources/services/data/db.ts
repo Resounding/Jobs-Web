@@ -6,6 +6,7 @@ import {Job, JobDocument} from '../../models/job';
 import {Configuration} from '../config';
 import {log} from '../log';
 import {Authentication} from '../auth';
+import {Notifications} from '../notifications';
 import {PouchSyncOptions} from "../../../../custom_typings/pouchdb-find";
 import DatabaseConfiguration = PouchDB.Configuration.DatabaseConfiguration;
 
@@ -91,12 +92,19 @@ export class Database {
               sync.cancel();
             } catch (e) { }
 
-            localDB = null;
-            const options:DatabaseConfiguration = {
-              skip_setup: true,
-              auth: {username: 'servaryinallyzeaccedicie', password: 'f2062820500e00f931c25f848928023cc1b427cc'}
-            };
-            this.init(undefined, options);
+            // don't keep trying...
+            if(_.isObject(remoteOps)) {
+              const err = Error('Could not sync database. Permission denied.');
+              Notifications.error(err.message);
+              throw err;
+            } else {
+              localDB = null;
+              const options:DatabaseConfiguration = {
+                skip_setup: true,
+                auth: {username: 'servaryinallyzeaccedicie', password: 'f2062820500e00f931c25f848928023cc1b427cc'}
+              };
+              this.init(undefined, options);
+            }
           }
         })
         .on('change', change => {
