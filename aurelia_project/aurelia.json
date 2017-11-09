@@ -143,9 +143,15 @@
           },
           "papaparse",
           {
+            "name": "moment",
+            "path": "../node_modules/moment",
+            "main": "moment",
+            "exports": "moment"
+          },
+          {
             "name": "jquery",
             "path": "../node_modules/jquery/dist",
-            "main": "jquery.min",
+            "main": "jquery",
             "exports": "$"
           },
           {
@@ -168,23 +174,18 @@
           },
           {
             "name": "fullcalendar",
-            "path": "node_modules/fullcalendar/dist",
+            "path": "../node_modules/fullcalendar/dist",
             "main": "fullcalendar",
             "deps": [
-              "jquery"
+              "jquery",
+              "moment"
             ],
             "exports": "$"
           },
           {
-            "name": "moment",
-            "path": "../node_modules/moment/min/",
-            "main": "moment.min",
-            "exports": "moment"
-          },
-          {
             "name": "numeral",
             "path": "../node_modules/numeral/min",
-            "main": "numeral.min",
+            "main": "numeral",
             "exports": "numeral"
           },
           "toastr",

@@ -4,6 +4,8 @@ import {ViewLocator, ViewSlot, ViewEngine, ViewCompileInstruction, ViewFactory} 
 import {inject, Container} from 'aurelia-dependency-injection';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {ViewObject, EventObject, Options} from 'fullcalendar';
+import * as fullcalendar from 'fullcalendar';
+import * as $ from 'jquery';
 import * as moment from 'moment';
 import * as _ from 'underscore';
 import {EventPopup} from './event-popup';
@@ -14,6 +16,10 @@ import {Configuration} from '../../services/config';
 import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
+
+// for some reason, without this, we get a $().fullCalendar
+//  doesn't exist error.
+const z = fullcalendar;
 
 @autoinject
 export class Calendar {
@@ -83,8 +89,8 @@ export class Calendar {
                                 selectable: true,
                                 select: this.onSelect.bind(this)
                             });
-                        }
-
+                        }                                            
+                            
                         this.cal = $('#calendar', this.element).fullCalendar(options);
                     });
             });
