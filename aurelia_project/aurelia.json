@@ -184,7 +184,7 @@
           },
           {
             "name": "numeral",
-            "path": "../node_modules/numeral/min",
+            "path": "../node_modules/numeral",
             "main": "numeral",
             "exports": "numeral"
           },
