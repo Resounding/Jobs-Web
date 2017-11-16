@@ -1,8 +1,10 @@
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import {Customer, CustomerDocument} from './customer';
+import {JobPhase} from './job-phase';
+import {JobPhaseStatus} from './job-phase-status';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
-import {Customer, CustomerDocument} from './customer';
 
 export interface Job {
   _id: string;
@@ -22,6 +24,7 @@ export interface Job {
   notes: string;
   manHours: number;
   deleted: boolean;
+  jobPhases:JobPhaseStatus[] | null;
   type: string;
   _rev: string;
 }
@@ -43,6 +46,7 @@ export class JobDocument implements Job {
   notes: string = '';
   manHours: number;
   deleted: boolean = false;
+  jobPhases:JobPhaseStatus[] | null = null;
   // couch props
   type: string;
   _rev: string;
@@ -78,6 +82,7 @@ export class JobDocument implements Job {
       notes: this.notes,
       manHours: this.manHours,
       deleted: this.deleted,
+      jobPhases: this.jobPhases,
       type: JobDocument.DOCUMENT_TYPE,
       _rev: this._rev
     };

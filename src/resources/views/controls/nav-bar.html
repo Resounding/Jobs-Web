@@ -6,7 +6,7 @@
                     <img src="images/logo.png" alt="Logo" class="logo">
                     <span>Langendoen Mechanical</span>
                 </a>
-                <a repeat.for="item of router.navigation" href.bind="item.href" class="item ${item.isActive ? 'active' : ''} ${item.settings.hideMobile ? 'hide-mobile' : ''} ${item.settings.hideDesktop ? 'hide-desktop' : ''}">
+                <a repeat.for="item of navItems" href.bind="item.href" class="item ${item.isActive ? 'active' : ''} ${item.settings.hideMobile ? 'hide-mobile' : ''} ${item.settings.hideDesktop ? 'hide-desktop' : ''}">
                     <i if.bind="item.settings.icon" class="icon ${item.settings.icon}"></i>
                     <span class="hide-mobile">${item.title}</span>
                     <span class="hide-desktop">${item.settings.mobileTitle}</span>
@@ -19,6 +19,13 @@
                     ${userName}
                     <i class="dropdown icon"></i>
                     <div class="menu">
+                        <a repeat.for="item of settingsNavItems" href.bind="item.href" class="item ${item.isActive ? 'active' : ''} ${item.settings.hideMobile ? 'hide-mobile' : ''} ${item.settings.hideDesktop ? 'hide-desktop' : ''}">
+                            <i if.bind="item.settings.icon" class="icon ${item.settings.icon}"></i>
+                            <span class="hide-mobile">${item.title}</span>
+                            <span class="hide-desktop">${item.settings.mobileTitle}</span>
+                        </a>
+                        <div class="divider" show.bind="settingsNavItems.length"></div>
+                        
                         <button class="item" click.trigger="logout()">Logout</button>
                     </div>
                 </div>

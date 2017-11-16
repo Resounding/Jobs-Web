@@ -1,5 +1,5 @@
 import {autoinject, bindable} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
+import {Router, NavModel} from 'aurelia-router';
 import {Authentication, UserInfo} from '../../services/auth';
 import {CsvExport} from "../../services/csv-export";
 
@@ -8,11 +8,16 @@ export class NavBar {
 
   @bindable router: Router;
   csv: string;
+  navItems:NavModel[];
+  settingsNavItems:NavModel[];
 
   constructor(private element: Element, private auth: Authentication, private csvExport: CsvExport) { }
 
   attached() {
     $('.dropdown', this.element).dropdown();
+
+    this.navItems = this.router.navigation.filter(n => !n.settings.showInSettings);
+    this.settingsNavItems = this.router.navigation.filter(n => n.settings.showInSettings);
   }
 
   detached() {

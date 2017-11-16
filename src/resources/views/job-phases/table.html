@@ -1,0 +1,24 @@
+<template>
+    <require from="styles/job-phases-table.css"></require>
+    <require from="./table-row" as="table-row"></require>
+    <div id="job-phases-table" class="ui segment" element.ref="el">
+        <div class="ui grid">
+            <h2 class="ui header six wide column">
+                <i class="circular table outline icon"></i>
+                <div class="content">
+                    Phase List
+                </div>
+            </h2>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui equal width grid">
+            <div class="equal width row header">
+                <div class="column">Job</div>
+                <div class="column" repeat.for="phase of phases | sort:'sortOrder'">
+                    <i class="icon ${phase.cssClass}"></i>
+                    ${phase.name}
+                </div>
+            </div>
+            <table-row repeat.for="job of jobs | sort:'number'" job.bind="job" phases.bind="phases"></table-row>
+        </table>
+</template>

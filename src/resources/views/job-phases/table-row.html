@@ -1,0 +1,9 @@
+<template>    
+    <require from="./table-cell" as="table-cell"></require>
+    <div class="equal width row">
+        <div class="column">
+            <a route-href="route:jobs.edit;params.bind:{id: job._id}">${jobNumber}</a>
+        </div>
+        <table-cell repeat.for="phase of phases" job.bind="job" phase.bind="phase"></table-cell>
+    </div>
+</template>

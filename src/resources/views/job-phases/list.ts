@@ -9,7 +9,7 @@ import {JobPhase, JobPhaseDoc} from '../../models/job-phase';
 import {Database} from '../../services/data/db'
 import {JobPhaseService} from '../../services/data/job-phase-service';
 import {Notifications} from '../../services/notifications';
-import { ValidationResult } from '../../models/validation';
+import {ValidationResult} from '../../models/validation';
 
 
 @autoinject
