@@ -1,4 +1,4 @@
-import {autoinject, bindable, containerless} from 'aurelia-framework';
+import {autoinject, bindable, containerless, computedFrom} from 'aurelia-framework';
 import {Job} from '../../models/job';
 import {JobPhase} from '../../models/job-phase';
 import {JobPhaseStatus, JobPhaseStatuses} from '../../models/job-phase-status';
@@ -18,6 +18,7 @@ export class JobPhaseTableCell {
             .map(k => JobPhaseStatuses[k]);
     }
 
+    @computedFrom('job')
     get value():string {
         if(!Array.isArray(this.job.jobPhases)) return JobPhaseStatuses.NOT_STARTED;
         const phase = this.job.jobPhases.find(p => p.phase._id === this.phase._id);
@@ -57,6 +58,7 @@ export class JobPhaseTableCell {
             phase.status = value;
 
             await this.jobService.save(job);
+            this.job = job;
 
             Notifications.success('Status changed successfullly');
 

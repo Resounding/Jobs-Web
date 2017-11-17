@@ -1,12 +1,12 @@
 <template>
     <div class="column" element.ref="el">
         <div class="ui dropdown status">
-            <div class="text">
+            <div class="text" data-tooltip.bind="value">
                 <i class="au-target small icon circular hourglass half inverted green" show.bind="value==='partial'"></i>
                 <i class="au-target small icon circular hourglass end inverted blue" show.bind="value==='complete'"></i>
                 <i class="au-target small icon circular hourglass start inverted red" show.bind="!value || value==='not started'"></i>
                 <i class="au-target small icon circular hourglass empty" show.bind="value=='n/a'" style="visibility: hidden;"></i>
-                <span>${value || 'not started'}</span>
+                <span class="job-status-name">${value}</span>
             </div>
             <i class="dropdown icon"></i>
             <div class="menu">
@@ -15,7 +15,7 @@
                     <i class="au-target small icon circular hourglass end inverted blue" show.bind="status==='complete'"></i>
                     <i class="au-target small icon circular hourglass start inverted red" show.bind="status==='not started'"></i>
                     <i class="au-target small icon circular hourglass empty" show.bind="status=='n/a'" style="visibility: hidden;"></i>
-                    ${status}
+                    <span class="job-status-name">${status}</span>
                 </div>
             </div>
         </div>                        

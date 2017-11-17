@@ -2,6 +2,50 @@
     <require from="styles/job-phases-table.css"></require>
     <require from="./table-row" as="table-row"></require>
     <div id="job-phases-table" class="ui segment" element.ref="el">
+        <div class="ui two column grid stackable container">
+            <div class="column">
+                <div class="ui toggle checkbox">
+                <input type="checkbox" checked.bind="myJobs">
+                <label>My Jobs Only</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                <input type="checkbox" checked.bind="showOpen">
+                <label>Show open jobs</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                <input type="checkbox" checked.bind="showCompleted">
+                <label>Show completed jobs</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                <input type="checkbox" checked.bind="showClosed">
+                <label>Show closed jobs</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                <input type="checkbox" checked.bind="customerSort">
+                <label>Customer Sort</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                <input type="checkbox" checked.bind="reverseSort">
+                <label>Reverse Sort</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui toggle checkbox column">
+                <input type="checkbox" checked.bind="showProjects">
+                <label>Show Projects</label>
+                </div>
+            </div>
+        </div>
         <div class="ui grid">
             <h2 class="ui header six wide column">
                 <i class="circular table outline icon"></i>
@@ -11,14 +55,20 @@
             </h2>
         </div>
         <div class="ui divider"></div>
-        <div class="ui equal width grid">
-            <div class="equal width row header">
-                <div class="column">Job</div>
-                <div class="column" repeat.for="phase of phases | sort:'sortOrder'">
-                    <i class="icon ${phase.cssClass}"></i>
-                    ${phase.name}
+        <div class="ui grid phase-list">
+            <div class="row header">
+                <div class="four wide column">Job</div>
+                <div class="twelve wide column">
+                    <div class="ui equal width center aligned grid">
+                        <div class="row">
+                            <div class="column" repeat.for="phase of phases | sort:'sortOrder'">
+                                <i class="icon ${phase.cssClass}"></i>
+                                ${phase.name}
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
             </div>
-            <table-row repeat.for="job of jobs | sort:'number'" job.bind="job" phases.bind="phases"></table-row>
+            <table-row repeat.for="job of filteredItems | sort:'number'" job.bind="job" phases.bind="phases"></table-row>
         </table>
 </template>

@@ -1,9 +1,24 @@
 <template>    
     <require from="./table-cell" as="table-cell"></require>
-    <div class="equal width row">
-        <div class="column">
-            <a route-href="route:jobs.edit;params.bind:{id: job._id}">${jobNumber}</a>
+    <div class="row">
+        <div class="four wide column">
+            <a class="b" route-href="route:jobs.edit;params.bind:{id: job._id}">
+                <strong>
+                    ${jobNumber}
+                </strong>                
+            </a>
+            :&nbsp;
+            ${job.customer.name}
+            <br>
+            <i class="icon small circular ${jobStatus.cssClass}"></i>
+            <span>&nbsp;${jobStatus.name}</span>
         </div>
-        <table-cell repeat.for="phase of phases" job.bind="job" phase.bind="phase"></table-cell>
+        <div class="twelve wide column">
+            <div class="ui equal width center aligned grid">
+                <div class="row">
+                    <table-cell repeat.for="phase of phases | sort:'sortOrder'" job.bind="job" phase.bind="phase"></table-cell>
+                </div>
+            </div>                    
+        </div>
     </div>
 </template>
