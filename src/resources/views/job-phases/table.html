@@ -69,6 +69,6 @@
                     </div>                    
                 </div>
             </div>
-            <table-row repeat.for="job of filteredItems | sort:'number'" job.bind="job" phases.bind="phases"></table-row>
+            <table-row repeat.for="job of filteredItems" job.bind="job" phases.bind="phases"></table-row>
         </table>
 </template>
