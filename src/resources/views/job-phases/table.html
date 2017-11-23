@@ -2,6 +2,15 @@
     <require from="styles/job-phases-table.css"></require>
     <require from="./table-row" as="table-row"></require>
     <div id="job-phases-table" class="ui segment" element.ref="el">
+        <div class="ui grid">
+            <h2 class="ui header six wide column">
+                <i class="circular table outline icon"></i>
+                <div class="content">
+                    Phase List
+                </div>
+            </h2>
+        </div>
+        <div class="ui divider"></div>
         <div class="ui two column grid stackable container">
             <div class="column">
                 <div class="ui toggle checkbox">
@@ -46,16 +55,8 @@
                 </div>
             </div>
         </div>
-        <div class="ui grid">
-            <h2 class="ui header six wide column">
-                <i class="circular table outline icon"></i>
-                <div class="content">
-                    Phase List
-                </div>
-            </h2>
-        </div>
         <div class="ui divider"></div>
-        <div class="ui grid phase-list">
+        <div class="ui vertically divided grid phase-list">
             <div class="row header">
                 <div class="four wide column">Job</div>
                 <div class="twelve wide column">
@@ -71,4 +72,5 @@
             </div>
             <table-row repeat.for="job of filteredItems" job.bind="job" phases.bind="phases"></table-row>
         </table>
+    </div>
 </template>
