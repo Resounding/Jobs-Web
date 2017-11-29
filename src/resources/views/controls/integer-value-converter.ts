@@ -1,4 +1,4 @@
-import * as _ from 'underscore';
+import * as numeral from 'numeral';
 
 export class IntegerValueConverter {
   fromView(value: string): number {
@@ -14,7 +14,7 @@ export class IntegerValueConverter {
   toView(value:number):string {
     let text = '';
 
-    if(_.isNumber(value)) {
+    if(typeof value === 'number') {
       text = value.toString();
     }
 

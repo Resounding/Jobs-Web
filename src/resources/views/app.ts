@@ -29,8 +29,11 @@ export class App {
 
         if(this.auth.isInRole(Roles.OfficeAdmin)) {
             config.map([
+                {route: 'quotes', name: 'quotes.list', moduleId: 'resources/views/quotes/list', title: 'Quotes List', nav: true, auth: true, settings: { icon: 'edit', mobileTitle: 'Quotes' }},
+                {route: 'quotes/new', name: 'quotes.new', moduleId: 'resources/views/quotes/detail', title: 'New Quote', auth: true, settings: { icon: 'plus' }},
+                {route: 'quotes/:id', name: 'quotes.edit', moduleId: 'resources/views/quotes/detail', title: 'Edit Quote', auth: true},
                 {route: 'job-phases/list', name: 'job.phases.list', moduleId: 'resources/views/job-phases/list', title: 'Job Phases', nav: true, auth: true, settings: { icon: 'tasks', hideMobile: true, showInSettings: true }},
-                {route: 'job-phases', name: 'job.phases.table', moduleId: 'resources/views/job-phases/table', title: 'Phase List', nav: true, auth: true, settings: { icon: 'table', hideMobile: true }}
+                {route: 'job-phases', name: 'job.phases.table', moduleId: 'resources/views/job-phases/table', title: 'Phase List', nav: true, auth: true, settings: { icon: 'table', hideMobile: true }},
             ])
         }
 

@@ -6,13 +6,13 @@ export interface CouchDoc extends PouchDB.Core.IdMeta, PouchDB.Core.RevisionIdMe
 export abstract class CouchDocBase<T extends CouchDoc> implements CouchDoc, IValidatable, ISerializable<T> {
     _id:string;
     _rev:string;
-    type:string;
+    abstract type:string;
 
     constructor(data:T | {} = {}) {
         Object.assign(this, {
             _id: '',
             _rev: '',
-            type: ''
+            type: this.type
         }, data);
     }
 

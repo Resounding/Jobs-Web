@@ -1,9 +1,9 @@
 import {autoinject} from 'aurelia-framework';
 import * as moment from 'moment';
-import * as _ from 'underscore';
 import {log} from '../log';
 import {Database} from './db';
 import {Authentication, Roles} from '../auth';
+import {isString, isDate} from '../utils';
 import {Job, JobDocument} from "../../models/job";
 
 @autoinject()
@@ -21,10 +21,10 @@ export class JobService {
         .then(items => {
           const jobs = items.docs.map(item => {
             var job = new JobDocument(item);
-            if (_.isString(item.startDate)) {
+            if (isString(item.startDate)) {
               job.startDate = moment(item.startDate).toDate();
             }
-            if(_.isString(item.endDate)){
+            if(isString(item.endDate)){
               job.endDate = moment(item.endDate).toDate();
             }
 
@@ -44,10 +44,10 @@ export class JobService {
         .then(doc => {
           log.info(doc);
           var job = new JobDocument(doc);
-          if (_.isString(doc.startDate)) {
+          if (isString(doc.startDate)) {
             job.startDate = moment(doc.startDate).toDate();
           }
-          if (_.isString(doc.endDate)) {
+          if (isString(doc.endDate)) {
             job.endDate = moment(doc.endDate).toDate();
           }
           resolve(job);
@@ -58,10 +58,10 @@ export class JobService {
 
   save(job: Job): Promise<PouchDB.Core.Response> {
     return new Promise((resolve, reject) => {
-      if (_.isString(job.startDate) || _.isDate(job.startDate)) {
+      if (isString(job.startDate) || isDate(job.startDate)) {
         job.startDate = moment(job.startDate).format('YYYY-MM-DD');
       }
-      if (_.isString(job.endDate) || _.isDate(job.endDate)) {
+      if (isString(job.endDate) || isDate(job.endDate)) {
         job.endDate = moment(job.endDate).format('YYYY-MM-DD');
       }
 

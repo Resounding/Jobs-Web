@@ -11,6 +11,7 @@ export class JobPhaseDoc extends CouchDocBase<JobPhase> implements JobPhase {
     name:string;
     cssClass:string | null;
     sortOrder:number;
+    type:string = JobPhaseDoc.JobPhaseType;
 
     constructor(data:JobPhase | {} = {}) {
         super(Object.assign({

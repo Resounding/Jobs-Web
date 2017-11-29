@@ -2,21 +2,22 @@ import {autoinject} from 'aurelia-framework';
 import {Router, RouteConfig} from 'aurelia-router';
 import * as moment from 'moment';
 import * as _ from 'underscore';
-import {JobService} from '../../services/data/job-service';
+import {QuoteService} from '../../services/data/quote-service';
 import {CustomerService} from '../../services/data/customer-service';
 import {ActivitiesService} from '../../services/data/activities-service';
 import {Notifications} from '../../services/notifications';
-import {isString} from '../../services/utils';
-import {Job, JobDocument} from '../../models/job';
+import {Quote, QuoteDocument} from '../../models/quote';
 import {CustomerDocument} from '../../models/customer';
 import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
+import {isString} from '../../services/utils';
 
 @autoinject()
-export class NewJob {
-  job: JobDocument;
+export class NewQuote {
+  el:Element;
+  quote: QuoteDocument;
   customers: CustomerDocument[];
   jobTypes: JobType[] = JobType.OPTIONS;
   jobStatuses: JobStatus[] = JobStatus.OPTIONS;
@@ -24,8 +25,8 @@ export class NewJob {
   workTypes: WorkType[] = WorkType.OPTIONS;
   isFollowup:boolean = false;
 
-  constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService) {
-    this.job = new JobDocument();
+  constructor(private router: Router, private quoteService: QuoteService, private customerService: CustomerService) {
+    this.quote = new QuoteDocument();
     customerService.getAll()
       .then(customers => this.customers = customers)
       .catch(Notifications.error);
@@ -35,42 +36,41 @@ export class NewJob {
     routeConfig.title = this.title;
 
     if (isString(params.type)) {
-      this.job.type = params.type;
+      this.quote.type = params.type;
     }
 
     if (params.from) {
-      this.jobService.getOne(params.from)
+      this.quoteService.getOne(params.from)
         .then(prev => {
           this.isFollowup = true;
-          this.job.customer = prev.customer;
+          this.quote.customer = prev.customer;
         });
     }
   }
 
   attached() {
-    $('.dropdown.customer', this.element).dropdown({
+    $('.dropdown.customer', this.el).dropdown({
       allowAdditions: true,
       hideAdditions: false,
       fullTextSearch: true,
       onChange: (value: string): void => {
-        this.job.customer = this.customers.find(c => c._id === value);
-        if (!this.job.customer) {
-          this.job.customer = new CustomerDocument();
-          this.job.customer.name = value;
+        this.quote.customer = this.customers.find(c => c._id === value);
+        if (!this.quote.customer) {
+          this.quote.customer = new CustomerDocument();
+          this.quote.customer.name = value;
         }
-        console.log(this.job.customer);
       }
     });
 
-    $('#status', this.element).dropdown();
-    $('#billingType', this.element).dropdown();
-    $('#workType', this.element).dropdown();
-    $('.calendar.start', this.element).calendar({
+    $('#status', this.el).dropdown();
+    $('#billingType', this.el).dropdown();
+    $('#workType', this.el).dropdown();
+    $('.calendar.start', this.el).calendar({
       type: 'date',
-      onChange: date => this.job.startDate = moment(date).toDate()
+      onChange: date => this.quote.startDate = moment(date).toDate()
     });
 
-    const $buttonBar = $('.button-bar', this.element);
+    const $buttonBar = $('.button-bar', this.el);
     $buttonBar.visibility({
       once: false,
       onBottomPassed: () => {
@@ -83,27 +83,27 @@ export class NewJob {
   }
 
   detached() {
-    $('.dropdown.customer', this.element).dropdown('destroy');
-    $('#status', this.element).dropdown('destroy');
-    $('#billingType', this.element).dropdown('destroy');
-    $('#workType', this.element).dropdown('destroy');
-    $('.calendar.start', this.element).calendar('destroy');
-    $('.button-bar', this.element).visibility('destroy');
+    $('.dropdown.customer', this.el).dropdown('destroy');
+    $('#status', this.el).dropdown('destroy');
+    $('#billingType', this.el).dropdown('destroy');
+    $('#workType', this.el).dropdown('destroy');
+    $('.calendar.start', this.el).calendar('destroy');
+    $('.button-bar', this.el).visibility('destroy');
   }
 
   get title() {
-    return 'New Job';
+    return 'New Quote';
   }
 
   get customer_id(): string {
-    return this.job.customer ? this.job.customer._id : null;
+    return this.quote.customer ? this.quote.customer._id : null;
   }
 
   onIsMultiDayChange() {
-    if (this.job.isMultiDay) {
-      $('#days', this.element).focus();
+    if (this.quote.isMultiDay) {
+      $('#days', this.el).focus();
     } else {
-      this.job.days = null;
+      this.quote.days = null;
     }
   }
 
@@ -112,9 +112,9 @@ export class NewJob {
       this.saveJob()
         .then(() => this.router.navigateToRoute('jobs.list'));
     } else {
-      this.saveCustomer(this.job.customer)
+      this.saveCustomer(this.quote.customer)
         .then(customer => {
-          this.job.customer = customer;
+          this.quote.customer = customer;
           this.saveJob()
             .then(() => this.router.navigateToRoute('jobs.list'));
         })
@@ -123,7 +123,7 @@ export class NewJob {
   }
 
   saveJob(): Promise<Job | void> {
-    return this.jobService.save(this.job.toJSON())
+    return this.jobService.save(this.quote.toJSON())
       .then(() => {
         Notifications.success('Job Saved');
       })

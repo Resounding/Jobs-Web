@@ -1,7 +1,6 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import * as moment from 'moment';
-import * as _ from 'underscore';
 import {Job} from '../../models/job';
 import {JobStatus} from '../../models/job-status';
 import {JobType} from '../../models/job-type';
@@ -22,7 +21,7 @@ export class ListItem {
   constructor(private element: Element, private jobService: JobService, private auth: Authentication, private events: EventAggregator) {
     // only office admin can close jobs
     if (!this.auth.isInRole(Roles.OfficeAdmin)) {
-      var close = _.findIndex(this.jobStatuses, (status) => status.id === JobStatus.CLOSED);
+      var close = this.jobStatuses.findIndex(status => status.id === JobStatus.CLOSED);
       if (close !== -1) {
         this.jobStatuses.splice(close, 1);
       }
@@ -33,17 +32,12 @@ export class ListItem {
 
     this.jobManHoursSubscription = this.events.subscribe(CloseJobArgs.ModalApprovedEvent, this.onJobManHoursChanged.bind(this));
 
-    // if(isDevice()) {
-    // swipe to reveal delete?
-    // } else {
-
     $('.dropdown.status', this.element).dropdown({
       onChange: this.onStatusChanged.bind(this)
     });
     $('.dropdown.foreman', this.element).dropdown({
       onChange: this.onForemanChanged.bind(this)
     });
-    //}
   }
 
   detached() {
@@ -81,7 +75,7 @@ export class ListItem {
   }
 
   get jobStatus(): JobStatus {
-    return _.find(this.jobStatuses, s => s.id == this.job.status);
+    return this.jobStatuses.find(s => s.id == this.job.status);
   }
 
   get foremanDisplay(): string {

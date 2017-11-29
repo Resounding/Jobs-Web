@@ -1,5 +1,5 @@
 import {autoinject, computedFrom} from 'aurelia-framework';
-import {DialogResult, DialogService} from 'aurelia-dialog';
+import {DialogService} from 'aurelia-dialog';
 import {EditCustomer} from './edit';
 import {Prompt} from '../controls/prompt';
 import {CustomerService} from "../../services/data/customer-service";
@@ -36,7 +36,7 @@ export class CustomerList {
 
   delete(customer:Customer) {
     this.dialogService.open({ viewModel: Prompt, model: 'Are you sure you want to delete this Customer?' })
-      .then((result:DialogResult) => {
+      .whenClosed(result => {
         if(result.wasCancelled) return;
 
         this.customerService.delete(customer)
@@ -50,7 +50,7 @@ export class CustomerList {
 
   edit(customer:Customer) {
     this.dialogService.open({ viewModel: EditCustomer, model: customer })
-      .then((result:DialogResult) => {
+      .whenClosed(result => {
         if(result.wasCancelled) return;
 
         this.customerService.save(result.output)

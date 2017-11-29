@@ -1,6 +1,6 @@
 <template>
-  <ai-dialog element.ref="el">
-    <ai-dialog-body>
+  <ux-dialog element.ref="el">
+    <ux-dialog-body>
       <form class="ui form">
         <div class="field">
           <label for="name">Name:</label>
@@ -26,9 +26,9 @@
           <p repeat.for="error of errors">${error}</p>
         </div>
       </form>
-    </ai-dialog-body>
+    </ux-dialog-body>
 
-    <ai-dialog-footer>
+    <ux-dialog-footer>
       <button click.delegate="delete()" class="ui icon basic button negative left floated" show.bind="phase._id">
         <i class="icon trash outline"></i>
         Delete
@@ -38,6 +38,6 @@
         <i class="icon save"></i>
         Save
       </button>
-    </ai-dialog-footer>
-  </ai-dialog>
+    </ux-dialog-footer>
+  </ux-dialog>
 </template>

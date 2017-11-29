@@ -1,5 +1,3 @@
-import * as _ from 'underscore';
-
 export interface Customer {
     _id:string;
     _rev:string;
@@ -25,10 +23,8 @@ export class CustomerDocument implements Customer {
     contact?:string;
     phone?:string;
 
-    constructor(props?:Object) {
-        if(props) {
-            _.extend(this, props);
-        }
+    constructor(props:Customer | {} = {}) {
+        Object.assign(this, props);
     }
 
     toJSON():Customer {

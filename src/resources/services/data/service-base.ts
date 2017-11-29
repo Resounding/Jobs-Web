@@ -3,11 +3,11 @@ import {Database} from './db';
 import {Notifications} from '../notifications';
 import {CouchDoc} from '../../models/couch-doc';
 import {ISerializable} from '../../models/serializable';
-import {IValidatable, ValidationResult} from '../../models/validation';
+import {IValidatable, ValidationResult, PayloadValidationResult} from '../../models/validation';
 
 @autoinject
 export abstract class ServiceBase<T extends CouchDoc> {
-    constructor(private database:Database, private getAllFilter:string) { }
+    constructor(protected database:Database, private getAllFilter:string) { }
 
     @computedFrom('database.db')
     get db():PouchDB.Database {
@@ -39,8 +39,8 @@ export abstract class ServiceBase<T extends CouchDoc> {
         }
     }
 
-    async save(item:T & ISerializable<T> & IValidatable, options?:any):Promise<ValidationResult> {
-        const valid = item.validate(),
+    async save(item:T & ISerializable<T> & IValidatable, options?:any):Promise<PayloadValidationResult> {
+        const valid:PayloadValidationResult = Object.assign({payload: null, ok: true, errors: []}, item.validate()),
             json = item.toJSON(),
             isNew = !item._id;
 
@@ -50,7 +50,7 @@ export abstract class ServiceBase<T extends CouchDoc> {
             const result = await (isNew ? this.database.db.post(json) : this.database.db.put(<PouchDB.Core.PutDocument<T>>json)),
                 ok = result.ok;
 
-            valid.ok = ok;
+            Object.assign(valid, { payload: { id: result.id, rev: result.rev } });
             if(!ok) {
                 valid.errors.push('There was a problem saving.')
             }

@@ -1,4 +1,5 @@
 import {autoinject} from 'aurelia-framework';
+import * as numeral from 'numeral';
 import {Job} from '../../models/job';
 import {JobPhase} from '../../models/job-phase';
 import {JobType} from '../../models/job-type';
@@ -6,7 +7,7 @@ import {Authentication, Roles} from '../../services/auth';
 import {Notifications} from '../../services/notifications';
 import {JobService} from '../../services/data/job-service';
 import {JobPhaseService} from '../../services/data/job-phase-service';
-import { JobStatus } from '../../models/job-status';
+import {JobStatus} from '../../models/job-status';
 
 @autoinject
 export class JobPhaseTable {
@@ -73,19 +74,26 @@ export class JobPhaseTable {
         const closed = i => this.showClosed && (i.status === JobStatus.CLOSED);
         const projects = i => this.showProjects && i.job_type == JobType.PROJECT;
     
-        let items = _.filter(this.items, i => mine(i) && (open(i) || closed(i) || completed(i)) && (projects(i))),
-            sortedItems = _.sortBy(items, i => {
-              if(this.customerSort) {
-                return (i.customer.name || '').toString().toLowerCase() + i.number;
-              }
-    
-              return parseInt(i.number);
-            });
+        const sortedItems = this.items.filter(i => mine(i) && (open(i) || closed(i) || completed(i)) && (projects(i)));
+        sortedItems.sort((a, b) => {
+            const val1 = this.customerSort ?
+                (a.customer.name || '').toString().toLowerCase() + a.number :
+                numeral(a.number).value(),
+                val2 = this.customerSort ?
+                (b.customer.name || '').toString().toLowerCase() + b.number :
+                numeral(b.number).value();
+
+            if(val1 !== val2) {
+                if(val1 > val2 || val1 === void 0) return 1;
+                if(val1 < val2 || val2 === void 0) return -1;
+            }
+            return 0;
+        });
     
         if(this.reverseSort) {
           sortedItems.reverse();
         }
     
         this.filteredItems = sortedItems;
-      }    
+      }
 }

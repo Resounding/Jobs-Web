@@ -1,15 +1,17 @@
 import {Parent} from 'aurelia-dependency-injection';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
-import * as _ from 'underscore';
+import * as numeral from 'numeral';
 import {Job, JobDocument} from '../../models/job';
+import {JobPhaseDoc} from '../../models/job-phase';
+import {QuoteDocument} from '../../models/quote';
 import {Configuration} from '../config';
 import {log} from '../log';
 import {Authentication} from '../auth';
 import {Notifications} from '../notifications';
 import {PouchSyncOptions} from "../../../../custom_typings/pouchdb-find";
 import DatabaseConfiguration = PouchDB.Configuration.DatabaseConfiguration;
-import { JobPhaseDoc } from '../../models/job-phase';
+import {isObject} from '../../services/utils';
 
 let localDB: PouchDB.Database = null;
 let remoteDB: PouchDB.Database = null;
@@ -30,7 +32,7 @@ export class Database {
       }
       localDB.getIndexes()
         .then(indexes => {
-          const names = _.pluck(indexes.indexes, 'name');
+          const names = indexes.indexes.map(i => i.name);
           if(names.indexOf('by_type_name') === -1) {
             localDB.createIndex({              
               index: {
@@ -66,8 +68,8 @@ export class Database {
           skip_setup: true,
           auth: {username: userInfo.name, password: userInfo.password}
         };
-      if(remoteOps) {
-        _.extend(opts, remoteOps);
+      if(isObject(remoteOps)) {
+        Object.assign(opts, remoteOps);
       }
       let remoteDB = new PouchDB(this.config.remote_database_name, opts);
       const sync = localDB.sync(remoteDB, {live: true})
@@ -77,7 +79,7 @@ export class Database {
         .on('error', err => {
           log.error('Sync error');
           log.error(err);
-          const values = _.values(err);
+          const values = Object.keys(err).map(k => err[k]);
           // this happens on Samsung TV
           if(values.indexOf('web_sql_went_bad') !== -1) {
             try {
@@ -94,7 +96,7 @@ export class Database {
             } catch (e) { }
 
             // don't keep trying...
-            if(_.isObject(remoteOps)) {
+            if(remoteOps) {
               const err = Error('Could not sync database. Permission denied.');
               Notifications.error(err.message);
               throw err;
@@ -112,7 +114,7 @@ export class Database {
           log.info('Sync change');
           log.debug(change);
           if(change.direction === 'pull') {
-            if(_.isArray(change.change.docs)){
+            if(Array.isArray(change.change.docs)){
               change.change.docs.forEach(doc => {
                 const job = new JobDocument(doc);
 
@@ -157,8 +159,8 @@ export class Database {
         .then(rows => {
           log.debug(rows);
           const nextNumber: number = rows.docs.reduce((memo, job) => {
-              var number = parseInt(job.number);
-              if (!isNaN(number) && number > memo) memo = number;
+              var number = numeral(job.number).value();
+              if (number > memo) memo = number;
               return memo;
             }, 0) + 1;
 

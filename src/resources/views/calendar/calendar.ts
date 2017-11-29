@@ -7,7 +7,6 @@ import {ViewObject, EventObject, Options} from 'fullcalendar';
 import * as fullcalendar from 'fullcalendar';
 import * as $ from 'jquery';
 import * as moment from 'moment';
-import * as _ from 'underscore';
 import {EventPopup} from './event-popup';
 import {Foreman} from '../../models/foreman';
 import {JobType} from '../../models/job-type';
@@ -84,7 +83,7 @@ export class Calendar {
                             events: events                    
                         };
                         if(Configuration.isMobile()) {
-                            _.extend(options, {
+                            Object.assign(options, {
                                 height: 'auto',
                                 selectable: true,
                                 select: this.onSelect.bind(this)
@@ -137,7 +136,7 @@ export class Calendar {
         };
 
         if(Configuration.isMobile()) {
-            _.extend(options, {
+            Object.assign(options, {
                 position: 'top center',
                 variation: 'fluid',
                 lastResort: true,
@@ -196,7 +195,7 @@ export class Calendar {
         console.log(doc);
 
         const events = this.getCalendarEvents(doc._id);
-        if(_.isArray(events) && events.length) {
+        if(Array.isArray(events) && events.length) {
             const event = events[0];
             this.createEvent(doc, event);
             this.cal.fullCalendar('updateEvent', event);
@@ -249,8 +248,8 @@ export class Calendar {
             backgroundColor = Foreman.BackgroundColours[foreman] || 'white',
             popup = this.getViewHtml(job);
 
-        const baseObject = (_.isObject(originalEvent) && (<any>originalEvent).id) ? originalEvent : { },
-            event:EventObject = _.extend(baseObject, job, {
+        const baseObject = (originalEvent && (<any>originalEvent).id) ? originalEvent : { },
+            event:EventObject = Object.assign(baseObject, job, {
                 id: job._id,
                 title: job.number,
                 start: moment(job.startDate).format('YYYY-MM-DD'),

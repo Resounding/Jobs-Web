@@ -46,7 +46,7 @@ export class EditJobPhase {
   async delete() {
     try {
       this.dialogService.open({ viewModel: Prompt, model: 'Are you sure you want to delete this phase?'})
-        .then(async promptResult => {
+        .whenClosed(async promptResult => {
           if(promptResult.wasCancelled) return;
 
           const result = await this.service.delete(this.phase);

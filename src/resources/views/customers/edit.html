@@ -1,7 +1,7 @@
 <template>
   <require from="styles/edit-customer-dialog.css"></require>
-  <ai-dialog>
-    <ai-dialog-body>
+  <ux-dialog>
+    <ux-dialog-body>
       <form name="edit-customer-dialog" class="ui form">
         <div class="field">
           <label for="name">Name:</label>
@@ -40,11 +40,11 @@
           </div>
         </div>
       </form>
-    </ai-dialog-body>
+    </ux-dialog-body>
 
-    <ai-dialog-footer>
+    <ux-dialog-footer>
       <button click.trigger="controller.cancel()" class="ui button basic">Cancel</button>
       <button click.trigger="save()" class="ui button primary">Save</button>
-    </ai-dialog-footer>
-  </ai-dialog>
+    </ux-dialog-footer>
+  </ux-dialog>
 </template>

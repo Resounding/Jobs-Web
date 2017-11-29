@@ -34,7 +34,7 @@ export class EventPopup {
     }
 
     get jobStatus(): JobStatus {
-        return _.find(this.jobStatuses, s => s.id == this.job.status);
+        return this.jobStatuses.find(s => s.id == this.job.status);
     }
 
     get foremanDisplay(): string {

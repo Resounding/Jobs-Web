@@ -1,9 +1,8 @@
 import {autoinject, computedFrom} from 'aurelia-framework';
-import {DialogResult, DialogService} from 'aurelia-dialog';
+import {DialogService} from 'aurelia-dialog';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import * as $ from 'jquery';
 import * as Sortable from 'sortablejs';
-import * as _ from 'underscore';
 import {EditJobPhase} from './edit';
 import {JobPhase, JobPhaseDoc} from '../../models/job-phase';
 import {Database} from '../../services/data/db'
@@ -36,7 +35,8 @@ export class JobPhaseList {
         try {
 
             const phases = await this.service.getAll();
-            this.phases = _.sortBy(phases, p => p.sortOrder);
+            phases.sort((a, b) => a.sortOrder - b.sortOrder);
+            this.phases = phases;
 
         } catch(e) {
             Notifications.error(e);
@@ -45,7 +45,7 @@ export class JobPhaseList {
 
     new() {
         this.dialogService.open({ viewModel: EditJobPhase})
-            .then(result => {
+            .whenClosed(result => {
                 if(result.wasCancelled) return;
 
                 Notifications.success('Job Phase saved successfully');
@@ -56,7 +56,7 @@ export class JobPhaseList {
 
     edit(phase:JobPhase) {
         this.dialogService.open({ viewModel: EditJobPhase, model: phase })
-            .then(result => {
+            .whenClosed(result => {
                 if(result.wasCancelled) return;
 
                 const message = result.output ? 'Phase saved successfully' : 'Phase deleted successfully';

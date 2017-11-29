@@ -1,10 +1,10 @@
-import * as _ from 'underscore';
 import * as moment from 'moment';
 import {Customer, CustomerDocument} from './customer';
 import {JobPhase} from './job-phase';
 import {JobPhaseStatus} from './job-phase-status';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
+import {isDate} from '../services/utils'
 
 export interface Job {
   _id: string;
@@ -51,17 +51,16 @@ export class JobDocument implements Job {
   type: string;
   _rev: string;
 
-  get isMultiDay():boolean {
-    if(!_.isDate(this.startDate) || !_.isDate(this.endDate)) return false;
+  constructor(props:Job | {} = {}) {
+    Object.assign(this, props);
+  }
+
+get isMultiDay():boolean {
+    if(!isDate(this.startDate) || !isDate(this.endDate)) return false;
 
     return !moment(this.startDate).isSame(this.endDate, 'day');
   }
-
-  constructor(props?: Object) {
-    if (props) {
-      _.extend(this, props);
-    }
-  }
+  set isMultiDay(value:boolean) { }
 
   toJSON(): Job {
     return {

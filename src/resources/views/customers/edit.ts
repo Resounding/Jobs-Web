@@ -1,6 +1,5 @@
 import {autoinject} from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
-import * as _ from 'underscore';
 import {Customer} from "../../models/customer";
 
 @autoinject()
@@ -11,7 +10,7 @@ export class EditCustomer {
   constructor(private controller:DialogController) { }
 
   activate(customer:Customer) {
-    this.customer = _.clone(customer);
+    this.customer = Object.assign({ }, customer);
   }
 
   save() {

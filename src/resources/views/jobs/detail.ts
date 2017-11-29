@@ -1,8 +1,7 @@
 import {autoinject} from 'aurelia-framework';
 import {NavigationInstruction, Router, RouteConfig} from 'aurelia-router';
-import {DialogService, DialogResult} from 'aurelia-dialog';
+import {DialogService} from 'aurelia-dialog';
 import * as moment from 'moment';
-import * as _ from 'underscore';
 import {Prompt} from '../controls/prompt';
 import {JobService} from '../../services/data/job-service';
 import {CustomerService} from '../../services/data/customer-service';
@@ -14,6 +13,7 @@ import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
 import {Authentication, Roles} from "../../services/auth";
+import {isUndefined, isString, isDate} from "../../services/utils";
 
 @autoinject()
 export class EditJob {
@@ -43,13 +43,13 @@ export class EditJob {
       const id = params.id,
         date = moment(params.date, 'YYYY-MM-DD');
 
-      if(_.isUndefined(id)) {
+      if(isUndefined(id)) {
         this.job = new JobDocument();
-        if (_.isString(params.type)) {
+        if (isString(params.type)) {
           this.job.type = params.type;
         }
 
-        if(!_.isUndefined(params.date) && date.isValid()) {
+        if(!isUndefined(params.date) && date.isValid()) {
           this.job.startDate = date.toDate();
           $('.calendar.start', this.element).calendar('set date', this.job.startDate);
         }
@@ -66,11 +66,11 @@ export class EditJob {
           .then(job => {
             this.job = job;
 
-            if (_.isDate(job.startDate)) {
+            if (isDate(job.startDate)) {
               $('.calendar.start', this.element).calendar('set date', job.startDate);
             }
 
-            if(_.isDate(job.endDate)) {
+            if(isDate(job.endDate)) {
               $('.calendar.end', this.element).calendar('set date', job.endDate);
             }
 
@@ -100,7 +100,7 @@ export class EditJob {
       fullTextSearch: 'exact',
       match: 'text',
       onChange: (value: string): void => {
-        this.job.customer = _.find(this.customers, c => c._id === value);
+        this.job.customer = this.customers.find(c => c._id === value);
         if (!this.job.customer) {
           this.job.customer = new CustomerDocument();
           this.job.customer.name = value;
@@ -148,7 +148,7 @@ export class EditJob {
   }
 
   set customer_id(value:string) {
-    var customer = _.findWhere(this.customers, { _id: value });
+    var customer = this.customers.find(c => c._id === value);
     if(customer) {
       this.job.customer = customer;
     }
@@ -181,7 +181,7 @@ export class EditJob {
 
   onDeleteClick() {
     this.dialogService.open({ viewModel: Prompt, model: 'Are you sure you want to delete this job?'})
-      .then((result:DialogResult) => {
+      .whenClosed(result => {
         if(result.wasCancelled) return;
 
         this.jobService.delete(this.job.toJSON())

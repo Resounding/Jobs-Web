@@ -4,17 +4,17 @@ import {Authentication, Roles} from '../../services/auth';
 import * as numeral from 'numeral';
 import {log} from '../../services/log'
 import {Database} from '../../services/data/db'
-import {Job} from '../../models/job';
+import {Quote} from '../../models/quote';
 import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
-import {JobService} from '../../services/data/job-service';
-import {CloseJobArgs} from './close-job';
+import {QuoteService} from '../../services/data/quote-service';
 
 @autoinject()
 export class JobList {
-  items: Job[];
-  filteredItems: Job[];
-  myJobs: boolean = false;
+  el:Element;
+  items: Quote[];
+  filteredItems: Quote[];
+  myQuotes: boolean = false;
   showOpen: boolean = true;
   showClosed: boolean = false;
   showCompleted: boolean = false;
@@ -23,41 +23,30 @@ export class JobList {
   showProjects: boolean = true;
   showServiceCalls: boolean = true;
   filtersExpanded: boolean = false;
-  closeJobArgs: CloseJobArgs = new CloseJobArgs;
   showModalSubscription: Subscription;
   syncChangeSubscription: Subscription;
 
-  constructor(private element: Element, private auth: Authentication, private jobService: JobService, private events: EventAggregator) {
+  constructor(private auth: Authentication, private quoteService: QuoteService, private events: EventAggregator) {
     this.showCompleted = auth.isInRole(Roles.OfficeAdmin);
   }
 
   attached() {
-    const that = this;
-    $('.modal.close-job', this.element).modal({
-      onApprove: () => {
-        this.events.publish(CloseJobArgs.ModalApprovedEvent, that.closeJobArgs);
-      }
-    });
-
-    $('.ui.toggle.checkbox', this.element)
+    $('.ui.toggle.checkbox', this.el)
       .checkbox({
         onChange: this.filter.bind(this)
       });
 
-    this.showModalSubscription = this.events.subscribe(CloseJobArgs.ShowModalEvent, this.showCloseJobModal.bind(this));
     this.syncChangeSubscription = this.events.subscribe(Database.SyncChangeEvent, this.refresh.bind(this));
 
     this.refresh();
   }
 
   detached() {
-    $('.modal.close-job', this.element).modal('destroy');
-
-    this.showModalSubscription.dispose();
+    this.syncChangeSubscription.dispose();
   }
 
   refresh() {
-    this.jobService.getAll()
+    this.quoteService.getAll()
       .then(items => {
         this.items = items;
         this.filter();
@@ -67,21 +56,14 @@ export class JobList {
   filter() {
     const me = this.auth.userInfo().name;
 
-    const mine = i => !this.myJobs || i.foreman === me;
+    const mine = i => !this.myQuotes || i.foreman === me;
     const open = i => this.showOpen && (i.status === JobStatus.PENDING || i.status === JobStatus.IN_PROGRESS);
     const completed = i => this.showCompleted && (i.status == JobStatus.COMPLETE);
     const closed = i => this.showClosed && (i.status === JobStatus.CLOSED);
     const projects = i => this.showProjects && i.job_type == JobType.PROJECT;
     const serviceCalls = i => this.showServiceCalls && i.job_type == JobType.SERVICE_CALL;
 
-    log.debug(`Only show my jobs: ${this.myJobs}`);
-    log.debug(`Show open jobs: ${this.showOpen}`);
-    log.debug(`Show completed jobs: ${this.showCompleted}`);
-    log.debug(`Show closed jobs: ${this.showClosed}`);
-    log.debug(`Show projects: ${this.showProjects}`);
-    log.debug(`Show service calls: ${this.showServiceCalls}`);
-
-    let sortedItems = this.items.filter(i => mine(i) && (open(i) || closed(i) || completed(i)) && (projects(i) || serviceCalls(i)));
+    const  sortedItems = this.items.filter(i => mine(i) && (open(i) || closed(i) || completed(i)) && (projects(i) || serviceCalls(i)));
     sortedItems.sort((a, b) => {
       const val1 = this.customerSort ?
           (a.customer.name || '').toString().toLowerCase() + a.number :
@@ -106,12 +88,6 @@ export class JobList {
 
   toggleFiltersExpanded() {
     this.filtersExpanded = !this.filtersExpanded;
-  }
-
-  showCloseJobModal(id: string) {
-    this.closeJobArgs.jobId = id;
-    this.closeJobArgs.manHours = null;
-    $('.modal.close-job').modal('show');
   }
 
   get isOwner(): boolean {

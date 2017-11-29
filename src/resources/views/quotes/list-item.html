@@ -1,0 +1,55 @@
+<template>
+    <div class="card" element.ref="el">
+      <div class="content">
+          <div class="right floated meta" style="max-width: 40%;">
+              <span>${startDateDisplay}</span>
+              <span show.bind="quote.endDate">&nbsp;&ndash;&nbsp;</span>
+              <br show.bind="quote.endDate">
+              <span show.bind="quote.endDate">${endDateDisplay}</span>
+          </div>
+          <a class="header" route-href="route:quotes.edit;params.bind:{id: quote._id}">
+              <i class="icon edit"></i>
+              &nbsp;${jobNumberDisplay}
+          </a>
+          <div class="ui header">${quote.customer.name}</div>
+      </div>
+      <div class="content">
+          <div class="ui sub header">
+              <button class="ui basic icon button right floated hide-desktop" click.trigger="toggleExpanded()">
+                  <i class="dropdown icon ${expanded ? 'vertically flipped' : ''}"></i>
+              </button>
+              ${quote.name}
+          </div>
+          <p class="ui ${expanded ? '' : 'hide-mobile'}">${quote.description}</p>
+          <div class="ui sub header ${expanded ? '' : 'hide-mobile'}" show.bind="quote.manHours">Man hours: ${quote.manHours}</div>
+      </div>
+      <div class="ui extra content ${expanded ? '' : 'hide-mobile'}">
+          <div class="right floated author" style.bind="foremanColour">
+              <div class="ui dropdown foreman">
+                  <div class="text">
+                      <i class="icon user" show.bind="quote.foreman"></i>
+                      <i class="icon user plus" hide.bind="quote.foreman"></i>
+                      &nbsp;${foremanDisplay}
+                  </div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <div repeat.for="f of foremen" class="item" data-value.bind="f">${f}</div>
+                  </div>
+              </div>
+          </div>
+          <div class="ui dropdown status">
+              <div class="text">
+                  <i class="icon circular ${jobStatus.cssClass}"></i>
+                  <span>&nbsp;${jobStatus.name}</span>
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                  <div class="item" repeat.for="status of jobStatuses" data-value.bind="status.id">
+                      <i class="icon circular ${status.cssClass}"></i>
+                      <span>&nbsp;${status.name}</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</template>

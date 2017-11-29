@@ -7,7 +7,11 @@ export class Notifications {
         toastr.success(message);
     }
 
-    static error(err:Object) {
-        toastr.error(JSON.stringify(err));
+    static error(err:any) {
+        let message = JSON.stringify(err);
+        if(err && err.message) {
+            message = err.message;
+        }
+        toastr.error(message);
     }
 }
