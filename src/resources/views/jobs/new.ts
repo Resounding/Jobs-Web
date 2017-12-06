@@ -1,7 +1,6 @@
 import {autoinject} from 'aurelia-framework';
 import {Router, RouteConfig} from 'aurelia-router';
 import * as moment from 'moment';
-import * as _ from 'underscore';
 import {JobService} from '../../services/data/job-service';
 import {CustomerService} from '../../services/data/customer-service';
 import {ActivitiesService} from '../../services/data/activities-service';

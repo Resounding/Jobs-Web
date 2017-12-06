@@ -1,13 +1,13 @@
 import {autoinject} from 'aurelia-framework';
 import {Router, RouteConfig} from 'aurelia-router';
 import * as moment from 'moment';
-import * as _ from 'underscore';
-import {QuoteService} from '../../services/data/quote-service';
-import {CustomerService} from '../../services/data/customer-service';
 import {ActivitiesService} from '../../services/data/activities-service';
+import {CustomerService} from '../../services/data/customer-service';
+import {QuoteService} from '../../services/data/quote-service';
 import {Notifications} from '../../services/notifications';
+import {Customer, CustomerDocument} from '../../models/customer';
 import {Quote, QuoteDocument} from '../../models/quote';
-import {CustomerDocument} from '../../models/customer';
+import {Job} from '../../models/job';
 import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
@@ -28,7 +28,7 @@ export class NewQuote {
   constructor(private router: Router, private quoteService: QuoteService, private customerService: CustomerService) {
     this.quote = new QuoteDocument();
     customerService.getAll()
-      .then(customers => this.customers = customers)
+      .then((customers:CustomerDocument[]) => this.customers = customers)
       .catch(Notifications.error);
   }
 
@@ -41,10 +41,12 @@ export class NewQuote {
 
     if (params.from) {
       this.quoteService.getOne(params.from)
-        .then(prev => {
-          this.isFollowup = true;
-          this.quote.customer = prev.customer;
-        });
+        .then((prev:Quote) => {
+          const customer = new CustomerDocument(prev.customer);
+
+        this.isFollowup = true;
+        this.quote.customer = customer;
+      });
     }
   }
 
@@ -113,8 +115,8 @@ export class NewQuote {
         .then(() => this.router.navigateToRoute('jobs.list'));
     } else {
       this.saveCustomer(this.quote.customer)
-        .then(customer => {
-          this.quote.customer = customer;
+        .then((customer:Customer) => {
+          this.quote.customer = new CustomerDocument(customer);
           this.saveJob()
             .then(() => this.router.navigateToRoute('jobs.list'));
         })
@@ -123,7 +125,7 @@ export class NewQuote {
   }
 
   saveJob(): Promise<Job | void> {
-    return this.jobService.save(this.quote.toJSON())
+    return this.quoteService.save(this.quote)
       .then(() => {
         Notifications.success('Job Saved');
       })

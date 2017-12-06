@@ -15,7 +15,7 @@ export class QuoteService extends ServiceBase<Quote> {
         const isNew = !item._id;
         let saved = await super.save(item);
         if(saved.ok && isNew) {
-            const quoteNumber = await this.database.nextJobNumber();
+            const quoteNumber = await this.database.nextQuoteNumber();
             item._id = saved.payload.id;
             item._rev = saved.payload.rev;
             item.number = quoteNumber;

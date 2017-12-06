@@ -1,6 +1,5 @@
 import {Router} from 'aurelia-router';
 import * as moment from 'moment';
-import * as _ from 'underscore';
 import {Foreman} from '../../models/foreman';
 import {Job} from '../../models/job';
 import {JobType} from '../../models/job-type';
