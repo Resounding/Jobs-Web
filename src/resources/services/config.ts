@@ -6,7 +6,7 @@ export class Configuration {
     app_database_name:string = 'LangendoenJobs';
     app_root:string = 'resources/views/app';
     login_root:string = 'resources/views/login';
-    remote_server:string = 'https://resounding.cloudant.com';
+    remote_server:string = 'https://7bff221b-c372-4033-bf6c-59d2e859a520-bluemix.cloudant.com';
     remote_database_name:string;
 
     static isDebug():boolean {

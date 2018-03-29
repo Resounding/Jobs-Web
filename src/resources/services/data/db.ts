@@ -104,7 +104,7 @@ export class Database {
               localDB = null;
               const options:DatabaseConfiguration = {
                 skip_setup: true,
-                auth: {username: 'servaryinallyzeaccedicie', password: 'f2062820500e00f931c25f848928023cc1b427cc'}
+                auth: {username: 'istondellownsoresesenlyi', password: '493e16f154ec3688e0ed5b8013f94a2e17b27398'}
               };
               this.init(undefined, options);
             }
