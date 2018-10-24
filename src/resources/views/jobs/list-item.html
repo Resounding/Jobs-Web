@@ -1,10 +1,10 @@
 <template>
       <div class="content">
           <div class="right floated meta" style="max-width: 40%;">
-              <span>${startDateDisplay}</span>
+              <span class="text-nowrap">${startDateDisplay}</span>
               <span show.bind="job.endDate">&nbsp;&ndash;&nbsp;</span>
               <br show.bind="job.endDate">
-              <span show.bind="job.endDate">${endDateDisplay}</span>
+              <span class="text-nowrap" show.bind="job.endDate">${endDateDisplay}</span>
           </div>
           <a class="header" route-href="route:jobs.edit;params.bind:{id: job._id}">
               <i class="icon building" show.bind="isProject"></i>

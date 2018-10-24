@@ -1,7 +1,8 @@
+import * as $ from 'jquery';
 import {autoinject, bindable, containerless, computedFrom} from 'aurelia-framework';
 import {Job} from '../../models/job';
 import {JobPhase} from '../../models/job-phase';
-import {JobPhaseStatus, JobPhaseStatuses} from '../../models/job-phase-status';
+import {JobPhaseStatuses} from '../../models/job-phase-status';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
 

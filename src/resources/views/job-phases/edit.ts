@@ -1,3 +1,4 @@
+import * as $ from 'jquery';
 import {autoinject} from 'aurelia-framework';
 import {DialogController, DialogService} from 'aurelia-dialog';
 import {JobPhase, JobPhaseDoc} from '../../models/job-phase';

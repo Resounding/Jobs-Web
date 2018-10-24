@@ -58,7 +58,7 @@ export class ListItem {
     let display = 'Not Scheduled';
 
     if (this.job.startDate) {
-      display = moment(this.job.startDate).format('ddd, MMM Do');
+      display = moment(this.job.startDate).format('ddd MMM D, YYYY');
     }
 
     return display;
@@ -68,7 +68,7 @@ export class ListItem {
     let display = '';
 
     if (this.job.endDate) {
-      display = moment(this.job.endDate).format('ddd, MMM Do');
+      display = moment(this.job.endDate).format('ddd MMM D, YYYY');
     }
 
     return display;

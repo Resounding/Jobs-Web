@@ -1,3 +1,5 @@
+import * as $ from 'jquery';
+import 'semantic-ui';
 import {autoinject, bindable} from 'aurelia-framework';
 import {Router, NavModel} from 'aurelia-router';
 import {Authentication, UserInfo} from '../../services/auth';
