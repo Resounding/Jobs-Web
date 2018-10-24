@@ -9,6 +9,7 @@ import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {JobService} from '../../services/data/job-service';
 import {CloseJobArgs} from './close-job';
+import { JobListFilters } from './job-list-filters';
 
 @autoinject()
 export class JobList {
@@ -26,9 +27,12 @@ export class JobList {
   closeJobArgs: CloseJobArgs = new CloseJobArgs;
   showModalSubscription: Subscription;
   syncChangeSubscription: Subscription;
+  filters:JobListFilters;
 
   constructor(private element: Element, private auth: Authentication, private jobService: JobService, private events: EventAggregator) {
     this.showCompleted = auth.isInRole(Roles.OfficeAdmin);
+    this.filters = JobListFilters.load(this)
+    Object.assign(this, this.filters);
   }
 
   attached() {
@@ -93,7 +97,8 @@ export class JobList {
       if(val1 !== val2) {
           if(val1 > val2 || val1 === void 0) return 1;
           if(val1 < val2 || val2 === void 0) return -1;
-      }
+      }      
+
       return 0;
   });
 
@@ -102,6 +107,8 @@ export class JobList {
     }
 
     this.filteredItems = sortedItems;
+
+    this.filters.save(this);
   }
 
   toggleFiltersExpanded() {
