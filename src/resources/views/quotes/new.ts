@@ -1,5 +1,7 @@
 import {autoinject} from 'aurelia-framework';
 import {Router, RouteConfig} from 'aurelia-router';
+import * as $ from 'jquery';
+import 'semantic-ui-calendar';
 import * as moment from 'moment';
 import * as _ from 'underscore';
 import {QuoteService} from '../../services/data/quote-service';

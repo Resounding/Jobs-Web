@@ -1,6 +1,8 @@
 import {autoinject} from 'aurelia-framework';
-import {NavigationInstruction, Router, RouteConfig} from 'aurelia-router';
+import {Router} from 'aurelia-router';
 import {DialogService} from 'aurelia-dialog';
+import * as $ from 'jquery';
+import 'semantic-ui-calendar';
 import * as moment from 'moment';
 import {Prompt} from '../controls/prompt';
 import {JobService} from '../../services/data/job-service';

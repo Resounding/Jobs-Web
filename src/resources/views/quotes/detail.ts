@@ -1,6 +1,8 @@
 import {autoinject} from 'aurelia-framework';
 import {NavigationInstruction, Router, RouteConfig} from 'aurelia-router';
 import {DialogService, DialogCloseResult} from 'aurelia-dialog';
+import * as $ from 'jquery';
+import 'semantic-ui-calendar';
 import * as moment from 'moment';
 import {Prompt} from '../controls/prompt';
 import {isUndefined, isString, isDate} from '../../services/utils';
@@ -8,7 +10,7 @@ import {CustomerService} from '../../services/data/customer-service';
 import {JobService} from '../../services/data/job-service';
 import {QuoteService} from '../../services/data/quote-service';
 import {Notifications} from '../../services/notifications';
-import {Quote, QuoteDocument} from '../../models/quote';
+import {QuoteDocument} from '../../models/quote';
 import {CustomerDocument} from '../../models/customer';
 import {JobDocument} from '../../models/job';
 import {JobType} from '../../models/job-type';
