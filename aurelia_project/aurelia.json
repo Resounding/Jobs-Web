@@ -67,7 +67,7 @@
             ".html",
             ".css"
           ],
-          "stub": false
+          "stub": true
         }
       ]
     },
@@ -151,7 +151,7 @@
           {
             "name": "jquery",
             "path": "../node_modules/jquery/dist",
-            "main": "jquery",
+            "main": "jquery.min",
             "exports": "$"
           },
           {
