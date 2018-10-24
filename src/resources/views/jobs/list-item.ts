@@ -16,7 +16,6 @@ export class ListItem {
   expanded: boolean = false;
   foremen: string[] = Foreman.OPTIONS;
   jobStatuses: JobStatus[] = JobStatus.OPTIONS;
-  jobManHoursSubscription: Subscription;
 
   constructor(private element: Element, private jobService: JobService, private auth: Authentication, private events: EventAggregator) {
     // only office admin can close jobs
@@ -29,8 +28,6 @@ export class ListItem {
   }
 
   attached() {
-
-    this.jobManHoursSubscription = this.events.subscribe(CloseJobArgs.ModalApprovedEvent, this.onJobManHoursChanged.bind(this));
 
     $('.dropdown.status', this.element).dropdown({
       onChange: this.onStatusChanged.bind(this)
@@ -133,13 +130,6 @@ export class ListItem {
   onForemanChanged(value: string) {
     this.job.foreman = value;
     this.save('Foreman');
-  }
-
-  onJobManHoursChanged(args: CloseJobArgs) {
-    if (args.jobId === this.job._id) {
-      this.job.manHours = parseInt(args.manHours) || 0;
-      this.save('Status');
-    }
   }
 
   save(field: string): Promise<void> {

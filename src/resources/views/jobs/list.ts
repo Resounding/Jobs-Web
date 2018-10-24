@@ -110,7 +110,6 @@ export class JobList {
 
   showCloseJobModal(id: string) {
     this.closeJobArgs.jobId = id;
-    this.closeJobArgs.manHours = null;
     $('.modal.close-job').modal('show');
   }
 

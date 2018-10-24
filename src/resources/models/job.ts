@@ -22,7 +22,6 @@ export interface Job {
   endDate: Date | string;
   foreman: string;
   notes: string;
-  manHours: number;
   deleted: boolean;
   jobPhases:JobPhaseStatus[] | null;
   type: string;
@@ -44,7 +43,6 @@ export class JobDocument implements Job {
   endDate: Date = null;
   foreman: string;
   notes: string = '';
-  manHours: number;
   deleted: boolean = false;
   jobPhases:JobPhaseStatus[] | null = null;
   // couch props
@@ -79,7 +77,6 @@ get isMultiDay():boolean {
       endDate: this.endDate,
       foreman: this.foreman,
       notes: this.notes,
-      manHours: this.manHours,
       deleted: this.deleted,
       jobPhases: this.jobPhases,
       type: JobDocument.DOCUMENT_TYPE,

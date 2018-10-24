@@ -26,18 +26,15 @@ export class EditJob {
   billingTypes: BillingType[] = BillingType.OPTIONS;
   workTypes: WorkType[] = WorkType.OPTIONS;
   isFollowup:boolean = false;
-  canEditManHours:boolean = false;
 
   constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, auth: Authentication, private dialogService:DialogService) {
-
-    this.canEditManHours = auth.isInRole(Roles.OfficeAdmin);
 
     this.customerServicePromise = customerService.getAll()
       .then(customers => this.customers = customers)
       .catch(Notifications.error);
   }
 
-  activate(params: any, routeConfig:RouteConfig, navigationInstruction:NavigationInstruction) {
+  activate(params: any) {
 
     this.customerServicePromise.then(() => {
       const id = params.id,
