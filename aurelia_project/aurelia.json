@@ -69,7 +69,10 @@
           ],
           "stub": true
         }
-      ]
+      ],
+      "config": {
+        "wrapShim": true
+      }
     },
     "options": {
       "minify": "stage & prod",
@@ -161,7 +164,8 @@
             "deps": [
               "jquery"
             ],
-            "exports": "$"
+            "exports": "$",
+            "wrapShim": true
           },
           {
             "name": "semantic-ui-calendar",
