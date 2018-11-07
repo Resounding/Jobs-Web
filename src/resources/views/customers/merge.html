@@ -1,0 +1,41 @@
+<template>
+  <ux-dialog>
+    <ul-dialog-header>
+      <h1 class="ui center aligned icon header">
+        <i class="circular sitemap icon"></i>
+        Merge Customer
+      </h1>
+      <div class="ui message centered">
+        <p>This will <strong>replace</strong> customer ${replace.name} with the customer you select.
+          <br>Existing jobs for ${replace.name} will be updated.
+        </p>
+      </div>
+    </ul-dialog-header>
+    <ux-dialog-body>
+      <form name="merge-customer-dialog" class="ui form">
+        <h4 class="ui dividing header">Customer to <strong>Keep</strong></h4>
+        <div class="field">
+          <label for="customer">Customer</label>
+          <div class="ui search selection dropdown customer">
+              <input type="hidden" name="customer" id="customer" value.bind="keep_id">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Customer to Replace ${replace.name} with</div>
+              <div class="menu">
+                  <div repeat.for="customer of customers" class="item" data-value.bind="customer._id" data-text.bind="customer.name">
+                      ${customer.name}
+                  </div>
+              </div>
+          </div>
+        </div>        
+      </form>
+      <div class="ui error message" show.bind="error">
+        <p>${error}</p>
+      </div>
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <button click.trigger="controller.cancel()" class="ui button basic">Cancel</button>
+      <button click.trigger="save()" class="ui button primary">Merge</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

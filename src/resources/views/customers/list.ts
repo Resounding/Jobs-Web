@@ -1,6 +1,7 @@
 import {autoinject, computedFrom} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {EditCustomer} from './edit';
+import {MergeCustomer} from './merge';
 import {Prompt} from '../controls/prompt';
 import {CustomerService} from "../../services/data/customer-service";
 import {Customer} from "../../models/customer";
@@ -56,6 +57,20 @@ export class CustomerList {
         this.customerService.save(result.output)
           .then(() => {
             Notifications.success('Customer saved successfully');
+            this.refresh();
+          })
+          .catch(Notifications.error);
+      });
+  }
+
+  merge(customer:Customer) {
+    this.dialogService.open({ viewModel: MergeCustomer, model: customer })
+      .whenClosed(result => {
+        if(result.wasCancelled) return;
+
+        this.customerService.merge(result.output, customer)
+          .then(() => {
+            Notifications.success('Customer merged successfully');
             this.refresh();
           })
           .catch(Notifications.error);

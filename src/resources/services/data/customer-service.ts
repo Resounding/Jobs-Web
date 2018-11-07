@@ -1,6 +1,7 @@
 import {autoinject} from 'aurelia-framework';
 import {Database} from './db';
 import {Customer, CustomerDocument} from "../../models/customer";
+import {Job, JobDocument} from "../../models/job";
 
 @autoinject()
 export class CustomerService {
@@ -61,5 +62,14 @@ export class CustomerService {
           .then(() => Promise.resolve(customer))
           .catch(reject);
       });
+    }
+
+    async merge(keep:Customer, replace:Customer):Promise<void> {
+      const result = await (<PouchDB.Database<Job>>this.db).find({selector: {type: JobDocument.DOCUMENT_TYPE, 'customer._id': replace._id }}),
+        jobs = result.docs;
+      for(const job of jobs) {
+        job.customer = Object.assign({}, keep);
+        await this.db.post(job);
+      }
     }
 }

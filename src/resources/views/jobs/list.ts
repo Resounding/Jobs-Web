@@ -32,6 +32,7 @@ export class JobList {
 
   constructor(private element: Element, private auth: Authentication, private jobService: JobService, private events: EventAggregator) {
     this.showCompleted = auth.isInRole(Roles.OfficeAdmin);
+    this.myJobs = !auth.isInRole(Roles.Owner);
     this.filters = JobListFilters.load(this)
     Object.assign(this, this.filters);
   }
