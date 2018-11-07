@@ -3,7 +3,7 @@ import * as numeral from 'numeral';
 import {Job} from '../../models/job';
 import {JobPhase} from '../../models/job-phase';
 import {JobType} from '../../models/job-type';
-import {Authentication, Roles} from '../../services/auth';
+import {Authentication} from '../../services/auth';
 import {Notifications} from '../../services/notifications';
 import {JobService} from '../../services/data/job-service';
 import {JobPhaseService} from '../../services/data/job-phase-service';

@@ -42,7 +42,6 @@ export class JobService {
     return new Promise((resolve, reject) => {
       this.db.get<Job>(id)
         .then(doc => {
-          log.info(doc);
           var job = new JobDocument(doc);
           if (isString(doc.startDate)) {
             job.startDate = moment(doc.startDate).toDate();
@@ -100,7 +99,7 @@ export class JobService {
     job.deleted = true;
     return this.db.put(job)
       .then(result => {
-        log.info(result);
+        log.info(`Job ${job._id} deleted`);
       })
       .catch(err => {
         log.info(err);

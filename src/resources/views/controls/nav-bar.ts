@@ -2,7 +2,7 @@ import * as $ from 'jquery';
 import 'semantic-ui';
 import {autoinject, bindable} from 'aurelia-framework';
 import {Router, NavModel} from 'aurelia-router';
-import {Authentication, UserInfo} from '../../services/auth';
+import {Authentication, UserInfo, Roles} from '../../services/auth';
 import {CsvExport} from "../../services/csv-export";
 
 @autoinject()
@@ -45,5 +45,9 @@ export class NavBar {
 
   get userName() {
     return (this.auth.userInfo() || <UserInfo>{}).name;
+  }
+
+  get isOwner() {
+    return this.auth.isInRole(Roles.Owner);
   }
 }

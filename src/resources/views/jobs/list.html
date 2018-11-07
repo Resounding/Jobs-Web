@@ -5,31 +5,30 @@
   <require from="styles/job-list.css"></require>
 
   <div class="ui segment">
-    <button class="ui button basic right floated hide-desktop mini" click.trigger="toggleFiltersExpanded()"
-            show.bind="isOwner">
+    <button class="ui button basic right floated hide-desktop mini" click.trigger="toggleFiltersExpanded()">
       Filters
       <i class="dropdown icon ${filtersExpanded ? 'vertically flipped' : ''}"></i>
     </button>
-    <div class="ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}" show.bind="isOwner">
-      <div class="column">
+    <div class="ui two column grid stackable container ${filtersExpanded ? '' : 'hide-mobile'}">
+      <div class="column" show.bind="isOwner">
         <div class="ui toggle checkbox">
           <input type="checkbox" checked.bind="myJobs">
           <label>My Jobs Only</label>
         </div>
       </div>
-      <div class="column">
+      <div class="column" show.bind="isOwner">
         <div class="ui toggle checkbox column">
           <input type="checkbox" checked.bind="showOpen">
           <label>Show open jobs</label>
         </div>
       </div>
-      <div class="column">
+      <div class="column" show.bind="isOwner">
         <div class="ui toggle checkbox column">
           <input type="checkbox" checked.bind="showCompleted">
           <label>Show completed jobs</label>
         </div>
       </div>
-      <div class="column">
+      <div class="column" show.bind="isOwner">
         <div class="ui toggle checkbox column">
           <input type="checkbox" checked.bind="showClosed">
           <label>Show closed jobs</label>

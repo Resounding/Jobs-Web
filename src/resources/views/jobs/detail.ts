@@ -14,7 +14,7 @@ import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {BillingType} from "../../models/billing-type";
 import {WorkType} from "../../models/work-type";
-import {Authentication, Roles} from "../../services/auth";
+import {Authentication} from "../../services/auth";
 import {isUndefined, isString, isDate} from "../../services/utils";
 
 @autoinject()

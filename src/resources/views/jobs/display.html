@@ -1,0 +1,65 @@
+<template>
+  <require from="styles/job-detail.css"></require>
+  <require from="../controls/integer-value-converter"></require>
+
+    <div class="ui menu button-bar">
+        <div class="ui container">
+            <button type="button"  class="ui button" click.trigger="onCancelClick()">Close</button>
+        </div>
+    </div>
+
+    <form class="ui form">
+        <h2 class="ui ${isFollowup ? '' : 'dividing header'}">${routeConfig.title}</h2>
+
+        <div class="fields">
+            <div class="field eight wide">
+                <label for="customer">Customer</label>
+                <input type="text" id="customer" value.one-time="job.customer.name" readonly>
+            </div>
+          <div class="field eight wide">
+            <label for="job-name">Job Name</label>
+            <input type="text" id="job-name" value.one-time="job.name" readonly>
+          </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="description">Job Description</label>
+                <textarea name="description" id="description" value.one-time="job.description" cols="30" rows="5" readonly=""></textarea>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field six wide">
+                <label for="status">Status</label>
+                <div class="ui left icon input">
+                  <i class="icon circular ${jobStatusClass}"></i>
+                  <input type="text" id="status" value.one-time="job.status" readonly>
+                </div>
+                
+            </div>
+            <div class="field six wide">
+                <label for="workType">Work Type</label>
+                <div class="ui left icon input">
+                  <i class="icon building" show.bind="isProject"></i>
+                  <i class="icon wrench" show.bind="isServiceCall"></i>
+                  <input type="text" id="workType" value.one-time="job.job_type" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field six wide" show.bind="startDate">
+                <label for="start">Scheduled Start</label>
+                  <input type="text" id="start" value.one-time="startDate" readonly>
+            </div>
+          <div class="field six wide" show.bind="endDate">
+            <label for="end">Scheduled End</label>
+            <input type="text" id="end" value.one-time="endDate" readonly>
+          </div>
+        </div>
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label for="notes">Notes</label>
+                <textarea id="notes" value.one-time="job.notes" cols="30" rows="3" readonly></textarea>
+            </div>
+        </div>
+    </form>
+</template>

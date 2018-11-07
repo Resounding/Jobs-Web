@@ -9,6 +9,7 @@ import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
 import {Authentication, Roles} from '../../services/auth';
 import {CloseJobArgs} from './close-job';
+import {equals} from '../../utilities/equals';
 
 @autoinject()
 export class ListItem {
@@ -20,21 +21,30 @@ export class ListItem {
   constructor(private element: Element, private jobService: JobService, private auth: Authentication, private events: EventAggregator) {
     // only office admin can close jobs
     if (!this.auth.isInRole(Roles.OfficeAdmin)) {
-      var close = this.jobStatuses.findIndex(status => status.id === JobStatus.CLOSED);
+      var close = this.jobStatuses.findIndex(status => equals(status.id, JobStatus.CLOSED));
       if (close !== -1) {
         this.jobStatuses.splice(close, 1);
       }
-    }
+    }    
   }
 
   attached() {
-
-    $('.dropdown.status', this.element).dropdown({
-      onChange: this.onStatusChanged.bind(this)
-    });
-    $('.dropdown.foreman', this.element).dropdown({
-      onChange: this.onForemanChanged.bind(this)
-    });
+    //prevent changing these
+    if(this.auth.isInRole(Roles.Owner)) {
+      $('.dropdown.status', this.element).dropdown({
+        onChange: this.onStatusChanged.bind(this)
+      });
+      $('.dropdown.foreman', this.element).dropdown({
+        onChange: this.onForemanChanged.bind(this)
+      });
+    } else {
+      this.foremen = [];
+      
+      const status = this.jobStatuses.find(s => equals(s.id, this.job.status));
+      if(status) {
+        this.jobStatuses = [status];
+      }
+    }    
   }
 
   detached() {

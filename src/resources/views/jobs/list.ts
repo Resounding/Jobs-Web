@@ -9,7 +9,8 @@ import {JobType} from '../../models/job-type';
 import {JobStatus} from '../../models/job-status';
 import {JobService} from '../../services/data/job-service';
 import {CloseJobArgs} from './close-job';
-import { JobListFilters } from './job-list-filters';
+import {JobListFilters} from './job-list-filters';
+import {equals} from '../../utilities/equals';
 
 @autoinject()
 export class JobList {
@@ -71,12 +72,12 @@ export class JobList {
   filter() {
     const me = this.auth.userInfo().name;
 
-    const mine = i => !this.myJobs || i.foreman === me;
-    const open = i => this.showOpen && (i.status === JobStatus.PENDING || i.status === JobStatus.IN_PROGRESS);
-    const completed = i => this.showCompleted && (i.status == JobStatus.COMPLETE);
-    const closed = i => this.showClosed && (i.status === JobStatus.CLOSED);
-    const projects = i => this.showProjects && i.job_type == JobType.PROJECT;
-    const serviceCalls = i => this.showServiceCalls && i.job_type == JobType.SERVICE_CALL;
+    const mine = i => !this.myJobs || equals(i.foreman, me);
+    const open = i => this.showOpen && (equals(i.status, JobStatus.PENDING) || equals(i.status, JobStatus.IN_PROGRESS));
+    const completed = i => this.showCompleted && (equals(i.status, JobStatus.COMPLETE));
+    const closed = i => this.showClosed && (equals(i.status, JobStatus.CLOSED));
+    const projects = i => this.showProjects && equals(i.job_type, JobType.PROJECT);
+    const serviceCalls = i => this.showServiceCalls && equals(i.job_type, JobType.SERVICE_CALL);
 
     log.debug(`Only show my jobs: ${this.myJobs}`);
     log.debug(`Show open jobs: ${this.showOpen}`);

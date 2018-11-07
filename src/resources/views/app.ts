@@ -20,11 +20,24 @@ export class App {
         config.addPipelineStep('authorize', AuthorizeStep);
         config.title = 'Langendoen Mechanical Job Management Application';
         config.map([
-            {route: ['', 'jobs'], name: 'jobs.list', moduleId: 'resources/views/jobs/list', title: 'Jobs List', nav: true, auth: true, settings: { icon: 'browser', mobileTitle: 'Jobs' }},
-            {route: 'jobs/new', name: 'jobs.new', moduleId: 'resources/views/jobs/detail', title: 'New Job', nav: true, auth: true, settings: { icon: 'plus', mobileTitle: 'New' }},
+            {route: ['', 'jobs'], name: 'jobs.list', moduleId: 'resources/views/jobs/list', title: 'Jobs List', nav: true, auth: true, settings: { icon: 'browser', mobileTitle: 'Jobs' }}
+        ]);
+
+
+        if(this.auth.isInRole(Roles.Owner)) {
+          config.map([
             {route: 'jobs/:id', name: 'jobs.edit', moduleId: 'resources/views/jobs/detail', title: 'Edit Job', auth: true},
-            {route: 'customers', name: 'customers.list', moduleId: 'resources/views/customers/list', title: 'Customer List', nav: true, auth: true, settings: { icon: 'building outline', hideMobile: true, showInSettings: true }},
-            {route: 'calendar/:date?', href: '#calendar', name: 'calendar', moduleId: 'resources/views/calendar/calendar', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', mobileTitle: 'Cal' } }
+            {route: 'jobs/new', name: 'jobs.new', moduleId: 'resources/views/jobs/detail', title: 'New Job', nav: true, auth: true, settings: { icon: 'plus', mobileTitle: 'New' }},            
+            {route: 'customers', name: 'customers.list', moduleId: 'resources/views/customers/list', title: 'Customer List', nav: true, auth: true, settings: { icon: 'building outline', hideMobile: true, showInSettings: true }}
+          ])
+        } else {
+          config.map([
+            {route: 'jobs/:id', name: 'jobs.edit', moduleId: 'resources/views/jobs/display', title: 'Edit Job', auth: true},
+          ])
+        }
+
+        config.map([
+          {route: 'calendar/:date?', href: '#calendar', name: 'calendar', moduleId: 'resources/views/calendar/calendar', title: 'Calendar', nav: true, auth: true, settings: { icon: 'calendar', mobileTitle: 'Cal' } }
         ]);
 
         if(this.auth.isInRole(Roles.OfficeAdmin)) {

@@ -11,7 +11,7 @@
                     <span class="hide-mobile">${item.title}</span>
                     <span class="hide-desktop">${item.settings.mobileTitle}</span>
                 </a>
-                <a class="item hide-mobile" click.delegate="downloadCsv()">
+                <a class="item hide-mobile" click.delegate="downloadCsv()" show.one-time="isOwner">
                   <i class="cloud download icon"></i>
                   Export
                 </a>

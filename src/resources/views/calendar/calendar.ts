@@ -1,20 +1,24 @@
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
-import {ViewLocator, ViewSlot, ViewEngine, ViewCompileInstruction, ViewFactory} from 'aurelia-templating';
-import {inject, Container} from 'aurelia-dependency-injection';
+import {ViewLocator, ViewEngine, ViewCompileInstruction, ViewFactory} from 'aurelia-templating';
+import {Container} from 'aurelia-dependency-injection';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {ViewObject, EventObject, Options} from 'fullcalendar';
 import * as fullcalendar from 'fullcalendar';
 import * as $ from 'jquery';
 import * as moment from 'moment';
 import {EventPopup} from './event-popup';
+import {JobListFilters} from '../jobs/job-list-filters';
 import {Foreman} from '../../models/foreman';
+import {JobStatus} from '../../models/job-status';
 import {JobType} from '../../models/job-type';
 import {Job, JobDocument} from '../../models/job';
 import {Configuration} from '../../services/config';
 import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
+import { Authentication, Roles } from '../../services/auth';
+import {equals} from '../../utilities/equals'
 
 // for some reason, without this, we get a $().fullCalendar
 //  doesn't exist error.
@@ -29,9 +33,22 @@ export class Calendar {
     deletedSubscription:Subscription;
     viewFactory:ViewFactory;
     optionsExpanded:boolean = false;
+    canCreate:boolean = false;
+    myJobs: boolean = true;
+    showOpen: boolean = true;
+    showClosed: boolean = false;
+    showCompleted: boolean = false;
+    filters:JobListFilters | null = null;
 
     constructor(private jobService: JobService, private router:Router, private element:Element, private events:EventAggregator,
-        private viewLocator:ViewLocator, private viewEngine:ViewEngine, private container:Container) { }
+        private viewLocator:ViewLocator, private viewEngine:ViewEngine, private container:Container, private auth:Authentication) {
+          const owner = auth.isInRole(Roles.Owner)
+          this.canCreate = owner;
+          if(!owner) {
+            this.filters = JobListFilters.load(this);
+            Object.assign(this, this.filters);
+          }
+        }
 
     activate(params:any, routeConfig: RouteConfig, navigationInstruction:NavigationInstruction) {
 
@@ -52,47 +69,55 @@ export class Calendar {
         this.deletedSubscription.dispose();
     }
 
-    attached() {
+    async attached() {
         // to get the HTML from a data-bound template, we do this: http://stackoverflow.com/a/37869319
         const strategy = this.viewLocator.getViewStrategy('resources/views/calendar/event-popup.html');
-        strategy.loadViewFactory(this.viewEngine, new ViewCompileInstruction())
-            .then(vf => {
-                this.viewFactory = vf;
-                this.jobService
-                    .getAll()
-                    .then(items => {
-                        const events = items
-                            .filter(i => i.startDate)
-                            .map(this.createEvent, this);
 
-                        const options:Options = {
-                            weekNumberCalculation: 'ISO',
-                            editable: true,
-                            eventStartEditable: true,
-                            eventDurationEditable: true,
-                            weekNumbers: this.showWeekNumbers,
-                            weekends: this.showWeekends,
-                            defaultView: this.currentView,
-                            defaultDate: this.date,
-                            dayClick: this.onDayClick.bind(this),
-                            viewRender: this.onViewRender.bind(this),
-                            eventRender: this.onEventRender.bind(this),
-                            eventDrop: this.onEventDrop.bind(this),
-                            eventResize: this.onEventResize.bind(this),
-                            eventDestroy: this.onEventDestroy.bind(this),
-                            events: events                    
-                        };
-                        if(Configuration.isMobile()) {
-                            Object.assign(options, {
-                                height: 'auto',
-                                selectable: true,
-                                select: this.onSelect.bind(this)
-                            });
-                        }                                            
-                            
-                        this.cal = $('#calendar', this.element).fullCalendar(options);
-                    });
-            });
+        this.viewFactory = await strategy.loadViewFactory(this.viewEngine, new ViewCompileInstruction());
+        
+        await this.fillCalendar();
+    }
+
+    async fillCalendar() {
+      const me = this.auth.userInfo().name,
+        mine = i => !this.myJobs || equals(i.foreman, me),
+        open = i => this.showOpen && (equals(i.status, JobStatus.PENDING) || equals(i.status, JobStatus.IN_PROGRESS)),
+        completed = i => this.showCompleted && (equals(i.status, JobStatus.COMPLETE)),
+        closed = i => this.showClosed && (equals(i.status, JobStatus.CLOSED)),
+        items = await this.jobService.getAll(),
+        events = items
+          .filter(i => i.startDate)
+          .filter(i => !this.filters || (mine(i) && (open(i) || closed(i) || completed(i))))
+          .map(this.createEvent, this),
+        options:Options = {
+          weekNumberCalculation: 'ISO',
+          editable: true,
+          eventStartEditable: true,
+          eventDurationEditable: true,
+          weekNumbers: this.showWeekNumbers,
+          weekends: this.showWeekends,
+          defaultView: this.currentView,
+          defaultDate: this.date,
+          dayClick: this.onDayClick.bind(this),
+          viewRender: this.onViewRender.bind(this),
+          eventRender: this.onEventRender.bind(this),
+          eventDrop: this.onEventDrop.bind(this),
+          eventResize: this.onEventResize.bind(this),
+          eventDestroy: this.onEventDestroy.bind(this),
+          events: events                    
+      };
+      if(Configuration.isMobile()) {
+          Object.assign(options, {
+              height: 'auto',
+              selectable: true,
+              select: this.onSelect.bind(this)
+          });
+      }                                            
+          
+      if(this.cal) {
+        this.cal.fullCalendar('destroy');
+      }
+      this.cal = $('#calendar', this.element).fullCalendar(options);
     }
 
     toggleOptionsExpanded() {
@@ -100,13 +125,15 @@ export class Calendar {
     }
 
     onDayClick(date:moment.Moment) {
-        if(!Configuration.isMobile()) {
+        if(this.canCreate && !Configuration.isMobile()) {
             this.router.navigateToRoute('jobs.new', { date: date.format('YYYY-MM-DD')});
         }
     }
 
     onSelect(start:moment.Moment) {
-        this.router.navigateToRoute('jobs.new', { date: start.format('YYYY-MM-DD')});
+        if(this.canCreate)  {
+          this.router.navigateToRoute('jobs.new', { date: start.format('YYYY-MM-DD')});
+        }
     }
 
     onViewRender(view:ViewObject) {
