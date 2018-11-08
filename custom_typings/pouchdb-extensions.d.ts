@@ -16,6 +16,8 @@ declare global {
             include_docs?:boolean;
             startkey?:string;
             endkey?:string;
+            reduce?:boolean;
+            group?:boolean;
         }
 
         namespace Core {

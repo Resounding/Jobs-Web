@@ -1,20 +1,15 @@
-import {Parent} from 'aurelia-dependency-injection';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
-import * as numeral from 'numeral';
-import {Job, JobDocument} from '../../models/job';
+import {JobDocument} from '../../models/job';
 import {JobPhaseDoc} from '../../models/job-phase';
-import {QuoteDocument} from '../../models/quote';
 import {Configuration} from '../config';
 import {log} from '../log';
 import {Authentication} from '../auth';
 import {Notifications} from '../notifications';
-import {PouchSyncOptions} from "../../../../custom_typings/pouchdb-find";
 import DatabaseConfiguration = PouchDB.Configuration.DatabaseConfiguration;
 import {isObject} from '../../services/utils';
 
 let localDB: PouchDB.Database = null;
-let remoteDB: PouchDB.Database = null;
 
 @autoinject()
 export class Database {
@@ -40,7 +35,7 @@ export class Database {
                 fields: ['type', 'name']
               }
             }).then(result => {
-              log.debug(result);
+              log.debug(JSON.stringify(result));
             }).catch(error => {
               log.error(error);
             });
@@ -53,7 +48,7 @@ export class Database {
                 fields: ['type', 'deleted']
               }
             }).then(result => {
-              log.debug(result);
+              log.debug(JSON.stringify(result));
             }).catch(error => {
               log.error(error);
             });
@@ -63,7 +58,6 @@ export class Database {
 
     if (this.auth.isAuthenticated()) {
       const userInfo = this.auth.userInfo(),
-        headers = {Authorization: userInfo.basicAuth},
         opts = {
           skip_setup: true,
           auth: {username: userInfo.name, password: userInfo.password}
@@ -112,7 +106,7 @@ export class Database {
         })
         .on('change', change => {
           log.info('Sync change');
-          log.debug(change);
+          log.debug(JSON.stringify(change));
           if(change.direction === 'pull') {
             if(Array.isArray(change.change.docs)){
               change.change.docs.forEach(doc => {
@@ -137,7 +131,7 @@ export class Database {
 
         }).on('paused', info => {
         log.info('Sync pause');
-        log.debug(info);
+        log.debug(JSON.stringify(info));
       }).on('active', info => {
         log.info('Sync active');
         log.debug(info);
@@ -152,23 +146,16 @@ export class Database {
 
   nextJobNumber(): Promise<string> {
     return new Promise((resolve, reject) => {
-      (<PouchDB.Database<Job>>localDB).find({
-        selector: {type: JobDocument.DOCUMENT_TYPE},
-        fields: ['number']
-      })
+      localDB.query<any>('filters/jobs-by-number', { reduce: true, group: true})
         .then(rows => {
-          log.debug(rows);
-          const nextNumber: number = rows.docs.reduce((memo, job) => {
-              var number = numeral(job.number).value();
-              if (number > memo) memo = number;
-              return memo;
-            }, 0) + 1;
-
-          //http://stackoverflow.com/a/10073761
-          const formattedNumber: string = nextNumber < 99999 ? `0000${nextNumber}`.slice(-5) : nextNumber.toString();
-          resolve(formattedNumber);
+          const last = rows.rows[rows.rows.length-1],
+            key = last.key,
+            nextNumber = key + 1,
+            //@ts-ignore
+            formattedNumber: string = nextNumber < 99999 ? `0000${nextNumber}`.slice(-5) : nextNumber.toString();
+          return resolve(formattedNumber);          
         })
-        .catch(reject);
+        .catch(reject);      
     });
   }
 
