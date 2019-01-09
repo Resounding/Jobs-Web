@@ -1,6 +1,6 @@
 import * as toastr from 'toastr';
 
-toastr.options.positionClass = "toast-bottom-left";
+toastr.options.positionClass = "toast-top-center";
 
 export class Notifications {
     static success(message: string) {
