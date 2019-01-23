@@ -5,6 +5,7 @@ interface ForemanColours {
 export class Foreman {
 
     static OPTIONS:string[] = [
+        'Unassigned',
         'Andy',
         'Barry',
         'Bruce',
