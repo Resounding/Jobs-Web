@@ -65,6 +65,7 @@ export class JobService {
       }
 
       if (!job._id) {
+        job.creator = this.auth.userInfo().name;
         if (this.auth.isInRole(Roles.Foreman)) {
           job.foreman = this.auth.userInfo().name;
         }

@@ -1,6 +1,5 @@
 import * as moment from 'moment';
 import {Customer, CustomerDocument} from './customer';
-import {JobPhase} from './job-phase';
 import {JobPhaseStatus} from './job-phase-status';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
@@ -11,6 +10,7 @@ export interface Job {
   job_type: string;
   number: string;
   name: string;
+  creator: string | null;
   customer: Customer;
   status: string;
   description: string;
@@ -33,6 +33,7 @@ export class JobDocument implements Job {
   job_type: string = JobType.SERVICE_CALL;
   number: string = null;
   name: string = '';
+  creator: string | null = null;
   customer: CustomerDocument = null;
   status: string = JobStatus.PENDING;
   description: string = '';
@@ -66,6 +67,7 @@ get isMultiDay():boolean {
       job_type: this.job_type,
       number: this.number,
       name: this.name,
+      creator: this.creator,
       customer: this.customer,
       status: this.status,
       description: this.description,

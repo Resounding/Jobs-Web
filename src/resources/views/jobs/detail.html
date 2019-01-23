@@ -99,5 +99,6 @@
                 <textarea name="notes" id="notes" value.bind="job.notes" cols="30" rows="3"></textarea>
             </div>
         </div>
+        <div class="ui grey header" show.bind="job.creator">Job created by ${job.creator}</div>
     </form>
 </template>
