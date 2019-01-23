@@ -32,7 +32,7 @@ export class EditJob {
   constructor(private element: Element, private router: Router, private jobService: JobService, private customerService: CustomerService, auth: Authentication, private dialogService:DialogService) {
 
     this.customerServicePromise = customerService.getAll()
-      .then(customers => this.customers = customers)
+      .then((customers:CustomerDocument[]) => this.customers = customers)
       .catch(Notifications.error);
   }
 
@@ -55,14 +55,14 @@ export class EditJob {
 
         if (params.from) {
           this.jobService.getOne(params.from)
-            .then(prev => {
+            .then((prev:JobDocument) => {
               this.isFollowup = true;
               this.job.customer = prev.customer;
             });
         }
       } else {
         this.jobService.getOne(id)
-          .then(job => {
+          .then((job:JobDocument) => {
             this.job = job;
 
             if (isDate(job.startDate)) {
@@ -166,7 +166,7 @@ export class EditJob {
       this.saveJob();
     } else {
       this.saveCustomer(this.job.customer)
-        .then(customer => {
+        .then((customer:CustomerDocument) => {
           this.job.customer = customer;
           this.saveJob();
         })
@@ -196,7 +196,7 @@ export class EditJob {
     return this.jobService.save(this.job.toJSON())
       .then(() => {
         Notifications.success('Job Saved');
-        this.router.navigateBack();
+        this.router.navigateToRoute('jobs.list');
       })
       .catch((err) => {
         Notifications.error(err);

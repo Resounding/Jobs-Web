@@ -185,7 +185,10 @@ export class EditJob {
 
   async onConvertToJobClick() {
     try {
+      const number = await this.jobService.nextJobNumber();
+      this.quote.number = number;
       this.quote.type = JobDocument.DOCUMENT_TYPE;
+      
       const job = new JobDocument(this.quote);
       await this.jobService.save(job);
       this.router.navigateToRoute('jobs.edit', { id: job._id });

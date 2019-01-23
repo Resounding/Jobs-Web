@@ -124,4 +124,15 @@ export class JobService {
         .catch(reject);
       });
   }
+
+  async nextJobNumber():Promise<string> {
+    try {
+      
+      const number = await this.database.nextJobNumber();
+      return number;
+
+    } catch(e) {
+      throw e;
+    }
+  }
 }

@@ -2,6 +2,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
 import {JobDocument} from '../../models/job';
 import {JobPhaseDoc} from '../../models/job-phase';
+import {Quote, QuoteDocument} from '../../models/quote';
 import {Configuration} from '../config';
 import {log} from '../log';
 import {Authentication} from '../auth';
@@ -156,6 +157,27 @@ export class Database {
           return resolve(formattedNumber);          
         })
         .catch(reject);      
+    });
+  }
+
+  nextQuoteNumber(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      (<PouchDB.Database<Quote>>localDB).find({
+        selector: {type: QuoteDocument.DOCUMENT_TYPE},
+        fields: ['number']
+      })
+        .then(rows => {
+          const nextNumber: number = rows.docs.reduce((memo, quote) => {
+              var number = numeral(quote.number).value();
+              if (number > memo) memo = number;
+              return memo;
+            }, 0) + 1;
+
+          //http://stackoverflow.com/a/10073761
+          const formattedNumber: string = nextNumber < 99999 ? `0000${nextNumber}`.slice(-5) : nextNumber.toString();
+          resolve(formattedNumber);
+        })
+        .catch(reject);
     });
   }
 
