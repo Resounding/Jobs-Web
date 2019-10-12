@@ -1,5 +1,6 @@
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
+import * as numeral from 'numeral';
 import {JobDocument} from '../../models/job';
 import {JobPhaseDoc} from '../../models/job-phase';
 import {Quote, QuoteDocument} from '../../models/quote';
