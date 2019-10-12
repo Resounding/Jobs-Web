@@ -1,13 +1,10 @@
 import {NavigationInstruction, RouteConfig, Router} from 'aurelia-router';
 import {autoinject} from 'aurelia-framework';
-import {ViewLocator, ViewEngine, ViewCompileInstruction, ViewFactory} from 'aurelia-templating';
-import {Container} from 'aurelia-dependency-injection';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {ViewObject, EventObject, Options} from 'fullcalendar';
 import * as fullcalendar from 'fullcalendar';
 import * as $ from 'jquery';
 import * as moment from 'moment';
-import {EventPopup} from './event-popup';
 import {JobListFilters} from '../jobs/job-list-filters';
 import {Foreman} from '../../models/foreman';
 import {JobStatus} from '../../models/job-status';
@@ -17,7 +14,7 @@ import {Configuration} from '../../services/config';
 import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
-import { Authentication, Roles } from '../../services/auth';
+import {Authentication, Roles} from '../../services/auth';
 import {equals} from '../../utilities/equals'
 
 // for some reason, without this, we get a $().fullCalendar
@@ -31,7 +28,6 @@ export class Calendar {
     createdSubscription:Subscription;
     updatedSubscription:Subscription;
     deletedSubscription:Subscription;
-    viewFactory:ViewFactory;
     optionsExpanded:boolean = false;
     canCreate:boolean = false;
     myJobs: boolean = true;
@@ -41,7 +37,7 @@ export class Calendar {
     filters:JobListFilters | null = null;
 
     constructor(private jobService: JobService, private router:Router, private element:Element, private events:EventAggregator,
-        private viewLocator:ViewLocator, private viewEngine:ViewEngine, private container:Container, private auth:Authentication) {
+        private auth:Authentication) {
           const owner = auth.isInRole(Roles.Owner)
           this.canCreate = owner;
           if(!owner) {
@@ -69,12 +65,7 @@ export class Calendar {
         this.deletedSubscription.dispose();
     }
 
-    async attached() {
-        // to get the HTML from a data-bound template, we do this: http://stackoverflow.com/a/37869319
-        const strategy = this.viewLocator.getViewStrategy('resources/views/calendar/event-popup.html');
-
-        this.viewFactory = await strategy.loadViewFactory(this.viewEngine, new ViewCompileInstruction());
-        
+    async attached() {        
         await this.fillCalendar();
     }
 
@@ -146,47 +137,9 @@ export class Calendar {
             className = (ev.job_type === JobType.SERVICE_CALL) ? 'wrench' : 'building',
             icon = `<i class="icon ${className}"></i>&nbsp;`;
             
-        let description = `${icon}<strong>${getTitle(ev)}</strong><br><em>${ev.customer.name}</em>`;
-
-        if(ev.description) {
-            description += `<br>${ev.description}`;
-        }
-        
         $title
             .html(getTitle(ev))
             .before(icon);
-
-        const options = {
-            title: `${getTitle(ev)}: ${ev.name}`,
-            html: ev.popup,
-            hoverable: true
-        };
-
-        if(Configuration.isMobile()) {
-            Object.assign(options, {
-                position: 'top center',
-                variation: 'fluid',
-                lastResort: true,
-                on: 'click',
-                onVisible: function($module) {
-                    this
-                        .css({left: 'auto', right: 'auto', top: '10px', bottom: 'auto'})
-                        .on('click', 'button.close', (e) => {
-                            $el.popup('hide');
-                        });
-                },
-                onHide: function() {
-                    this.off('click');
-                }
-            })
-        }
-
-        $el.popup(options);
-
-        // need this to stop click event on the event or underlying calendar day
-        $el.on('touchstart', function(e) {
-            //e.preventDefault();
-        });
     }
 
     onEventDrop(ev:EventObject & {start:moment.Moment,end:moment.Moment}) {
@@ -272,8 +225,7 @@ export class Calendar {
     private createEvent(job:Job, originalEvent?:EventObject | number):EventObject {
         
         const foreman = (job.foreman || '').toLowerCase(),
-            backgroundColor = Foreman.BackgroundColours[foreman] || 'white',
-            popup = this.getViewHtml(job);
+            backgroundColor = Foreman.BackgroundColours[foreman] || 'white';
 
         const baseObject = (originalEvent && (<any>originalEvent).id) ? originalEvent : { },
             event:EventObject = Object.assign(baseObject, job, {
@@ -285,24 +237,13 @@ export class Calendar {
                 textColor: '#000',
                 // don't link to the job on mobile
                 url: Configuration.isMobile() ? null : this.router.generate('jobs.edit', { id: job._id }),
-                end: job.endDate ? moment(job.endDate).add(1, 'day').format('YYYY-MM-DD') : null,
-                popup: popup
+                end: job.endDate ? moment(job.endDate).add(1, 'day').format('YYYY-MM-DD') : null
             });                                
         return event;
-    }
-
-    getViewHtml(job:Job) {
-        const view = this.viewFactory.create(this.container);
-        view.bind(new EventPopup(job, this.router));
-        const fragment = view.fragment,
-            div = document.createElement('div');
-
-        div.appendChild(fragment);
-        return div.innerHTML;
     }
 }
 
 function getTitle(job:Job):string {
     const prefix = job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
-    return `${prefix}-${job.number}: ${job.name}`;
+    return `${prefix}-${job.number}: ${job.customer.name}`;
 }
