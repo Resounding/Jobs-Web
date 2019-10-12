@@ -93,7 +93,7 @@
         "name": "vendor-bundle.js",
         "prepend": [
           "node_modules/bluebird/js/browser/bluebird.js",
-          "node_modules/whatwg-fetch/fetch.js",
+          "node_modules/whatwg-fetch/dist/fetch.umd.js",
           "node_modules/pouchdb/dist/pouchdb.js",
           "node_modules/pouchdb/dist/pouchdb.find.js",
           "node_modules/pouchdb/dist/pouchdb.localstorage.js",          
@@ -105,8 +105,9 @@
           "aurelia-dependency-injection",
           {
             "name": "aurelia-dialog",
+            "main": "aurelia-dialog",
             "path": "../node_modules/aurelia-dialog/dist/amd",
-            "main": "aurelia-dialog"
+            "resources": ["./*.js"]
           },
           "aurelia-event-aggregator",
           "aurelia-fetch-client",
