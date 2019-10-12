@@ -12,6 +12,7 @@ export abstract class CouchDocBase<T extends CouchDoc> implements CouchDoc, IVal
         Object.assign(this, {
             _id: '',
             _rev: '',
+            //@ts-ignore
             type: this.type
         }, data);
     }
