@@ -16,6 +16,7 @@ import {JobService} from '../../services/data/job-service';
 import {Notifications} from '../../services/notifications';
 import {Authentication, Roles} from '../../services/auth';
 import {equals} from '../../utilities/equals'
+import { JobPhaseStatuses } from '../../models/job-phase-status';
 
 // for some reason, without this, we get a $().fullCalendar
 //  doesn't exist error.
@@ -35,6 +36,7 @@ export class Calendar {
     showClosed: boolean = false;
     showCompleted: boolean = false;
     filters:JobListFilters | null = null;
+    activeJobs:Job[] = [];
 
     constructor(private jobService: JobService, private router:Router, private element:Element, private events:EventAggregator,
         private auth:Authentication) {
@@ -67,6 +69,7 @@ export class Calendar {
 
     async attached() {        
         await this.fillCalendar();
+        await this.fillActiveJobs();
     }
 
     async fillCalendar() {
@@ -111,6 +114,11 @@ export class Calendar {
       this.cal = $('#calendar', this.element).fullCalendar(options);
     }
 
+    async fillActiveJobs() {
+      const allJobs = await this.jobService.getAll();
+      this.activeJobs = allJobs.filter(i => equals(i.status, JobStatus.PENDING) || equals(i.status, JobStatus.IN_PROGRESS));
+    }
+
     toggleOptionsExpanded() {
         this.optionsExpanded = !this.optionsExpanded;
     }
@@ -134,11 +142,11 @@ export class Calendar {
     onEventRender(ev:EventObject & Job, el:Element) {
         const $el = $(el),
             $title = $el.find('.fc-title'),
-            className = (ev.job_type === JobType.SERVICE_CALL) ? 'wrench' : 'building',
+            className = this.getIconClass(ev.job_type),
             icon = `<i class="icon ${className}"></i>&nbsp;`;
             
         $title
-            .html(getTitle(ev))
+            .html(this.getTitle(ev))
             .before(icon);
     }
 
@@ -224,10 +232,8 @@ export class Calendar {
 
     private createEvent(job:Job, originalEvent?:EventObject | number):EventObject {
         
-        const foreman = (job.foreman || '').toLowerCase(),
-            backgroundColor = Foreman.BackgroundColours[foreman] || 'white';
-
-        const baseObject = (originalEvent && (<any>originalEvent).id) ? originalEvent : { },
+        const backgroundColor = this.getColour(job.foreman),
+          baseObject = (originalEvent && (<any>originalEvent).id) ? originalEvent : { },
             event:EventObject = Object.assign(baseObject, job, {
                 id: job._id,
                 title: job.number,
@@ -241,9 +247,18 @@ export class Calendar {
             });                                
         return event;
     }
-}
 
-function getTitle(job:Job):string {
-    const prefix = job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
-    return `${prefix}-${job.number}: ${job.customer.name}`;
+    getTitle(job:Job):string {
+      const prefix = job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
+      return `${prefix}-${job.number}: ${job.customer.name}`;
+    }
+
+    getIconClass(jobType:string):string {
+      return jobType === JobType.SERVICE_CALL ? 'wrench' : 'building';
+    }
+
+    getColour(foreman:string, defaultColour:string = 'white'):string {
+      const key = (foreman || '').toLowerCase();
+      return Foreman.BackgroundColours[key] || defaultColour
+    }
 }

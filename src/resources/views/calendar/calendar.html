@@ -47,7 +47,19 @@
         </div>
     </div>
     <div class="ui clearing divider hide-desktop calendar-divider"></div>
-    <div class="ui segment">
-        <div id="calendar" class="${canCreate ? 'editable' : 'readonly'}"></div>
+    <div class="ui horizontal segments">
+        <div class="ui compact segment hide-mobile divided list" id="jobs-list">
+          <div class="item" repeat.for="job of activeJobs | sort: 'number'">
+            <i class="icon ${getIconClass(job.jobType)}" style.bind="{color: getColour(job.foreman, '#000000de')}"></i>
+            <div class="content">
+                <a class="header" route-href="route:jobs.edit;params.bind:{id: job._id}">
+                  ${getTitle(job)}
+                </a>
+            </div>            
+          </div>
+        </div>
+        <div class="ui segment">
+          <div id="calendar" class="${canCreate ? 'editable' : 'readonly'}"></div>
+        </div>
     </div>
 </template>

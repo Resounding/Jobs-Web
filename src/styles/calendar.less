@@ -40,31 +40,10 @@
     }    
 }
 
-.ui.popup {
-    .author {
-        padding: 3px 10px;
-        border-radius: 5px;
-    }
-
-    // on mobile, make the header link look clickable
-    @media only screen and (max-width: 767px) {
-        &:before {
-            display: none;
-        }
-        
-        .ui.cards > .card > .content > {
-            .close-button-wrapper {
-                text-align: right;
-                clear: both;
-                margin: -10px -10px 10px 0;
-            }
-
-            a.header {
-                white-space: nowrap;
-                color: #4183C4;
-            }
-        }
-    }
+#jobs-list {
+  height: calc(~"100vh - " 200px);
+  min-width: 20%;
+  overflow-y: auto;
 }
 
 .ui.clearing.divider.calendar-divider {
