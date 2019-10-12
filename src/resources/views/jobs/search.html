@@ -1,0 +1,29 @@
+<template>
+  <require from="styles/job-search.css"></require>
+  <require from="./list-item"></require>
+
+  <div class="ui segment" id="search-container">
+    <div class="ui segments horizontal">
+      <div class="ui segment">
+          <div class="ui huge ${isDesktop ? 'icon' : ''} input">
+              <input type="search" placeholder="Search" value.bind="search & debounce" focus.bind="hasFocus" autofocus>
+              <i class="icon search hide-mobile"></i>
+          </div>
+      </div>
+      <div class="ui segment hide-mobile">
+        <div class="ui header" show.bind="jobs.length">
+          Found ${jobs.length} Jobs
+        </div>
+      </div>
+    </div>    
+
+    <div class="ui clearing divider"></div>
+
+    <div class="ui cards" show.bind="jobs.length">
+      <list-item job.bind="job" repeat.for="job of jobs" class="card"></list-item>
+    </div>
+    <div class="ui message" show.bind="search && !jobs.length">
+      <div class="header">No Jobs found</div>
+    </div>
+  </div>
+</template>
