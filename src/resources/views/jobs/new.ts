@@ -99,12 +99,37 @@ export class NewJob {
     return this.job.customer ? this.job.customer._id : null;
   }
 
-  onIsMultiDayChange() {
-    if (this.job.isMultiDay) {
-      $('#days', this.element).focus();
-    } else {
-      this.job.days = null;
+  addDates() {
+    if(!Array.isArray(this.job.additionalDates)) {
+      this.job.additionalDates = [];
     }
+
+    const length = this.job.additionalDates.length;
+
+    this.job.additionalDates.push([new Date, new Date]);
+
+    window.setTimeout(() => {
+        $(`.calendar.start-${length}`, this.element)
+          .calendar({
+            type: 'date',
+            onChange: date => this.job.additionalDates[length][0] = moment(date).toDate()
+          })
+          .calendar('set date', new Date);
+        $(`.calendar.end-${length}`, this.element)
+          .calendar({
+            type: 'date',
+            onChange: date => this.job.additionalDates[length][1] = moment(date).toDate()
+          })
+          .calendar('set date', new Date);
+    }, 100);
+  }
+
+  removeDates(index: number) {
+    const length = $(`.calendar.start-${index},.calendar.end-${index}`, this.element).length;
+    console.log(length);
+    $(`.calendar.start-${index},.calendar.end-${index}`, this.element).calendar('destroy');
+
+    this.job.additionalDates.splice(index, 1);
   }
 
   onSaveClick() {

@@ -148,14 +148,6 @@ export class EditJob {
     }
   }
 
-  onIsMultiDayChange() {
-    if (this.quote.isMultiDay) {
-      $('#days', this.el).focus();
-    } else {
-      this.quote.days = null;
-    }
-  }
-
   async onSaveClick() {
     try {
 

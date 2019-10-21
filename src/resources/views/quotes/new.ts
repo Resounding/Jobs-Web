@@ -103,14 +103,6 @@ export class NewQuote {
     return this.quote.customer ? this.quote.customer._id : null;
   }
 
-  onIsMultiDayChange() {
-    if (this.quote.isMultiDay) {
-      $('#days', this.el).focus();
-    } else {
-      this.quote.days = null;
-    }
-  }
-
   onSaveClick() {
     if (this.customer_id) {
       this.saveJob()

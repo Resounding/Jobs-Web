@@ -13,16 +13,16 @@ export function isDevice(): boolean {
     return device;
 }
 
-export function isString(value:any):boolean {
+export function isString(value:any): value is string {
     return toString.call(value) === toString.call("");
 }
 
-export function isUndefined(value:any):boolean {
+export function isUndefined(value:any): value is undefined {
     return typeof value === 'undefined';
 }
 
 const date = new Date;
-export function isDate(value:any):boolean {
+export function isDate(value:any): value is Date {
     return toString.call(value) === toString.call(date);
 }
 

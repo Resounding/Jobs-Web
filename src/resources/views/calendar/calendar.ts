@@ -9,7 +9,7 @@ import {JobListFilters} from '../jobs/job-list-filters';
 import {Foreman} from '../../models/foreman';
 import {JobStatus} from '../../models/job-status';
 import {JobType} from '../../models/job-type';
-import {Job, JobDocument} from '../../models/job';
+import {Job, JobDocument, AdditionalDates} from '../../models/job';
 import {Configuration} from '../../services/config';
 import {Database} from '../../services/data/db';
 import {JobService} from '../../services/data/job-service';
@@ -82,8 +82,19 @@ export class Calendar {
         events = items
           .filter(i => i.startDate)
           .filter(i => !this.filters || (mine(i) && (open(i) || closed(i) || completed(i))))
-          .map(this.createEvent, this),
-        options:Options = {
+          .map(this.createEvent, this);
+
+        items
+          .filter(i => !this.filters || (mine(i) && (open(i) || closed(i) || completed(i))))
+          .filter(i => Array.isArray(i.additionalDates) && i.additionalDates.length)
+          .forEach(i => {
+            i.additionalDates
+              .filter(d => d[0])
+              .map(d => this.createAdditionalEvent(i, d))
+              .forEach(e => events.push(e));
+          })
+
+      const options:Options = {
           weekNumberCalculation: 'ISO',
           editable: true,
           eventStartEditable: true,
@@ -98,7 +109,7 @@ export class Calendar {
           eventDrop: this.onEventDrop.bind(this),
           eventResize: this.onEventResize.bind(this),
           eventDestroy: this.onEventDestroy.bind(this),
-          events: events                    
+          events                    
       };
       if(Configuration.isMobile()) {
           Object.assign(options, {
@@ -247,6 +258,24 @@ export class Calendar {
             });                                
         return event;
     }
+
+    private createAdditionalEvent(job:Job, dates: AdditionalDates, originalEvent?:EventObject | number):EventObject {
+        
+      const backgroundColor = this.getColour(job.foreman),
+        baseObject = (originalEvent && (<any>originalEvent).id) ? originalEvent : { },
+          event:EventObject = Object.assign(baseObject, job, {
+              id: job._id,
+              title: job.number,
+              start: moment(dates[0]).format('YYYY-MM-DD'),
+              allDay: true,
+              backgroundColor: backgroundColor,
+              textColor: '#000',
+              // don't link to the job on mobile
+              url: Configuration.isMobile() ? null : this.router.generate('jobs.edit', { id: job._id }),
+              end: dates[1] ? moment(dates[1]).add(1, 'day').format('YYYY-MM-DD') : null
+          });                                
+      return event;
+  }
 
     getTitle(job:Job):string {
       const prefix = job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';

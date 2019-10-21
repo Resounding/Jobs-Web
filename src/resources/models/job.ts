@@ -3,7 +3,9 @@ import {Customer, CustomerDocument} from './customer';
 import {JobPhaseStatus} from './job-phase-status';
 import {JobStatus} from './job-status'
 import {JobType} from  './job-type'
-import {isDate} from '../services/utils'
+import {isDate, isString} from '../services/utils'
+
+export type AdditionalDates = [Date, Date] | [string | null, string | null];
 
 export interface Job {
   _id: string;
@@ -16,10 +18,9 @@ export interface Job {
   description: string;
   billing_type: string;
   work_type: string;
-  isMultiDay: boolean;
-  days: number;
   startDate: Date | string;
   endDate: Date | string;
+  additionalDates: AdditionalDates[] | null;
   foreman: string;
   notes: string;
   deleted: boolean;
@@ -39,9 +40,9 @@ export class JobDocument implements Job {
   description: string = '';
   billing_type: string;
   work_type: string;
-  days: number = 1;
   startDate: Date = null;
   endDate: Date = null;
+  additionalDates: AdditionalDates[] = [];
   foreman: string;
   notes: string = '';
   deleted: boolean = false;
@@ -54,15 +55,8 @@ export class JobDocument implements Job {
     Object.assign(this, props);
   }
 
-get isMultiDay():boolean {
-    if(!isDate(this.startDate) || !isDate(this.endDate)) return false;
-
-    return !moment(this.startDate).isSame(this.endDate, 'day');
-  }
-  set isMultiDay(value:boolean) { }
-
   toJSON(): Job {
-    return {
+    const json = {
       _id: this._id,
       job_type: this.job_type,
       number: this.number,
@@ -73,10 +67,9 @@ get isMultiDay():boolean {
       description: this.description,
       billing_type: this.billing_type,
       work_type: this.work_type,
-      isMultiDay: this.isMultiDay,
-      days: this.days,
       startDate: this.startDate,
       endDate: this.endDate,
+      additionalDates: [],
       foreman: this.foreman,
       notes: this.notes,
       deleted: this.deleted,
@@ -84,6 +77,25 @@ get isMultiDay():boolean {
       type: JobDocument.DOCUMENT_TYPE,
       _rev: this._rev
     };
+
+    if(Array.isArray(this.additionalDates)) {
+      json.additionalDates = this.additionalDates.reduce((memo, d) => {
+        const start = isString(d[0]) ? d[0] : 
+            isDate(d[0]) ? moment(d[0]).format('YYYY-MM-DD') :
+            null,
+          end = isString(d[1]) ? d[1] : 
+          isDate(d[1]) ? moment(d[1]).format('YYYY-MM-DD') :
+          null;
+
+        if(start || end) {
+          memo.push([start, end]);
+        }
+
+        return memo;
+      }, []);
+    }
+
+    return json;
   }
 
   static DOCUMENT_TYPE: string = 'job';

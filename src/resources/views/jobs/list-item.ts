@@ -1,5 +1,5 @@
-import {autoinject, bindable} from 'aurelia-framework';
-import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {autoinject, bindable, computedFrom} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import * as moment from 'moment';
 import {Job} from '../../models/job';
 import {JobStatus} from '../../models/job-status';
@@ -44,7 +44,25 @@ export class ListItem {
       if(status) {
         this.jobStatuses = [status];
       }
-    }    
+    }
+    
+    if(Array.isArray(this.job.additionalDates) && this.job.additionalDates.length) {
+      const start = [this.job.startDate, this.job.endDate],
+        additionalDates = [start].concat(this.job.additionalDates),
+        html = additionalDates
+          .map(d => {
+            const start = d[0] ? moment(d[0]).format('ddd MMM D, YYYY') : 'No start date',
+              end = d[1] ? moment(d[1]).format('ddd MMM D, YYYY') : 'No end date';
+
+            return `<p>${start} - ${end}</p>`;
+          })
+          .join('');
+
+      $('.icon.asterisk', this.element).popup({
+        title: 'Job dates',
+        html
+      })
+    }
   }
 
   detached() {
@@ -53,6 +71,7 @@ export class ListItem {
     //} else {
     $('.dropdown.status', this.element).dropdown('destroy');
     $('.dropdown.foreman', this.element).dropdown('destroy');
+    $('.icon.asterisk', this.element).popup('destroy');
     //}
   }
 
@@ -60,35 +79,34 @@ export class ListItem {
     this.expanded = !this.expanded;
   }
 
+  @computedFrom('job.startDate', 'job.additionalDates')
   get startDateDisplay(): string {
-
-    let display = 'Not Scheduled';
-
-    if (this.job.startDate) {
-      display = moment(this.job.startDate).format('ddd MMM D, YYYY');
-    }
-
-    return display;
+    const startDate = this.closestStartDate();
+    return (startDate && startDate.isValid()) ? startDate.format('ddd MMM D, YYYY') : 'Not Scheduled';
   }
 
+  @computedFrom('job.startDate', 'job.additionalDates')
   get endDateDisplay(): string {
-    let display = '';
-
-    if (this.job.endDate) {
-      display = moment(this.job.endDate).format('ddd MMM D, YYYY');
-    }
-
-    return display;
+    const endDate = this.closestEndDate();
+    return (endDate && endDate.isValid()) ? endDate.format('ddd MMM D, YYYY') : '';
   }
 
+  @computedFrom('job.additionalDates')
+  get hasMultipleDates(): boolean {
+    return Array.isArray(this.job.additionalDates) && !!this.job.additionalDates.length;
+  }
+
+  @computedFrom('job.status')
   get jobStatus(): JobStatus {
     return this.jobStatuses.find(s => s.id == this.job.status);
   }
 
+  @computedFrom('job.foreman')
   get foremanDisplay(): string {
     return this.job.foreman || 'Unassigned';
   }
 
+  @computedFrom('job.foreman')
   get foremanColour(): any {
     const foreman = (this.job.foreman || '').toLowerCase(),
       bg = Foreman.BackgroundColours[foreman] || 'white',
@@ -97,33 +115,76 @@ export class ListItem {
     return {'background-color': bg, color, margin};
   }
 
+  @computedFrom('job.status')
   get isPending() {
     return this.job.status === 'pending';
   }
 
+  @computedFrom('job.status')
   get isInProgress() {
     return this.job.status === JobStatus.PENDING;
   }
 
+  @computedFrom('job.status')
   get isComplete() {
     return this.job.status === JobStatus.COMPLETE;
   }
 
+  @computedFrom('job.status')
   get isClosed(): boolean {
     return this.job.status === JobStatus.CLOSED;
   }
 
+  @computedFrom('job.job_type')
   get isProject() {
     return this.job.job_type === JobType.PROJECT;
   }
 
+  @computedFrom('job.job_type')
   get isServiceCall() {
     return this.job.job_type === JobType.SERVICE_CALL;
   }
 
+  @computedFrom('job.job_type', 'job.number')
   get jobNumberDisplay() {
     const prefix = this.job.job_type === JobType.SERVICE_CALL ? 'S' : 'P';
     return `${prefix}-${this.job.number}`;
+  }
+
+  closestStartDate(): moment.Moment | null {
+    const start = [this.job.startDate, this.job.endDate],
+      additionalDates = [start].concat(this.job.additionalDates),      
+      closest = additionalDates
+        .map(d => {
+          const start = d[0] ? moment(d[0]) : null,
+            end = d[1] ? moment(d[1]) : null;
+
+          return [start, end];
+        })
+        .filter(d => d[0] && d[0].isValid())
+        .sort(d => d[0].toDate().getTime())
+        .sort((a, b) => getScore(b) - getScore(a))
+        .map(d => d[0]);
+
+      return closest[0] || null;
+  }
+
+  closestEndDate(): moment.Moment | null {
+    const start = [this.job.startDate, this.job.endDate],
+      additionalDates = [start].concat(this.job.additionalDates),      
+      closest = additionalDates
+        .map(d => {
+          const start = d[0] ? moment(d[0]) : null,
+            end = d[1] ? moment(d[1]) : null;
+
+          return [start, end];
+        })
+        .filter(d => d[0] && d[0].isValid())
+        .sort(d => d[0].toDate().getTime())
+        .sort((a, b) => getScore(b) - getScore(a))
+        .map(d => d[1]);
+
+      return closest[0] || null;
   }
 
   onStatusChanged(value: string) {
@@ -150,4 +211,22 @@ export class ListItem {
       })
       .catch(Notifications.error);
   }
+}
+
+function getScore(dates: Array<moment.Moment | null>): number {
+  const today = moment();
+
+  if(dates[0].isSameOrBefore(today, 'day') && ((dates[1] && today.isBefore(dates[1], 'day') || !dates[1]))) {
+    return 3;
+  }
+
+  if(dates[0].isAfter(today, 'day')) {
+    return 2;
+  }
+
+  if(dates[0]) {
+    return 1;
+  }
+            
+  return 0;
 }

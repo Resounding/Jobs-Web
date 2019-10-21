@@ -73,7 +73,7 @@
                 </select>
             </div>
         </div>
-        <div class="fields">
+        <div class="fields flex-wrap">
             <div class="field six wide">
                 <label for="start">Scheduled Start</label>
                 <div class="ui calendar start">
@@ -83,15 +83,48 @@
                     </div>
                 </div>
             </div>
-          <div class="field six wide">
-            <label for="start">Scheduled End</label>
-            <div class="ui calendar end">
-              <div class="ui input compact left icon">
-                <i class="calendar icon"></i>
-                <input type="text" placeholder="Date/Time" id="end" name="end">
+            <div class="field six wide">
+              <label for="end">Scheduled End</label>
+              <div class="ui calendar end">
+                <div class="ui input compact left icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date/Time" id="end" name="end">
+                </div>
               </div>
             </div>
-          </div>
+            <div class="field four wide">&nbsp;</div>
+            <template repeat.for="dates of job.additionalDates">
+              <div class="field six wide">
+                  <label for="start-${$index}">Scheduled Start</label>
+                  <div class="ui calendar start-${$index}">
+                      <div class="ui input compact left icon">
+                          <i class="calendar icon"></i>
+                          <input type="text" placeholder="Date/Time" id="start-${$index}" name="start-${$index}">
+                      </div>
+                  </div>
+              </div>
+              <div class="field six wide">
+                <label for="end-${$index}">Scheduled End</label>
+                <div class="ui calendar end-${$index}">
+                  <div class="ui input compact left icon">
+                    <i class="calendar icon"></i>
+                    <input type="text" placeholder="Date/Time" id="end-${$index}" name="end-${$index}">
+                  </div>
+                </div>
+              </div>
+              <div class="field four wide">
+                <label>&nbsp;</label>
+                <button type="button" class="ui basic icon button red" click.delegate="removeDates($index)">
+                  <i class="icon trash alternate outline"></i>
+                </button>
+              </div>
+            </template>
+            <div class="field sixteen wide">
+              <button type="button" class="ui basic button positive" click.delegate="addDates()">
+                <i class="icon plus circle"></i>
+                Add Start/End Dates
+              </button>
+            </div>
         </div>
         <div class="fields">
             <div class="field sixteen wide">

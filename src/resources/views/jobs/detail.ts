@@ -40,7 +40,8 @@ export class EditJob {
 
     this.customerServicePromise.then(() => {
       const id = params.id,
-        date = moment(params.date, 'YYYY-MM-DD');
+        date = moment(params.date, 'YYYY-MM-DD'),
+        el = this.element;
 
       if(isUndefined(id)) {
         this.job = new JobDocument();
@@ -71,7 +72,7 @@ export class EditJob {
 
             if(isDate(job.endDate)) {
               $('.calendar.end', this.element).calendar('set date', job.endDate);
-            }
+            }            
 
             if(job.customer) {
               $('.customer', this.element).dropdown('set selected', job.customer.name);
@@ -82,6 +83,44 @@ export class EditJob {
               $('#status', this.element).dropdown('set selected', job.status);
               $('#status', this.element).dropdown('set value', job.status);
             }
+
+            window.setTimeout(() => {
+              if(Array.isArray(job.additionalDates) && job.additionalDates.length) {
+                job.additionalDates.forEach((d, i) => {
+                  let date: Date | null = null;
+                  if (isDate(d[0])) {
+                    date = d[0]
+                  } else if(isString(d[0])) {
+                    date = moment(d[0]).toDate();
+                  }
+
+                  if(date) {
+                    $(`.calendar.start-${i}`, this.element)
+                      .calendar({
+                        type: 'date',
+                        onChange: d => this.job.additionalDates[i][0] = moment(d).toDate()
+                      })
+                      .calendar('set date', date);
+                  }
+
+                  date = null;
+                  if (isDate(d[1])) {
+                    date = d[1]
+                  } else if(isString(d[1])) {
+                    date = moment(d[1]).toDate();
+                  }
+      
+                  if(date) {
+                    $(`.calendar.end-${i}`, this.element)
+                      .calendar({
+                        type: 'date',
+                        onChange: d => this.job.additionalDates[i][1] = moment(d).toDate()
+                      })
+                      .calendar('set date', date);
+                  }
+                });
+              }
+            }, 100);
 
           })
           .catch(err => {
@@ -136,8 +175,7 @@ export class EditJob {
     $('#status', this.element).dropdown('destroy');
     $('#billingType', this.element).dropdown('destroy');
     $('#workType', this.element).dropdown('destroy');
-    $('.calendar.start', this.element).calendar('destroy');
-    $('.calendar.end', this.element).calendar('destroy');
+    $('.calendar', this.element).calendar('destroy');
     $('.button-bar', this.element).visibility('destroy');
     $('.dropdown.basic.button', this.element).dropdown('destroy');
   }
@@ -153,12 +191,37 @@ export class EditJob {
     }
   }
 
-  onIsMultiDayChange() {
-    if (this.job.isMultiDay) {
-      $('#days', this.element).focus();
-    } else {
-      this.job.days = null;
+  addDates() {
+    if(!Array.isArray(this.job.additionalDates)) {
+      this.job.additionalDates = [];
     }
+
+    const length = this.job.additionalDates.length;
+
+    this.job.additionalDates.push([new Date, new Date]);
+
+    window.setTimeout(() => {
+        $(`.calendar.start-${length}`, this.element)
+          .calendar({
+            type: 'date',
+            onChange: date => this.job.additionalDates[length][0] = moment(date).toDate()
+          })
+          .calendar('set date', new Date);
+        $(`.calendar.end-${length}`, this.element)
+          .calendar({
+            type: 'date',
+            onChange: date => this.job.additionalDates[length][1] = moment(date).toDate()
+          })
+          .calendar('set date', new Date);
+    }, 100);
+  }
+
+  removeDates(index: number) {
+    const length = $(`.calendar.start-${index},.calendar.end-${index}`, this.element).length;
+    console.log(length);
+    $(`.calendar.start-${index},.calendar.end-${index}`, this.element).calendar('destroy');
+
+    this.job.additionalDates.splice(index, 1);
   }
 
   onSaveClick() {

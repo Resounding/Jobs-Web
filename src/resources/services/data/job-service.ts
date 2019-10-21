@@ -28,6 +28,17 @@ export class JobService {
               job.endDate = moment(item.endDate).toDate();
             }
 
+            if(Array.isArray(job.additionalDates)) {
+              job.additionalDates.forEach(d => {
+                if(isString(d[0])) {
+                  d[0] = moment(d[0]).toDate();
+                }
+                if(isString(d[1])) {
+                  d[1] = moment(d[1]).toDate();
+                }
+              })
+            }
+
             return job;
           });
 
@@ -48,6 +59,16 @@ export class JobService {
           }
           if (isString(doc.endDate)) {
             job.endDate = moment(doc.endDate).toDate();
+          }
+          if(Array.isArray(job.additionalDates)) {
+            job.additionalDates.forEach(d => {
+              if(isString(d[0])) {
+                d[0] = moment(d[0]).toDate();
+              }
+              if(isString(d[1])) {
+                d[1] = moment(d[1]).toDate();
+              }
+            })
           }
           resolve(job);
         })
