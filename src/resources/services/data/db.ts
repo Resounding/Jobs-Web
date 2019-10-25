@@ -1,7 +1,7 @@
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {autoinject} from 'aurelia-framework';
 import * as numeral from 'numeral';
-import {JobDocument} from '../../models/job';
+import {JobDocument, Job} from '../../models/job';
 import {JobPhaseDoc} from '../../models/job-phase';
 import {Quote, QuoteDocument} from '../../models/quote';
 import {Configuration} from '../config';
@@ -112,6 +112,21 @@ export class Database {
           if(change.direction === 'pull') {
             if(Array.isArray(change.change.docs)){
               change.change.docs.forEach(doc => {
+                
+                if(doc.number && !doc._deleted) {
+                (<PouchDB.Database<Job>>localDB).find({selector: {type: JobDocument.DOCUMENT_TYPE, deleted: { '$ne': true }}})
+                  .then(async items => {
+                    const conflicts = items.docs.filter(d => d.creator === userInfo.name && d._id > doc._id && d.number === doc.number);
+                    for(const conflict of conflicts) {
+                      conflict.number = await this.nextJobNumber();
+                      localDB.post(conflict)
+                        .then(() => {
+                          this.events.publish(Database.DocumentUpdatedEvent, new JobDocument(conflict));
+                        });
+                    }
+                  });
+                }
+
                 const job = new JobDocument(doc);
 
                 if(doc.type === JobDocument.DOCUMENT_TYPE || doc.type === JobPhaseDoc.JobPhaseType) {
